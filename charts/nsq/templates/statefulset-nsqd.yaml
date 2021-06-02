@@ -1,0 +1,92 @@
+{{ $nsqlookupdName := include "nsqlookupd.name" . }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "nsqd.name" . }}
+  labels:
+    {{- include "nsq.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{ include "nsqd.labels" . | nindent 6 }}
+  serviceName: {{ printf "%s-headless" ( include "nsqd.name" . ) }}
+  replicas: {{ default 3 .Values.nsqd.replicas | int }}
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        {{ include "nsqd.labels" . | nindent 8 }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - {{ include "nsq.appName" . }}
+                  - key: component
+                    operator: In
+                    values:
+                      - {{ include "nsqd.name" . }}
+              topologyKey: "kubernetes.io/hostname"
+      terminationGracePeriodSeconds: 5
+      containers:
+      - name: {{ include "nsqd.name" . }}
+        image: "nsqio/nsq:{{ default .Chart.AppVersion .Values.image.tag }}"
+        imagePullPolicy: {{ default "Always" .Values.image.pullPolicy }}
+        resources:
+          requests:
+            cpu: 30m
+            memory: 64Mi
+        ports:
+        - name: tcp
+          containerPort: 4150
+        - name: http
+          containerPort: 4151
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: http
+          initialDelaySeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: http
+          initialDelaySeconds: 2
+        volumeMounts:
+        - name: nsqd-data
+          mountPath: /data
+        command:
+          - /nsqd
+          - -data-path
+          - /data
+          {{- range $i := until ( default 3 .Values.nsqlookupd.replicas | int ) }}
+          - -lookupd-tcp-address
+          - {{ $nsqlookupdName }}-{{ $i }}.{{ $nsqlookupdName }}:4160
+          {{ end -}}
+          - -broadcast-address
+          - $(HOSTNAME).{{ include "nsqd.name" . }}
+        env:
+        - name: HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+      volumes:
+      - name: nsqd-data
+        persistentVolumeClaim:
+          claimName: nsqd-data
+  volumeClaimTemplates:
+  - metadata:
+      name: nsqd-data
+    spec:
+      accessModes:
+        - "ReadWriteOnce"
+      {{ if .Values.storageClass }}
+      storageClassName: {{ .Values.storageClass }}
+      {{ end }}
+      resources:
+        requests:
+          storage: 1Gi
