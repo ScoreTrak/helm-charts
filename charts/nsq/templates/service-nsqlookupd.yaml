@@ -16,5 +16,4 @@ spec:
   clusterIP: None
   publishNotReadyAddresses: true
   selector:
-    {{- include "nsq.selectorLabels" . | nindent 4 }}
     {{- include "nsqlookupd.labels" . | nindent 4 }}
