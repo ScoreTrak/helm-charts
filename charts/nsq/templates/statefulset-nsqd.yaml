@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       {{ include "nsqd.labels" . | nindent 6 }}
-  serviceName: {{ printf "%s-headless" ( include "nsqd.name" . ) }}
+  serviceName:  {{ include "nsqd.name" . }}
   replicas: {{ default 3 .Values.nsqd.replicas | int }}
   updateStrategy:
     type: RollingUpdate
