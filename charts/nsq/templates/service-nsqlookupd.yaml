@@ -3,8 +3,8 @@ kind: Service
 metadata:
   name: {{ include "nsqlookupd.name" . }}
   labels:
-    {{- include "nsq.labels" . | nindent 4 }}
-    {{- include "nsq.appLabel" . | nindent 4 }}
+    {{ include "nsq.labels" . | nindent 4 }}
+    {{ include "nsq.appLabel" . | nindent 4 }}
 spec:
   ports:
     - port: 4160
@@ -16,4 +16,4 @@ spec:
   clusterIP: None
   publishNotReadyAddresses: true
   selector:
-    {{- include "nsqlookupd.labels" . | nindent 4 }}
+    {{ include "nsqlookupd.labels" . | nindent 4 }}

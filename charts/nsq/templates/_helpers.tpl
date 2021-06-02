@@ -107,12 +107,3 @@ Labels for nsqadmin
 {{ include "nsq.appLabel" . }}
 component: {{ include "nsqadmin.name" . }}
 {{- end }}
-
-
-# {{- define "nsq.nsqdCount" -}}
-# {{ default 3 .Values.nsqdReplicaCount }}
-# {{- end }}
-
-# {{- define "nsq.nsqlookupdCount" -}}
-# {{ default 3 .Values.nsqlookupdReplicaCount }}
-# {{- end }}

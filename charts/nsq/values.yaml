@@ -2,37 +2,46 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+replicaCount: 1
+nsqdReplicaCount: 2
+nsqlookupdReplicaCount: 2
+
 image:
-  pullPolicy: Always
+  repository: nsqio/nsq
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-nsqd:
-  replicas: 2
-
-nsqlookupd:
-  replicas: 2
-
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+persistentVolumeClaim:
+  # size of the nsqd stateful set pod's persistent volume calims.
+  # default is 1Gi
+  # size: 1Gi
+
+  # storageClass in your K8s cluster for nsqd stateful set pods's persistent volume claims
+  storageClass: standard
+
+
+# Experimental
+service:
+  port: 4171
+
 ingress:
-  enabled: true
-  hostname: scoretrak-nsq.mk.localhost
-  path: /
+  enabled: false
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: nsq.scoretrak.mk.localhost
+      paths:
+      - path: /
+        backend:
+          serviceName: nsq.scoretrak.mk.localhost
+          servicePort: 4150
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
-service:
-  port: 4171
-
-persistentVolume:
-  # size: 1Gi
-  # Storage Class in your K8s cluster
-  storageClass: standard
-  # existingClaim: 

@@ -8,19 +8,21 @@ metadata:
 spec:
   selector:
     matchLabels:
-      {{- include "nsq.selectorLabels" . | nindent 6 }}
-      {{ include "nsqadmin.labels" . | nindent 6 }}
+      {{ include "nsq.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
         {{- include "nsq.selectorLabels" . | nindent 8 }}
         {{ include "nsqadmin.labels" . | nindent 8 }}
     spec:
-      terminationGracePeriodSeconds: 5
+      {{ with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{ toYaml . | nindent 8 }}
+      {{ end }}
       containers:
         - name: {{ include "nsqadmin.name" . }}
-          image: "nsqio/nsq:{{ default .Chart.AppVersion .Values.image.tag }}"
-          imagePullPolicy: {{ default "Always" .Values.image.pullPolicy }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: tcp
               containerPort: 4170
@@ -38,7 +40,8 @@ spec:
             initialDelaySeconds: 5
           command:
           - /nsqadmin
-          {{- range $i := until ( default 3 .Values.nsqlookupd.replicas | int ) }}
+          {{ range $i := until ( default 3 .Values.nsqlookupdReplicaCount | int ) }}
           - -lookupd-http-address
           - {{ $nsqlookupdName }}-{{ $i }}.{{ $nsqlookupdName }}:4161
-          {{ end -}}
+          {{ end }}
+      terminationGracePeriodSeconds: 5

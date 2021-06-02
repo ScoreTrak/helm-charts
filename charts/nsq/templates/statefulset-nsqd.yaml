@@ -4,13 +4,13 @@ kind: StatefulSet
 metadata:
   name: {{ include "nsqd.name" . }}
   labels:
-    {{- include "nsq.labels" . | nindent 4 }}
+    {{ include "nsq.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
       {{ include "nsqd.labels" . | nindent 6 }}
   serviceName:  {{ include "nsqd.name" . }}
-  replicas: {{ default 3 .Values.nsqd.replicas | int }}
+  replicas: {{ default 3 .Values.nsqdReplicaCount | int }}
   updateStrategy:
     type: RollingUpdate
   template:
@@ -35,8 +35,8 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: {{ include "nsqd.name" . }}
-        image: "nsqio/nsq:{{ default .Chart.AppVersion .Values.image.tag }}"
-        imagePullPolicy: {{ default "Always" .Values.image.pullPolicy }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         resources:
           requests:
             cpu: 30m
@@ -63,10 +63,10 @@ spec:
           - /nsqd
           - -data-path
           - /data
-          {{- range $i := until ( default 3 .Values.nsqlookupd.replicas | int ) }}
+          {{ range $i := until ( default 3 .Values.nsqlookupdReplicaCount | int ) }}
           - -lookupd-tcp-address
           - {{ $nsqlookupdName }}-{{ $i }}.{{ $nsqlookupdName }}:4160
-          {{ end -}}
+          {{ end }}
           - -broadcast-address
           - $(HOSTNAME).{{ include "nsqd.name" . }}
         env:
@@ -83,10 +83,8 @@ spec:
       name: nsqd-data
     spec:
       accessModes:
-        - "ReadWriteOnce"
-      {{ if .Values.storageClass }}
-      storageClassName: {{ .Values.storageClass }}
-      {{ end }}
+      - ReadWriteOnce
+      storageClassName: {{ .Values.persistentVolumeClaim.storageClass }}
       resources:
         requests:
           storage: 1Gi
