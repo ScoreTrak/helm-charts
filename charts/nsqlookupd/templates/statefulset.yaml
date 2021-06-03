@@ -6,7 +6,11 @@ metadata:
     {{ include "nsqlookupd.labels" . | nindent 4 }}
 spec:
   podManagementPolicy: {{ .Values.podManagementPolicy | default "OrderedReady" | quote }}
-  replicas: {{ .Values.global.nsqlookupdReplicaCount | int64 }}
+  {{ if .Values.global }}
+  replicas: {{ .Values.global.nsqlookupd.replicaCount }}
+  {{ else }}
+  replicas: {{ .Values.replicaCount | int64 }}
+  {{ end }}
   selector:
     matchLabels:
       {{ include "nsqlookupd.selectorLabels" . | nindent 6 }}
@@ -21,7 +25,7 @@ spec:
         {{ toYaml . | nindent 8 }}
       {{- end }}
     spec:
-      {{ with .Values.global.imagePullSecrets }}
+      {{ with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{ toYaml . | nindent 8 }}
       {{ end }}
@@ -53,9 +57,6 @@ spec:
                 labelSelector:
                   matchLabels:
                   {{ include "nsqlookupd.selectorLabels" . | nindent 18 }}
-                  {{- with .Values.labels }}
-                    {{- toYaml . | nindent 18 }}
-                  {{- end }}
         {{- end }}
         {{- else }}
           {{- toYaml .Values.podAntiAffinity | nindent 10 }}
@@ -76,20 +77,11 @@ spec:
         whenUnsatisfiable: {{ .whenUnsatisfiable }}
       {{- end }}
     {{- end }}
-    {{- with .Values.nodeSelector }}
-      nodeSelector: {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- if .Values.priorityClassName }}
-      priorityClassName: {{ .Values.priorityClassName }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations: {{- toYaml . | nindent 8 }}
-    {{- end }}
       terminationGracePeriodSeconds: 60
       containers:
       - name: {{ include "nsqlookupd.name" . }}
-        image: "{{ .Values.global.image.repository }}:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
         - /nsqlookupd
         ports:

@@ -1,3 +1,7 @@
 # ScoreTrak Helm Charts
 
-comming soon
+## Charts
+
+- [nsqlookupd](./charts/nsqlookupd)
+- [nsqd](./charts/nsqd)
+- [nsqadmin](./charts/nsqadmin)

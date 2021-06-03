@@ -5,21 +5,13 @@
 enabled: true
 replicaCount: 1
 
+image:
+  repository: nsqio/nsq
+  pullPolicy: IfNotPresent
+  tag: ""
+
 nameOverride: ""
 fullnameOverride: ""
-
-podAnnotations: {}
-
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
 
 service:
   type: ClusterIP
@@ -35,9 +27,3 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}

@@ -12,31 +12,30 @@ spec:
       {{- include "nsqadmin.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
         {{- include "nsqadmin.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.global.imagePullSecrets }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ include "nsqadmin.name" . }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.global.image.repository }}:{{ .Values.global.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.global.image.pullPolicy }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
           - /nsqadmin
           args:
+          {{ if .Values.global }}
           {{ range $i := until ( .Values.global.nsqlookupdReplicaCount | int ) }}
           - -lookupd-http-address
           - nsqlookupd-{{ $i }}.nsqlookupd:4161
+          {{ end }}
+          {{ else }}
+          {{ range $i := until ( .Values.nsqlookupdReplicaCount | int ) }}
+          - -lookupd-http-address
+          - nsqlookupd-{{ $i }}.nsqlookupd:4161
+          {{ end }}
           {{ end }}
           ports:
             - name: tcp
@@ -56,16 +55,4 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       terminationGracePeriodSeconds: 60
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
 {{ end }}
