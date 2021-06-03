@@ -96,12 +96,12 @@ spec:
         - -data-path
         - /data
         {{ if .Values.global }}
-        {{ range $i := until ( .Values.global.nsqlookupdReplicaCount | int ) }}
+        {{ range $i := until ( .Values.global.nsqlookupd.replicaCount | int ) }}
         - -lookupd-tcp-address
         - nsqlookupd-{{ $i }}.nsqlookupd:4160
         {{ end }}
         {{ else }}
-        {{ range $i := until ( .Values.nsqlookupdReplicaCount | int ) }}
+        {{ range $i := until ( .Values.nsqlookupd.replicaCount | int ) }}
         - -lookupd-tcp-address
         - nsqlookupd-{{ $i }}.nsqlookupd:4160
         {{ end }}

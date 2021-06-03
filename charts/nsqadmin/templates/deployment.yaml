@@ -27,12 +27,12 @@ spec:
           - /nsqadmin
           args:
           {{ if .Values.global }}
-          {{ range $i := until ( .Values.global.nsqlookupdReplicaCount | int ) }}
+          {{ range $i := until ( .Values.global.nsqlookupd.replicaCount | int ) }}
           - -lookupd-http-address
           - nsqlookupd-{{ $i }}.nsqlookupd:4161
           {{ end }}
           {{ else }}
-          {{ range $i := until ( .Values.nsqlookupdReplicaCount | int ) }}
+          {{ range $i := until ( .Values.nsqlookupd.replicaCount | int ) }}
           - -lookupd-http-address
           - nsqlookupd-{{ $i }}.nsqlookupd:4161
           {{ end }}
