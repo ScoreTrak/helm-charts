@@ -1,0 +1,36 @@
+apiVersion: v1
+entries:
+  nsqadmin:
+  - apiVersion: v2
+    appVersion: v1.1.0
+    created: "2021-06-03T21:00:10.544280028Z"
+    description: A Helm chart for Kubernetes
+    digest: 6592b48f95420ce0a7b42d440c1e01ecd030b09b4a7e3f5118982dcd1abf5ab0
+    name: nsqadmin
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/nsqadmin-0.1.0/nsqadmin-0.1.0.tgz
+    version: 0.1.0
+  nsqd:
+  - apiVersion: v2
+    appVersion: v1.1.0
+    created: "2021-06-03T21:00:10.775240571Z"
+    description: A Helm chart for Kubernetes
+    digest: ddeaaaf320268f68bced35a6727c304aec44019731787eeff982cd8a6f62ae50
+    name: nsqd
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/nsqd-0.1.0/nsqd-0.1.0.tgz
+    version: 0.1.0
+  nsqlookupd:
+  - apiVersion: v2
+    appVersion: v1.1.0
+    created: "2021-06-03T21:00:10.973071436Z"
+    description: A Helm chart for Kubernetes
+    digest: bc2ef789f7e06c4ca458f6553189a01a0118af13a4786cf591365ad1b40cb46c
+    name: nsqlookupd
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/nsqlookupd-0.1.0/nsqlookupd-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-06-03T21:00:10.973076236Z"
