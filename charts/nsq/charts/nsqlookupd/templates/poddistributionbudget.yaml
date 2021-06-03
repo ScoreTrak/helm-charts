@@ -1,0 +1,16 @@
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "nsqlookupd.name" . }}-budget
+  labels:
+    {{ include "nsqlookupd.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{ include "nsqlookupd.selectorLabels" . | nindent 6 }}
+  {{ if .Values.budget.minAvailable }}
+  minAvailable: {{ .Values.budget.minAvailable | int64 }}
+  {{ end }}
+  {{ if .Values.budget.maxUnavailable }}
+  maxUnavailable: {{ .Values.budget.maxUnavailable | int64 }}
+  {{ end }}

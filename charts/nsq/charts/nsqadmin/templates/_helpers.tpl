@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "nsq.name" -}}
+{{- define "nsqadmin.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "nsq.fullname" -}}
+{{- define "nsqadmin.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "nsq.chart" -}}
+{{- define "nsqadmin.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "nsq.labels" -}}
-helm.sh/chart: {{ include "nsq.chart" . }}
-{{ include "nsq.selectorLabels" . }}
+{{- define "nsqadmin.labels" -}}
+helm.sh/chart: {{ include "nsqadmin.chart" . }}
+{{ include "nsqadmin.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,43 +45,18 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "nsq.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "nsq.name" . }}
+{{- define "nsqadmin.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "nsqadmin.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "nsqd.fullname" -}}
-{{ printf "%s-nsqd" ( include "nsq.fullname" . ) }}
-{{- end }}
-
-{{- define "nsqlookupd.fullname" -}}
-{{ printf "%s-nsqlookupd" ( include "nsq.fullname" . ) }}
-{{- end }}
-
-{{- define "nsqadmin.fullname" -}}
-{{ printf "%s-nsqadmin" ( include "nsq.fullname" . ) }}
-{{- end }}
-
 {{/*
-Selector Labels for nsqd
+Create the name of the service account to use
 */}}
-{{- define "nsqd.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "nsq.fullname" . }}
-app.kubernetes.io/instance: {{ include "nsqd.fullname" . }}
+{{- define "nsqadmin.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "nsqadmin.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
 {{- end }}
-
-{{/*
-Selector Labels for nsqlookupd
-*/}}
-{{- define "nsqlookupd.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "nsq.fullname" . }}
-app.kubernetes.io/instance: {{ include "nsqlookupd.fullname" . }}
-{{- end }}
-
-{{/*
-Selector Labels for nsqadmin
-*/}}
-{{- define "nsqadmin.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "nsq.fullname" . }}
-app.kubernetes.io/instance: {{ include "nsqadmin.fullname" . }}
 {{- end }}

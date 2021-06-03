@@ -3,9 +3,9 @@ kind: Service
 metadata:
   name: {{ include "nsqd.name" . }}
   labels:
-    {{ include "nsq.labels" . | nindent 4 }}
-    {{ include "nsq.appLabel" . | nindent 4 }}
+    {{- include "nsqd.labels" . | nindent 4 }}
 spec:
+  type: {{ .Values.service.type }}
   ports:
     - port: 4150
       targetPort: 4150
@@ -15,4 +15,4 @@ spec:
       name: http
   clusterIP: None
   selector:
-    {{ include "nsqd.labels" . | nindent 4 }}
+    {{- include "nsqd.selectorLabels" . | nindent 4 }}
