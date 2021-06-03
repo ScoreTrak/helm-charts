@@ -1,0 +1,19 @@
+{{ if .Values.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nsqadmin.name" . }}
+  labels:
+    {{ include "nsqadmin.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 4170
+      targetPort: 4170
+      name: tcp
+    - port: 4171
+      targetPort: 4171
+      name: http
+  selector:
+    {{ include "nsqadmin.selectorLabels" . | nindent 4 }}
+{{ end }}

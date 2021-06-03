@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "nsqlookupd.name" . }}
+  labels:
+    {{- include "nsqlookupd.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: 4160
+      targetPort: 4160
+      name: tcp
+    - port: 4161
+      targetPort: 4161
+      name: http
+  clusterIP: None
+  publishNotReadyAddresses: true
+  selector:
+    {{- include "nsqlookupd.selectorLabels" . | nindent 4 }}

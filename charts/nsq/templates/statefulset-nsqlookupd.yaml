@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "nsqlookupd.name" . }}
+  labels:
+    {{ include "nsq.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{ include "nsqlookupd.labels" . | nindent 6 }}
+  serviceName: {{ include "nsqlookupd.name" . }}
+  replicas: {{ default 3 .Values.nsqlookupdReplicaCount }}
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        {{ include "nsqlookupd.labels" . | nindent 8 }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - {{ include "nsq.appName" . }}
+                  - key: component
+                    operator: In
+                    values:
+                      - {{ include "nsqlookupd.name" . }}
+              topologyKey: "kubernetes.io/hostname"
+      terminationGracePeriodSeconds: 5
+      containers:
+      - name: {{ include "nsqlookupd.name" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        resources:
+          requests:
+            cpu: 30m
+            memory: 64Mi
+        ports:
+        - name: tcp
+          containerPort: 4160
+        - name: http
+          containerPort: 4161
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: http
+          initialDelaySeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: http
+          initialDelaySeconds: 2
+        command:
+          - /nsqlookupd
