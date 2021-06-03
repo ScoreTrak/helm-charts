@@ -1,5 +1,26 @@
 apiVersion: v1
 entries:
+  nsq:
+  - apiVersion: v2
+    appVersion: v1.1.0
+    created: "2021-06-03T21:46:49.71741695Z"
+    dependencies:
+    - name: nsqlookupd
+      repository: https://scoretrak.github.io/helm-charts
+      version: 0.1.2
+    - name: nsqd
+      repository: https://scoretrak.github.io/helm-charts
+      version: 0.1.2
+    - name: nsqadmin
+      repository: https://scoretrak.github.io/helm-charts
+      version: 0.1.2
+    description: A Helm chart for nsq messaing platform
+    digest: 47ecb7507773700ee6d016901c2884cacea41f3843c940c94bba697d33587236
+    name: nsq
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/nsq-0.1.0/nsq-0.1.0.tgz
+    version: 0.1.0
   nsqadmin:
   - apiVersion: v2
     appVersion: v1.1.0
@@ -63,4 +84,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/nsqlookupd-0.1.0/nsqlookupd-0.1.0.tgz
     version: 0.1.0
-generated: "2021-06-03T21:30:43.006269682Z"
+generated: "2021-06-03T21:46:49.71743845Z"
