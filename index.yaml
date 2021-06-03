@@ -3,6 +3,16 @@ entries:
   nsqadmin:
   - apiVersion: v2
     appVersion: v1.1.0
+    created: "2021-06-03T21:30:42.763500429Z"
+    description: A Helm chart for nsqadmin
+    digest: f16643d53007fa816fdde528ad3e0cf1ac03f69fccbec0c9c38de5ff95b5b109
+    name: nsqadmin
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/nsqadmin-0.1.2/nsqadmin-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: v1.1.0
     created: "2021-06-03T21:00:10.544280028Z"
     description: A Helm chart for Kubernetes
     digest: 6592b48f95420ce0a7b42d440c1e01ecd030b09b4a7e3f5118982dcd1abf5ab0
@@ -12,6 +22,16 @@ entries:
     - https://github.com/ScoreTrak/helm-charts/releases/download/nsqadmin-0.1.0/nsqadmin-0.1.0.tgz
     version: 0.1.0
   nsqd:
+  - apiVersion: v2
+    appVersion: v1.1.0
+    created: "2021-06-03T21:30:42.875949677Z"
+    description: A Helm chart for nsqd
+    digest: 471680447b5f64eaaef01c69e699d7e7ee975fe817fc19f99764bb6524fc8f4a
+    name: nsqd
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/nsqd-0.1.2/nsqd-0.1.2.tgz
+    version: 0.1.2
   - apiVersion: v2
     appVersion: v1.1.0
     created: "2021-06-03T21:00:10.775240571Z"
@@ -25,6 +45,16 @@ entries:
   nsqlookupd:
   - apiVersion: v2
     appVersion: v1.1.0
+    created: "2021-06-03T21:30:43.006256082Z"
+    description: A Helm chart for nsqlookupd
+    digest: ebd46e5f2ad9d5785a92d73703c9b81c32f012644a3ef12a0f140ceeb9f8382d
+    name: nsqlookupd
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/nsqlookupd-0.1.2/nsqlookupd-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: v1.1.0
     created: "2021-06-03T21:00:10.973071436Z"
     description: A Helm chart for Kubernetes
     digest: bc2ef789f7e06c4ca458f6553189a01a0118af13a4786cf591365ad1b40cb46c
@@ -33,4 +63,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/nsqlookupd-0.1.0/nsqlookupd-0.1.0.tgz
     version: 0.1.0
-generated: "2021-06-03T21:00:10.973076236Z"
+generated: "2021-06-03T21:30:43.006269682Z"
