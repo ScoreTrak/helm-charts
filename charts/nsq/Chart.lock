@@ -1,0 +1,12 @@
+dependencies:
+- name: nsqlookupd
+  repository: https://scoretrak.github.io/helm-charts
+  version: 0.1.2
+- name: nsqd
+  repository: https://scoretrak.github.io/helm-charts
+  version: 0.1.2
+- name: nsqadmin
+  repository: https://scoretrak.github.io/helm-charts
+  version: 0.1.2
+digest: sha256:b64ab257e07f297d9b5f718a132599b77c529a99c3b1cb2ac7945c7b82241f7f
+generated: "2021-06-03T17:31:16.706178-04:00"
