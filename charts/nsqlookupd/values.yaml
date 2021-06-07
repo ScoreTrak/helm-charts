@@ -7,22 +7,32 @@ replicaCount: 1
 image:
   repository: nsqio/nsq
   pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityConext: {}
+
 service:
   type: ClusterIP
+
+resources: {}
+
+budget:
+  enabled: true
+  minAvailable: 1
 
 podManagementPolicy: "OrderedReady"
 updateStrategy:
   type: "RollingUpdate"
 
-budget:
-  minAvailable: 1
-
-podAnnotations: {}
 nodeAffinity: {}
 podAffinity: {}
 podAntiAffinity:
@@ -33,5 +43,3 @@ topologySpreadConstraints:
   maxSkew: 1
   topologyKey: "kubernetes.io/hostname"
   whenUnsatisfiable: "DoNotSchedule"
-
-resources: {}

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "nsqlookupd.fullname" . }}-test-connection"
+  labels:
+    {{- include "nsqlookupd.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeded
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "nsqlookupd.fullname" . }}:4161/ping']
+  restartPolicy: Never

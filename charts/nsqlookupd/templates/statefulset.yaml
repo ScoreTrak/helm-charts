@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "nsqlookupd.name" . }}
+  name: {{ include "nsqlookupd.fullname" . }}
   labels:
     {{ include "nsqlookupd.labels" . | nindent 4 }}
 spec:
-  podManagementPolicy: {{ .Values.podManagementPolicy | default "OrderedReady" | quote }}
+  podManagementPolicy: {{ .Values.podManagementPolicy | quote }}
   {{ if .Values.global }}
   replicas: {{ .Values.global.nsqlookupd.replicaCount }}
   {{ else }}
@@ -14,13 +14,13 @@ spec:
   selector:
     matchLabels:
       {{ include "nsqlookupd.selectorLabels" . | nindent 6 }}
-  serviceName: {{ include "nsqlookupd.name" . }}
+  serviceName: {{ include "nsqlookupd.fullname" . }}
   updateStrategy: {{ toYaml .Values.updateStrategy | nindent 4 }}
   template:
     metadata:
       labels:
         {{ include "nsqlookupd.selectorLabels" . | nindent 8 }}
-      {{ with .Values.annotations }}
+      {{ with .Values.podAnnotations }}
       annotations:
         {{ toYaml . | nindent 8 }}
       {{- end }}
@@ -79,7 +79,7 @@ spec:
     {{- end }}
       terminationGracePeriodSeconds: 60
       containers:
-      - name: {{ include "nsqlookupd.name" . }}
+      - name: {{ include "nsqlookupd.fullname" . }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
