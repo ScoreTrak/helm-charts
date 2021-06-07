@@ -1,7 +1,8 @@
+{{ if .Values.budget.enabled }}
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ include "nsqlookupd.name" . }}-budget
+  name: {{ include "nsqlookupd.fullname" . }}-budget
   labels:
     {{ include "nsqlookupd.labels" . | nindent 4 }}
 spec:
@@ -14,3 +15,4 @@ spec:
   {{ if .Values.budget.maxUnavailable }}
   maxUnavailable: {{ .Values.budget.maxUnavailable | int64 }}
   {{ end }}
+{{ end }}
