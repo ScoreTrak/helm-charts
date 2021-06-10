@@ -1,0 +1,9 @@
+dependencies:
+- name: cockroachdb
+  repository: https://charts.cockroachdb.com/
+  version: 6.0.1
+- name: nsq
+  repository: https://scoretrak.github.io/helm-charts
+  version: 0.1.0
+digest: sha256:26402c47ca17c21ec6e2ad0cd24db52610287b5304aaa3f909045a71a57bac9f
+generated: "2021-06-07T01:48:38.224309-04:00"
