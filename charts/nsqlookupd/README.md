@@ -15,12 +15,12 @@ helm install nsqlookupd scoretrak/nsqlookupd
 ```
 
 Notes:
-- By defualt, node affinity is set to enforce only one nsqlookupd per node
+- By defualt, pod anti affinity is set to enforce only one nsqlookupd per node
 
 ## Test your deployment
 
 ```console
-helm test <name_of_your_deployment> [--logs]
+helm test <name_of_your_replease> [--logs]
 ```
 
 ## Configuration
