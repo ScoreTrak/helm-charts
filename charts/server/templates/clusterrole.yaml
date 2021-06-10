@@ -1,0 +1,21 @@
+{{- if .Values.serviceAccount.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "server.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+rules:
+  - resources:
+      - daemonsets
+      - pods
+    apiGroups:
+      - extensions
+      - apps
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+      - delete
+      - update
+{{ end }}

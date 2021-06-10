@@ -1,0 +1,36 @@
+{{ $jwtSecret := randAlphaNum 24 }}
+{{ $namespace := .Release.Namespace }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "server.fullname" . }}
+  labels:
+    {{- include "server.labels" . | nindent 4 }}
+data:
+  config.yaml: |-
+    {{ if .Values.nsq.use }}
+    queue:
+      use: nsq
+      nsq:
+        nsqlookupd:
+        {{ range $i := until ( .Values.global.nsqlookupd.replicaCount | int ) }}
+        - nsqlookupd-{{ $i }}.nsqlookupd:4161
+        {{ end }}
+    {{ else }}
+    queue:
+      use: none
+    {{ end }}
+    
+    db:
+      cockroach:
+        host: {{ .Release.Name }}-cockroachdb-public
+        database: defaultdb
+        clientca: "/cockroach-certs/ca.crt"
+        clientsslkey: "/cockroach-certs/client.root.key"
+        clientsslcert: "/cockroach-certs/client.root.crt"
+    
+    platform:
+      use: kubernetes
+
+    jwt:
+      secret: {{ $jwtSecret }}
