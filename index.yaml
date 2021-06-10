@@ -77,6 +77,19 @@ entries:
   nsqlookupd:
   - apiVersion: v2
     appVersion: v1.1.0
+    created: "2021-06-10T15:34:17.929842425Z"
+    description: A Helm chart for nsqlookupd, the daemon that manages topology information.
+    digest: b02f036ea8c88226218ebb998e115302374670e16ba69d98cfab0b00751b6c28
+    keywords:
+    - nsq
+    - nsqlookupd
+    name: nsqlookupd
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/nsqlookupd-0.1.4/nsqlookupd-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v2
+    appVersion: v1.1.0
     created: "2021-06-07T00:56:23.758744371Z"
     description: A Helm chart for nsqlookupd, the daemon that manages topology information.
     digest: 3307c5649e694382a3d8cf8a3221bff596990a2e683bc8b9bf82007bbd514680
@@ -108,4 +121,24 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/nsqlookupd-0.1.0/nsqlookupd-0.1.0.tgz
     version: 0.1.0
-generated: "2021-06-07T00:56:23.758761472Z"
+  server:
+  - apiVersion: v2
+    appVersion: v0.1.9
+    created: "2021-06-10T15:34:18.092089679Z"
+    dependencies:
+    - name: cockroachdb
+      repository: https://charts.cockroachdb.com/
+      version: 6.0.1
+    - condition: nsq.use
+      name: nsq
+      repository: https://scoretrak.github.io/helm-charts
+      version: 0.1.0
+    description: A Helm chart for ScoreTrak's server, a competition scoring engine
+      written in go.
+    digest: daa381f839dc0cf2f3b901d234f000fa3e6ced41fa3d9652f94b36ae9d5e531f
+    name: server
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
+    version: 0.1.0
+generated: "2021-06-10T15:34:18.092131381Z"
