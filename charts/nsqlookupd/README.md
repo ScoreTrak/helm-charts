@@ -11,7 +11,16 @@ helm repo add scoretrak https://scoretrak.github.io/helm-charts
 ## Install NSQlookupd
 
 ```console
-helm install release scoretrak/nsqlookupd
+helm install nsqlookupd scoretrak/nsqlookupd
+```
+
+Notes:
+- By defualt, node affinity is set to enforce only one nsqlookupd per node
+
+## Test your deployment
+
+```console
+helm test <name_of_your_deployment> [--logs]
 ```
 
 ## Configuration
@@ -51,5 +60,5 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-helm install --name nsq -f values.yaml scoretrak/nsqlookupd
+helm install nsq scoretak/nsqlookupd -f values.yaml
 ```

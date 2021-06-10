@@ -79,7 +79,7 @@ spec:
     {{- end }}
       terminationGracePeriodSeconds: 60
       containers:
-      - name: {{ include "nsqlookupd.fullname" . }}
+      - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:

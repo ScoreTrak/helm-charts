@@ -1,3 +1,4 @@
+{{ $fullname := include "nsqlookupd.fullname" . }}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -9,8 +10,17 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeded
 spec:
   containers:
-    - name: wget
-      image: busybox
-      command: ['wget']
-      args: ['{{ include "nsqlookupd.fullname" . }}:4161/ping']
+    - name: curl
+      image: curlimages/curl:latest
+      command: ['curl']
+      args:
+      {{ if .Values.global }}
+      {{ range $i := until ( .Values.global.nsqlookupd.replicaCount | int ) }}
+      - "{{ $fullname }}-{{ $i }}.{{ $fullname }}:4161/ping"
+      {{ end }}
+      {{ else }}
+      {{ range $i := until ( .Values.replicaCount | int ) }}
+      - "{{ $fullname }}-{{ $i }}.{{ $fullname }}:4161/ping"
+      {{ end }}
+      {{ end }}
   restartPolicy: Never
