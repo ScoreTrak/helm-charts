@@ -13,8 +13,9 @@ data:
       use: nsq
       nsq:
         nsqlookupd:
-        {{ range $i := until ( .Values.global.nsqlookupd.replicaCount | int ) }}
-        - nsqlookupd-{{ $i }}.nsqlookupd:4161
+        {{ $nsqlookupdFullname := include "call-nested" ( list . "nsq.nsqd.nsqlookupd" "nsqlookupd.fullname" ) }}
+        {{ range $i := until ( .Values.nsq.nsqd.nsqlookupd.replicaCount | int ) }}
+        - "{{ $nsqlookupdFullname }}-{{ $i }}.{{ $nsqlookupdFullname }}:4161"
         {{ end }}
     {{ else }}
     queue:
@@ -23,7 +24,7 @@ data:
     
     db:
       cockroach:
-        host: {{ .Release.Name }}-cockroachdb-public
+        host: {{ include "call-nested" ( list . "cockroachdb" "cockroachdb.fullname" ) }}-public
         database: defaultdb
         clientca: "/cockroach-certs/ca.crt"
         clientsslkey: "/cockroach-certs/client.root.key"

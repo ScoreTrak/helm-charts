@@ -76,9 +76,6 @@ spec:
         - name: cockroachdb-service-account
           secret:
             secretName: {{ include "server.fullname" . }}-client-secret
-        # - name: cockroachdb-certs
-        #   secret:
-        #     secretName: {{ .Release.Namespace }}.client.root
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

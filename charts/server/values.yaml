@@ -67,10 +67,6 @@ affinity: {}
 
 # GLOBAL VALUES
 
-global:
-  nsqlookupd:
-    replicaCount: 2
-
 # COCKROACHDB HELM CHART VALUES
 
 cockroachdb:
@@ -96,8 +92,7 @@ cockroachdb:
 
 nsq:
   use: true
+  adminEnabled: true
   nsqd:
-    replicaCount: 2
-  
-  nsqadmin:
-    enabled: true
+    nsqlookupd:
+      replicaCount: 2
