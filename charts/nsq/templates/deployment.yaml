@@ -1,41 +1,35 @@
-{{ if .Values.enabled }}
+{{ if .Values.adminEnabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "nsqadmin.name" . }}
+  name: {{ include "nsq.fullname" . }}
   labels:
-    {{- include "nsqadmin.labels" . | nindent 4 }}
+    {{- include "nsq.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "nsqadmin.selectorLabels" . | nindent 6 }}
+      {{- include "nsq.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "nsqadmin.selectorLabels" . | nindent 8 }}
+        {{- include "nsq.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ include "nsqadmin.name" . }}
+        - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
           - /nsqadmin
           args:
-          {{ if .Values.global }}
-          {{ range $i := until ( .Values.global.nsqlookupd.replicaCount | int ) }}
+          {{ $nsqlookupdFullname := include "call-nested" ( list . "nsqd.nsqlookupd" "nsqlookupd.fullname" ) }}
+          {{ range $i := until ( .Values.nsqd.nsqlookupd.replicaCount | int ) }}
           - -lookupd-http-address
-          - nsqlookupd-{{ $i }}.nsqlookupd:4161
-          {{ end }}
-          {{ else }}
-          {{ range $i := until ( .Values.nsqlookupd.replicaCount | int ) }}
-          - -lookupd-http-address
-          - nsqlookupd-{{ $i }}.nsqlookupd:4161
-          {{ end }}
+          - "{{ $nsqlookupdFullname }}-{{ $i }}.{{ $nsqlookupdFullname }}:4161"
           {{ end }}
           ports:
             - name: tcp
