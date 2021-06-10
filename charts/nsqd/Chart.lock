@@ -2,5 +2,5 @@ dependencies:
 - name: nsqlookupd
   repository: https://scoretrak.github.io/helm-charts
   version: 0.1.4
-digest: sha256:fe2afc5652bdaec4ce3fca12448b65501b10e32a87c768e9f79336c5e77cd656
-generated: "2021-06-10T11:44:03.366732-04:00"
+digest: sha256:27f5cf318adc8005eb0ce2125c3455209d2ad44ea202ccfe14e04e30572d9793
+generated: "2021-06-10T12:18:05.298147-04:00"
