@@ -1,0 +1,20 @@
+{{ $fullname := include "nsqd.fullname" . }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "nsqd.fullname" . }}-test-connection"
+  labels:
+    {{- include "nsqd.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeded
+spec:
+  containers:
+    - name: curl
+      image: curlimages/curl:latest
+      command: ['curl']
+      args:
+      {{ range $i := until ( .Values.replicaCount | int ) }}
+      - "{{ $fullname }}-{{ $i }}.{{ $fullname }}:4151/ping"
+      {{ end }}
+  restartPolicy: Never

@@ -40,3 +40,9 @@ persistentVolume:
   enabled: true
   size: 1Gi
   # storageClass: "-"
+
+
+# NSQLOOKUPD HELM CHART VALUES
+
+nsqlookupd:
+  replicaCount: 1

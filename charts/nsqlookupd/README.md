@@ -60,5 +60,5 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-helm install nsq scoretak/nsqlookupd -f values.yaml
+helm install nsqlookupd scoretak/nsqlookupd -f values.yaml
 ```

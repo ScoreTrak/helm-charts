@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ include "nsqd.name" . }}
+  name: {{ include "nsqd.fullname" . }}
   labels:
     {{ include "nsqd.labels" . | nindent 4 }}
 spec:
@@ -10,7 +10,7 @@ spec:
   selector:
     matchLabels:
       {{ include "nsqd.selectorLabels" . | nindent 6 }}
-  serviceName: {{ include "nsqd.name" . }}
+  serviceName: {{ include "nsqd.fullname" . }}
   updateStrategy: {{ toYaml .Values.updateStrategy | nindent 4 }}
   template:
     metadata:
@@ -87,7 +87,7 @@ spec:
     {{- end }}
       terminationGracePeriodSeconds: 60
       containers:
-      - name: {{ include "nsqd.name" . }}
+      - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
@@ -95,19 +95,13 @@ spec:
         args:
         - -data-path
         - /data
-        {{ if .Values.global }}
-        {{ range $i := until ( .Values.global.nsqlookupd.replicaCount | int ) }}
-        - -lookupd-tcp-address
-        - nsqlookupd-{{ $i }}.nsqlookupd:4160
-        {{ end }}
-        {{ else }}
+        {{ $nsqlookupdFullname := include "call-nested" ( list . "nsqlookupd" "nsqlookupd.fullname" ) }}
         {{ range $i := until ( .Values.nsqlookupd.replicaCount | int ) }}
         - -lookupd-tcp-address
-        - nsqlookupd-{{ $i }}.nsqlookupd:4160
-        {{ end }}
+        - "{{ $nsqlookupdFullname }}-{{ $i }}.{{ $nsqlookupdFullname }}:4160"
         {{ end }}
         - -broadcast-address
-        - $(HOSTNAME).{{ include "nsqd.name" . }}
+        - $(HOSTNAME).{{ include "nsqd.fullname" . }}
         env:
         - name: HOSTNAME
           valueFrom:

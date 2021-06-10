@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "nsqd.name" . }}
+  name: {{ include "nsqd.fullname" . }}
   labels:
     {{- include "nsqd.labels" . | nindent 4 }}
 spec:
