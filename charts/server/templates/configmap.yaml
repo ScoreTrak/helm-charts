@@ -21,6 +21,9 @@ data:
     queue:
       use: none
     {{ end }}
+
+    port: {{ .Values.service.port }}
+    production: {{ .Values.production }}
     
     db:
       cockroach:
