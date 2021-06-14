@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "server.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "server.selectorLabels" . | nindent 6 }}
