@@ -7,11 +7,11 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: 4160
-      targetPort: 4160
+    - port: {{ .Values.service.tcp.externalPort }}
+      targetPort: {{ .Values.service.tcp.internalPort }}
       name: tcp
-    - port: 4161
-      targetPort: 4161
+    - port: {{ .Values.service.http.externalPort }}
+      targetPort: {{ .Values.service.http.internalPort }}
       name: http
   clusterIP: None
   publishNotReadyAddresses: true

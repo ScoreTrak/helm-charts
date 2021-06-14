@@ -1,4 +1,5 @@
 {{ $fullname := include "nsqlookupd.fullname" . }}
+{{ $svcHttpPort := .Values.service.http.externalPort }}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -16,11 +17,11 @@ spec:
       args:
       {{ if .Values.global }}
       {{ range $i := until ( .Values.global.nsqlookupd.replicaCount | int ) }}
-      - "{{ $fullname }}-{{ $i }}.{{ $fullname }}:4161/ping"
+      - "{{ $fullname }}-{{ $i }}.{{ $fullname }}:{{ $svcHttpPort }}/ping"
       {{ end }}
       {{ else }}
       {{ range $i := until ( .Values.replicaCount | int ) }}
-      - "{{ $fullname }}-{{ $i }}.{{ $fullname }}:4161/ping"
+      - "{{ $fullname }}-{{ $i }}.{{ $fullname }}:{{ $svcHttpPort }}/ping"
       {{ end }}
       {{ end }}
   restartPolicy: Never

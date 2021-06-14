@@ -46,9 +46,6 @@ spec:
               labelSelector:
                 matchLabels:
                   {{ include "nsqlookupd.selectorLabels" . | nindent 18 }}
-                  {{- with .Values.labels }}
-                    {{- toYaml . | nindent 18 }}
-                  {{- end }}
         {{- else if eq .Values.podAntiAffinity.type "soft" }}
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: {{ .Values.podAntiAffinity.weight | int64 }}
@@ -63,20 +60,6 @@ spec:
         {{- end }}
       {{- end }}
     {{- end }}
-    {{- if semverCompare ">=1.16-0" .Capabilities.KubeVersion.Version }}
-      topologySpreadConstraints:
-      - labelSelector:
-          matchLabels:
-            {{ include  "nsqlookupd.selectorLabels" . | nindent 12 }}
-          {{- with .Values.labels }}
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
-      {{- with .Values.topologySpreadConstraints }}
-        maxSkew: {{ .maxSkew }}
-        topologyKey: {{ .topologyKey }}
-        whenUnsatisfiable: {{ .whenUnsatisfiable }}
-      {{- end }}
-    {{- end }}
       terminationGracePeriodSeconds: 60
       containers:
       - name: {{ .Chart.Name }}
@@ -84,11 +67,16 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command:
         - /nsqlookupd
+        args:
+        - -tcp-address
+        - "0.0.0.0:{{ .Values.service.tcp.internalPort }}"
+        - -http-address
+        - "0.0.0.0:{{ .Values.service.http.internalPort }}"
         ports:
         - name: tcp
-          containerPort: 4160
+          containerPort: {{ .Values.service.tcp.internalPort }}
         - name: http
-          containerPort: 4161
+          containerPort: {{ .Values.service.http.internalPort }}
         livenessProbe:
           httpGet:
             path: /ping

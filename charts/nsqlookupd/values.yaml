@@ -2,44 +2,63 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
+# -- Statefulset replica count
+replicaCount: 3
 
 image:
+  # -- Container image name
   repository: nsqio/nsq
+  # -- Container pull policy
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  # -- Container iamge tag
+  tag: "v1.1.0"
 
+# -- Secrets to pull container image
 imagePullSecrets: []
+# -- String to override nsqlookupd.name template
 nameOverride: ""
+# -- String to override nsqlookupd.fullname template
 fullnameOverride: ""
 
+# -- Additional annotations for StatefulSet Pods
 podAnnotations: {}
 
-podSecurityContext: {}
-
-securityConext: {}
-
 service:
+  # -- Service type for nsqlookupd service
   type: ClusterIP
+  tcp:
+    # -- Internal tcp port to expose in StatefulSet Pods
+    internalPort: 4160
+    # -- External tcp port to expose for Service
+    externalPort: 4160
+  http:
+    # -- Internal http port to expose in StatefulSet Pods
+    internalPort: 4161
+    # -- External http port to expose for Service
+    externalPort: 4161
 
+# -- Resource requests and lmits for StatefulSet Pods
 resources: {}
 
 budget:
+  # -- Enable Pod Distribution Budget for StatefulSet Pods
   enabled: true
+  # -- Number of pods to be available at all times
   minAvailable: 1
 
-podManagementPolicy: "OrderedReady"
+# -- Pod Management Policy for StatefulSet Pod's creation and deletion order. Either "OrderedReady" or "Parallel
+podManagementPolicy: "Parallel"
 updateStrategy:
+  # -- Update strategy for StatefulSet Pods.
   type: "RollingUpdate"
 
+# -- Node affinity rules for StatefulSet Pods
 nodeAffinity: {}
+# -- Pod affinity rules for StatefulSet Pods
 podAffinity: {}
+# -- Pod anti-affinity rules for StatefulSet Pods
 podAntiAffinity:
+  # -- TYpe of auto anti-affinity rules
   type: "hard"
+  # -- The topologyKey for auto-anti-affinity tules
   topologyKey: "kubernetes.io/hostname"
-
-topologySpreadConstraints:
-  maxSkew: 1
-  topologyKey: "kubernetes.io/hostname"
-  whenUnsatisfiable: "DoNotSchedule"
