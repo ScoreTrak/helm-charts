@@ -2,83 +2,58 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# -- Deployment replica count
 replicaCount: 1
 
 image:
+  # -- Container image name
   repository: ghcr.io/scoretrak/scoretrak/scoretrak-server
+  # -- Container image name
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  # -- Container image tag
+  tag: "v0.1.9"
 
+# -- Secrets to pull container image
 imagePullSecrets: []
+# -- String to override server.name template
 nameOverride: ""
+# -- String to override server.fullname template
 fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # -- Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
+  # -- Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
+  # -- The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+# -- Additional annotations for StatefulSet Pods
 podAnnotations: {}
 
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
 service:
+  # -- Service type for server service
   type: ClusterIP
+  # -- External grpc port to expose for Service
   port: 380
 
-production: false
-
+# -- Resource requests and limits for Deployment Pods
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
+# -- Flag to server whether this is a production deployment or dev deployment
+production: false
 
 # GLOBAL VALUES
 
-global:
-  nsqlookupd:
-    replicaCount: 3
+global: {}
 
 # COCKROACHDB HELM CHART VALUES
 
 cockroachdb:
+  # -- Specifies whether to create a cockroachdb instance
   create: true
   statefulset:
-    replicas: 3
     resources:
       limits:
         memory: "120Mi"
@@ -97,4 +72,5 @@ cockroachdb:
 # NSQ HELM CHART VALUES
 
 nsqd:
+  # -- Specifies whether to use nsqd
   use: true

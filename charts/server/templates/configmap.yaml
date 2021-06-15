@@ -1,5 +1,5 @@
 {{ $jwtSecret := randAlphaNum 24 }}
-{{ $namespace := .Release.Namespace }}
+{{ $nsqlookupdHttpPort := .Values.nsqd.nsqlookupd.service.http.externalPort }}
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -13,16 +13,16 @@ data:
       use: nsq
       nsq:
         {{ $nsqdFullname := include "call-nested" ( list . "nsqd" "nsqd.fullname" ) }}
-        producernsqd: "{{ $nsqdFullname }}-0"
+        producernsqd: "{{ $nsqdFullname }}-0:{{ .Values.nsqd.service.tcp.externalPort }}"
         nsqlookupd:
         {{ $nsqlookupdFullname := include "call-nested" ( list . "nsqd.nsqlookupd" "nsqlookupd.fullname" ) }}
         {{ if .Values.global }}
         {{ range $i := until ( .Values.global.nsqlookupd.replicaCount | int ) }}
-        - "{{ $nsqlookupdFullname }}-{{ $i }}.{{ $nsqlookupdFullname }}:4161"
+        - "{{ $nsqlookupdFullname }}-{{ $i }}.{{ $nsqlookupdFullname }}:{{ $nsqlookupdHttpPort }}"
         {{ end }}
         {{ else }}
         {{ range $i := until ( .Values.nsqd.nsqlookupd.replicaCount | int ) }}
-        - "{{ $nsqlookupdFullname }}-{{ $i }}.{{ $nsqlookupdFullname }}:4161"
+        - "{{ $nsqlookupdFullname }}-{{ $i }}.{{ $nsqlookupdFullname }}:{{ $nsqlookupdHttpPort }}"
         {{ end }}
         {{ end }}
     {{ else }}
