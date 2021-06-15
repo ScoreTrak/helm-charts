@@ -11,32 +11,30 @@ helm repo add scoretrak https://scoretrak.github.io/helm-charts
 ## Install ScoreTrak's Client
 
 ```console
-helm install release scoretrak/client
+helm install client scoretrak/client
 ```
 
 ## Configuration
 
 The following table lists the configurable parameters of the nsqd chart and their default values.
 
-| Parameter          | Description                                                                                               | Default        |
-| ------------------ | --------------------------------------------------------------------------------------------------------- | -------------- |
-| `replicaCount`     | Deployment replicas number                                                                                | `2`            |
-| `image.repository` | Container image name                                                                                      | `nsqio/nsq`    |
-| `image.pullPolicy` | Container pull policy                                                                                     | `IfNotPresent` |
-| `image.tag`        | Container image tag                                                                                       | `""`           |
-| `imagePullSecrets` | Image for admission server                                                                                | `[]`           |
-| `nameOverride`     | String to partially override common.names.fullname template with a string (will prepend the release name) | `""`           |
-| `fullnameOverride` | String to partially override common.names.fullname template with a string (will prepend the release name) | `""`           |
-| `podAnnotations`   | Additional annotations of Deployment Pods                                                                 | `{}`           |
-| `service.type`     | Type of Service                                                                                           | `ClusterIP`    |
-| `resources`        | Resource requests and limits for StatefulSet Pods                                                         | `{}`           |
-| `nodeSelector`     | Node Selelctor for Deployment Pods                                                                        | `{}`           |
-| `tolerations`      | Node taints to tolerate by Deployment Pods                                                                | `[]`           |
-| `affinity`         | Node affinity rules of Deployment Pods                                                                    | `{}`           |
+| Key              | Type   | Default                                       | Description                                     |
+| ---------------- | ------ | --------------------------------------------- | ----------------------------------------------- |
+| fullnameOverride | string | `""`                                          | String to override client.fullname template |
+| image.pullPolicy | string | `"IfNotPresent"`                              | Container pull policy                           |
+| image.repository | string | `"ghcr.io/scoretrak/client/scoretrak-client"` | Container image name                            |
+| image.tag        | string | `"v0.1.7"`                                    | Container image tag                             |
+| imagePullSecrets | list   | `[]`                                          | Secrets to pull container image                 |
+| nameOverride     | string | `""`                                          | String to override client.name template     |
+| podAnnotations   | object | `{}`                                          | Additional annotations for Deployment Pods      |
+| replicaCount     | int    | `1`                                           | Deployment replica count                        |
+| resources        | object | `{}`                                          | Resource requests and lmits for Deployment Pods |
+| service.port     | int    | `80`                                          | External port to expose for Service             |
+| service.type     | string | `"ClusterIP"`                                 | Service type for client service                 |
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-helm install --name nsq -f values.yaml scoretrak/client
+helm install client scoretrak/client -f values.yaml
 ```
