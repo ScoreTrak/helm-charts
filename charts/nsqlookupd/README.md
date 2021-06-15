@@ -21,7 +21,7 @@ helm install nsqlookupd scoretrak/nsqlookupd
 You can test your deployment with the following command. Please note that you if you have pod anti-affinity rules, there must be a node for the test pod in order for the test to run.
 
 ```console
-helm test <name_of_your_replease> [--logs]
+helm test <name_of_your_release> [--logs]
 ```
 
 ## Configuration
@@ -35,7 +35,7 @@ The following table lists the configurable parameters of the nsqlookupd chart an
 | fullnameOverride            | string | `""`                                                     | String to override nsqlookupd.fullname template                                                             |
 | image.pullPolicy            | string | `"IfNotPresent"`                                         | Container pull policy                                                                                       |
 | image.repository            | string | `"nsqio/nsq"`                                            | Container image name                                                                                        |
-| image.tag                   | string | `"v1.1.0"`                                               | Container iamge tag                                                                                         |
+| image.tag                   | string | `"v1.1.0"`                                               | Container image tag                                                                                         |
 | imagePullSecrets            | list   | `[]`                                                     | Secrets to pull container image                                                                             |
 | nameOverride                | string | `""`                                                     | String to override nsqlookupd.name template                                                                 |
 | nodeAffinity                | object | `{}`                                                     | Node affinity rules for StatefulSet Pods                                                                    |

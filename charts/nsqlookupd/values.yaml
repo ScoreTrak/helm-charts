@@ -10,7 +10,7 @@ image:
   repository: nsqio/nsq
   # -- Container pull policy
   pullPolicy: IfNotPresent
-  # -- Container iamge tag
+  # -- Container image tag
   tag: "v1.1.0"
 
 # -- Secrets to pull container image
