@@ -35,8 +35,11 @@ podAnnotations: {}
 service:
   # -- Service type for server service
   type: ClusterIP
-  # -- External grpc port to expose for Service
-  port: 380
+  grpc:
+    # -- Internal grpc port to expose for Service
+    internalPort: 380
+    # -- External grpc port to expose for Service
+    extrenalPort: 380
 
 # -- Resource requests and limits for Deployment Pods
 resources: {}

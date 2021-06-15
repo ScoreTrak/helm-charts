@@ -30,7 +30,7 @@ data:
       use: none
     {{ end }}
 
-    port: {{ .Values.service.port }}
+    port: {{ .Values.service.grpc.internalPort }}
     production: {{ .Values.production }}
     
     db:
