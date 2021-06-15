@@ -2,9 +2,10 @@ apiVersion: v2
 name: nsqd
 description: A Helm chart for nsqd, the daemon that receives, queues, and delivers messages to clients.
 type: application
-version: 0.1.5
+version: 0.1.6
 appVersion: "v1.1.0"
 dependencies:
 - name: nsqlookupd
-  version: "0.1.5"
+  version: "0.1.6"
   repository: "https://scoretrak.github.io/helm-charts"
+  condition: nsqlookupd.use

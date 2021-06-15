@@ -1,4 +1,5 @@
 {{ $fullname := include "nsqd.fullname" . }}
+{{ $svcHttpPort := .Values.service.http.externalPort }}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -15,6 +16,6 @@ spec:
       command: ['curl']
       args:
       {{ range $i := until ( .Values.replicaCount | int ) }}
-      - "{{ $fullname }}-{{ $i }}.{{ $fullname }}:4151/ping"
+      - "{{ $fullname }}-{{ $i }}.{{ $fullname }}:{{ $svcHttpPort }}/ping"
       {{ end }}
   restartPolicy: Never

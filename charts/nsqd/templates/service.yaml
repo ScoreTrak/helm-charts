@@ -7,11 +7,11 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: 4150
-      targetPort: 4150
+    - port: {{ .Values.service.tcp.externalPort }}
+      targetPort: {{ .Values.service.tcp.internalPort }}
       name: tcp
-    - port: 4151
-      targetPort: 4151
+    - port: {{ .Values.service.http.externalPort }}
+      targetPort: {{ .Values.service.http.internalPort }}
       name: http
   clusterIP: None
   selector:

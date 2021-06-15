@@ -11,19 +11,18 @@ helm repo add scoretrak https://scoretrak.github.io/helm-charts
 ## Install nsqd
 
 ```console
-helm dependency update
 helm install nsqd scoretrak/nsqd
 ```
 
 ## Subcharts
 
-This chart uses the following subchart and can be configured under the nsqlookupd key in values.yaml
+This chart uses the following subchart and can be configured under the nsqlookupd key in the values.yaml
 
 - [nsqlookupd](../nsqlookupd/README.md)
 
 ## Tests
 
-Test your deployment with the following command
+Test your deployment with the following command. Please note that you if you have pod anti-affinity rules, there must be a node for the test pod in order for the test to run.
 
 ```console
 helm test <name_of_your_release> [--logs]
@@ -33,37 +32,35 @@ helm test <name_of_your_release> [--logs]
 
 The following table lists the configurable parameters of the nsqd chart and their default values.
 
-| Parameter                                     | Description                                                                                               | Default                     |
-| --------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------- |
-| `replicaCount`                                | StatefulSet replicas number                                                                               | `1`                         |
-| `image.repository`                            | Container image name                                                                                      | `nsqio/nsq`                 |
-| `image.pullPolicy`                            | Container pull policy                                                                                     | `IfNotPresent`              |
-| `image.tag`                                   | Container image tag                                                                                       | `""`                        |
-| `imagePullSecrets`                            | Secrets for container registry                                                                            | `[]`                        |
-| `nameOverride`                                | String to partially override common.names.fullname template with a string (will prepend the release name) | `""`                        |
-| `fullnameOverride`                            | String to partially override common.names.fullname template with a string (will prepend the release name) | `""`                        |
-| `podAnnotations`                              | Pod Annotations for the StatefulSet                                                                       | `{}`                        |
-| `podSecurityContext`                          | Pod Seucirty Context for StatefulSet                                                                      | `{}`                        |
-| `securityContext`                             | Security Context for Container                                                                            | `{}`                        |
-| `service.type`                                | Type for serviice for statefulset                                                                         | `ClusterIP`                 |
-| `resources`                                   | Resource requests and limits for StatefulSet Pods                                                         | `{}`                        |
-| `budget.enabled`                              | Flag to enabled k8s PodDisruptionBudget                                                                   | `true`                      |
-| `budget.minAvailable`                         | k8s PodDisruptionBudget parameter                                                                         | `1`                         |
-| `budget.maxUnavailable`                       | k8s PodDisruptionBudget parameter                                                                         | `""`                        |
-| `podManagementPolicy`                         | Number of localProvisioner Replicas                                                                       | `"OrderedReady`             |
-| `updateStrategy`                              | Update strategy for StatefulSet Pods                                                                      | `{"type": "RollingUpdate"}` |
-| `nodeAffinity`                                | Node affinity rules of StatefulSet Pods                                                                   | `{}`                        |
-| `podAffinity`                                 | Inter-Pod affinity rules of StatefulSet Pods                                                              | `{}`                        |
-| `podAntiAffinity`                             | Anti-affinity rules of StatefulSet Pods                                                                   | `auto`                      |
-| `podAntiAffinity.type`                        | Type of auto anti-affinity rules                                                                          | `"hard"`                    |
-| `podAntiAffinity.topologyKey`                 | The topologyKey for auto anti-affinity rules                                                              | `"kubernetes.io/hostname"`  |
-| `podAntiAffinity.weight`                      | Weight for soft auto anti-affinity rules                                                                  |                             |
-| `topologySpreadConstraints.maxSkew`           | Degree to which Pods may be unevenly distributed                                                          | `1`                         |
-| `topologySpreadConstraints.maxSkew`           | The key of node labels                                                                                    | `"kubernetes.io/hostname"`  |
-| `topologySpreadConstraints.whenUnsatisfiable` | ScheduleAnyway/DoNotSchedule for unsatisfiable constraints                                                | `DoNotSchedule`             |
-| `persistentVolume.enabled`                    | Enable persistence using PVC                                                                              | `true`                      |
-| `persistentVolume.size`                       | PVC Storage Class for nsqd volume                                                                         | `1Gi`                       |
-| `persistentVolume.storageClass`               | PVC Storage Class for nsqd volume                                                                         | `nil`                       |
+| Key                           | Type   | Default                                                  | Description                                                                                                 |
+| ----------------------------- | ------ | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| budget.enabled                | bool   | `true`                                                   | Enable Pod Distribution Budget for StatefulSet Pods                                                         |
+| budget.minAvailable           | int    | `1`                                                      | Number of pods to be available at all times                                                                 |
+| fullnameOverride              | string | `""`                                                     | String to override nsqlookupd.fullname template                                                             |
+| image.pullPolicy              | string | `"IfNotPresent"`                                         | Container pull policy                                                                                       |
+| image.repository              | string | `"nsqio/nsq"`                                            | Container image name                                                                                        |
+| image.tag                     | string | `"v1.1.0"`                                               | Container iamge tag                                                                                         |
+| imagePullSecrets              | list   | `[]`                                                     | Secrets to pull container image                                                                             |
+| nameOverride                  | string | `""`                                                     | String to override nsqlookupd.name template                                                                 |
+| nodeAffinity                  | object | `{}`                                                     | Node affinity rules for StatefulSet Pods                                                                    |
+| nsqlookupd.replicaCount       | int    | `3`                                                      | nsqlookupd replica count                                                                                    |
+| nsqlookupd.use                | bool   | `true`                                                   | Use nsqlookupd helm chart to create nsqlookupd instances                                                    |
+| persistentVolume.enabled      | bool   | `true`                                                   | Enable Persistent Volumes for StatefulSet Pods                                                              |
+| persistentVolume.size         | string | `"1Gi"`                                                  | Size of Persistent Volumes for StatefulSet Pods                                                             |
+| persistentVolume.storageClass | string | `nil`                                                    | Storage Class to use when creating Persistent Volumes. "-" means empty.                                     |
+| podAffinity                   | object | `{}`                                                     | Pod affinity rules for StatefulSet Pods                                                                     |
+| podAnnotations                | object | `{}`                                                     | Additional annotations for StatefulSet Pods                                                                 |
+| podAntiAffinity               | object | `{"topologyKey":"kubernetes.io/hostname","type":"hard"}` | Pod anti-affinity rules for StatefulSet Pods                                                                |
+| podAntiAffinity.type          | string | `"hard"`                                                 | TYpe of auto anti-affinity rules                                                                            |
+| podManagementPolicy           | string | `"Parallel"`                                             | Pod Management Policy for StatefulSet Pod's creation and deletion order. Either "OrderedReady" or "Parallel |
+| replicaCount                  | int    | `3`                                                      | Statefulset replica count                                                                                   |
+| resources                     | object | `{}`                                                     | Resource requests and lmits for StatefulSet Pods                                                            |
+| service.http.externalPort     | int    | `4151`                                                   | External http port to expose for Service                                                                    |
+| service.http.internalPort     | int    | `4151`                                                   | Internal http port to expose in StatefulSet Pods                                                            |
+| service.tcp.externalPort      | int    | `4150`                                                   | External tcp port to expose for Service                                                                     |
+| service.tcp.internalPort      | int    | `4150`                                                   | Internal tcp port to expose in StatefulSet Pods                                                             |
+| service.type                  | string | `"ClusterIP"`                                            | Service type for nsqlookupd service                                                                         |
+| updateStrategy.type           | string | `"RollingUpdate"`                                        | Update strategy for StatefulSet Pods.                                                                       |
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
