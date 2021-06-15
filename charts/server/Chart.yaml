@@ -2,7 +2,7 @@ apiVersion: v2
 name: server
 description: A Helm chart for ScoreTrak's server, a competition scoring engine written in go.
 type: application
-version: 0.1.4
+version: 0.1.5
 appVersion: "v0.1.9"
 dependencies:
 - name: cockroachdb

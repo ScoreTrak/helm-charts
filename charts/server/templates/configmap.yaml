@@ -1,5 +1,6 @@
 {{ $jwtSecret := randAlphaNum 24 }}
 {{ $nsqlookupdHttpPort := .Values.nsqd.nsqlookupd.service.http.externalPort }}
+{{ $namespace := .Release.Namespace }}
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -38,8 +39,8 @@ data:
         host: {{ include "call-nested" ( list . "cockroachdb" "cockroachdb.fullname" ) }}-public
         database: defaultdb
         clientca: "/cockroach-certs/ca.crt"
-        clientsslkey: "/cockroach-certs/client.root.key"
-        clientsslcert: "/cockroach-certs/client.root.crt"
+        clientsslkey: "/cockroach-certs/{{ $namespace }}.root.key"
+        clientsslcert: "/cockroach-certs/{{ $namespace }}.root.crt"
     
     platform:
       use: kubernetes
