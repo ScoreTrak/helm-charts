@@ -70,6 +70,22 @@ entries:
   nsqd:
   - apiVersion: v2
     appVersion: v1.1.0
+    created: "2021-06-15T00:14:46.39551676Z"
+    dependencies:
+    - condition: nsqlookupd.use
+      name: nsqlookupd
+      repository: https://scoretrak.github.io/helm-charts
+      version: 0.1.6
+    description: A Helm chart for nsqd, the daemon that receives, queues, and delivers
+      messages to clients.
+    digest: aa4858c6cd62426159af10156ea924d75cb0d7dab50453951e3832593d44e53e
+    name: nsqd
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/nsqd-0.1.6/nsqd-0.1.6.tgz
+    version: 0.1.6
+  - apiVersion: v2
+    appVersion: v1.1.0
     created: "2021-06-14T22:11:42.398896081Z"
     dependencies:
     - name: nsqlookupd
@@ -283,4 +299,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-06-14T23:45:27.57263384Z"
+generated: "2021-06-15T00:14:46.395554662Z"
