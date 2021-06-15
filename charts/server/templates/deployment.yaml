@@ -24,9 +24,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "server.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
+        {{ if .Values.cockroachdb.tls.enabled }}
         - name: init-certs
           image: cockroachdb/cockroach-k8s-request-cert:0.4
           imagePullPolicy: IfNotPresent
@@ -44,10 +43,9 @@ spec:
             mountPath: /cockroach-certs
           - name: cockroachdb-service-account
             mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        {{ end }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
@@ -61,16 +59,20 @@ spec:
           volumeMounts:
             - name: scoretrak-config
               mountPath: /scoretrak
+            {{ if .Values.cockroachdb.tls.enabled }}
             - name: client-certs
               mountPath: /cockroach-certs
+            {{ end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
         - name: scoretrak-config
           configMap:
             name: {{ include "server.fullname" . }}
+        {{ if .Values.cockroachdb.tls.enabled }}
         - name: client-certs
           emptyDir: {}
         - name: cockroachdb-service-account
           secret:
             secretName: {{ include "server.fullname" . }}-client-secret
+        {{ end }}

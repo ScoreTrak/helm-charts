@@ -46,7 +46,9 @@ production: false
 
 # GLOBAL VALUES
 
-global: {}
+global:
+  nsqlookupd:
+    replicaCount: 3
 
 # COCKROACHDB HELM CHART VALUES
 
@@ -54,17 +56,19 @@ cockroachdb:
   # -- Specifies whether to create a cockroachdb instance
   create: true
   statefulset:
+    replicas: 3
     resources:
       limits:
-        memory: "120Mi"
+        memory: "2Gi"
       requests:
-        memory: "90Mi"
+        memory: "2Gi"
   storage:
     persistentVolume:
+      enabled: false
       size: "5Gi"
   conf:
-    cache: "100Mi"
-    max-sql-memory: "200Mi"
+    cache: "500Mi"
+    max-sql-memory: "500Mi"
     max-offset: 1000ms
   tls:
     enabled: true
@@ -74,3 +78,6 @@ cockroachdb:
 nsqd:
   # -- Specifies whether to use nsqd
   use: true
+  replicaCount: 3
+  persistentVolume:
+    enabled: false
