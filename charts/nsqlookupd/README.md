@@ -46,7 +46,7 @@ The following table lists the configurable parameters of the nsqlookupd chart an
 | podAntiAffinity.type        | string | `"hard"`                                                 | TYpe of auto anti-affinity rules                                                                            |
 | podManagementPolicy         | string | `"Parallel"`                                             | Pod Management Policy for StatefulSet Pod's creation and deletion order. Either "OrderedReady" or "Parallel |
 | replicaCount                | int    | `3`                                                      | Statefulset replica count                                                                                   |
-| resources                   | object | `{}`                                                     | Resource requests and lmits for StatefulSet Pods                                                            |
+| resources                   | object | `{}`                                                     | Resource requests and limits for StatefulSet Pods                                                            |
 | service.http.externalPort   | int    | `4161`                                                   | External http port to expose for Service                                                                    |
 | service.http.internalPort   | int    | `4161`                                                   | Internal http port to expose in StatefulSet Pods                                                            |
 | service.tcp.externalPort    | int    | `4160`                                                   | External tcp port to expose for Service                                                                     |

@@ -37,7 +37,7 @@ service:
     # -- External http port to expose for Service
     externalPort: 4161
 
-# -- Resource requests and lmits for StatefulSet Pods
+# -- Resource requests and limits for StatefulSet Pods
 resources: {}
 
 budget:
