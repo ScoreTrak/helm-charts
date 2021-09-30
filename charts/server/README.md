@@ -1,6 +1,6 @@
 # ScoreTrak Server Helm Chart
 
-[ScoreTrak's Server](https://github.com/ScoreTrak/server) is the server for scoretrak, the compeptition scoring engine.
+[ScoreTrak's Server](https://github.com/ScoreTrak/server) is the server for scoretrak, the competition scoring engine.
 
 ## Add ScoreTrak Helm repository
 
@@ -13,6 +13,13 @@ helm repo add scoretrak https://scoretrak.github.io/helm-charts
 ```console
 helm install release scoretrak/server
 ```
+
+## Approve CockroachDB Certificates
+
+```console
+kubectl certificate approve default.node.release-cockroachdb-0 default.node.release-cockroachdb-1 default.node.release-cockroachdb-2 default.client.root
+```
+
 
 ## Configuration
 
@@ -32,7 +39,7 @@ The following table lists the configurable parameters of the nsqd chart and thei
 | production                                        | bool   | `false`                                          | Flag to server whether this is a production deployment or dev deployment                                               |
 | replicaCount                                      | int    | `1`                                              | Deployment replica count                                                                                               |
 | resources                                         | object | `{}`                                             | Resource requests and limits for Deployment Pods                                                                       |
-| service.grpc.extrenalPort                         | int    | `380`                                            | External grpc port to expose for Service                                                                               |
+| service.grpc.externalPort                         | int    | `380`                                            | External grpc port to expose for Service                                                                               |
 | service.grpc.internalPort                         | int    | `380`                                            | Internal grpc port to expose for Service                                                                               |
 | service.type                                      | string | `"ClusterIP"`                                    | Service type for server service                                                                                        |
 | serviceAccount.annotations                        | object | `{}`                                             | Annotations to add to the service account                                                                              |
