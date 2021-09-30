@@ -11,7 +11,7 @@ image:
   # -- Container pull policy
   pullPolicy: IfNotPresent
   # -- Container image tag
-  tag: "v0.1.7"
+  tag: "v0.2.0"
 
 # -- Secrets to pull container image
 imagePullSecrets: []
