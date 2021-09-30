@@ -1,6 +1,6 @@
 # ScoreTrak Server Helm Chart
 
-[ScoreTrak's Server](https://github.com/ScoreTrak/server) is the server for scoretrak, the compeptition scoring engine.
+[ScoreTrak's Server](https://github.com/ScoreTrak/server) is the server for scoretrak, the competition scoring engine.
 
 ## Add ScoreTrak Helm repository
 
@@ -14,6 +14,13 @@ helm repo add scoretrak https://scoretrak.github.io/helm-charts
 helm install release scoretrak/server
 ```
 
+## Approve CockroachDB Certificates
+
+```console
+kubectl certificate approve default.node.release-cockroachdb-0 default.node.release-cockroachdb-1 default.node.release-cockroachdb-2 default.client.root
+```
+
+
 ## Configuration
 
 The following table lists the configurable parameters of the nsqd chart and their default values.
@@ -24,7 +31,7 @@ The following table lists the configurable parameters of the nsqd chart and thei
 | fullnameOverride                                  | string | `""`                                             | String to override server.fullname template                                                                            |
 | image.pullPolicy                                  | string | `"IfNotPresent"`                                 | Container image name                                                                                                   |
 | image.repository                                  | string | `"ghcr.io/scoretrak/scoretrak/scoretrak-server"` | Container image name                                                                                                   |
-| image.tag                                         | string | `"v0.2.0"`                                       | Container image tag                                                                                                    |
+| image.tag                                         | string | `"v0.2.1-alpha"`                                       | Container image tag                                                                                                    |
 | imagePullSecrets                                  | list   | `[]`                                             | Secrets to pull container image                                                                                        |
 | nameOverride                                      | string | `""`                                             | String to override server.name template                                                                                |
 | nsqd.use                                          | bool   | `true`                                           | Specifies whether to use nsqd                                                                                          |
@@ -32,7 +39,7 @@ The following table lists the configurable parameters of the nsqd chart and thei
 | production                                        | bool   | `false`                                          | Flag to server whether this is a production deployment or dev deployment                                               |
 | replicaCount                                      | int    | `1`                                              | Deployment replica count                                                                                               |
 | resources                                         | object | `{}`                                             | Resource requests and limits for Deployment Pods                                                                       |
-| service.grpc.extrenalPort                         | int    | `380`                                            | External grpc port to expose for Service                                                                               |
+| service.grpc.externalPort                         | int    | `380`                                            | External grpc port to expose for Service                                                                               |
 | service.grpc.internalPort                         | int    | `380`                                            | Internal grpc port to expose for Service                                                                               |
 | service.type                                      | string | `"ClusterIP"`                                    | Service type for server service                                                                                        |
 | serviceAccount.annotations                        | object | `{}`                                             | Annotations to add to the service account                                                                              |
