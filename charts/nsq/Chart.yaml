@@ -2,9 +2,9 @@ apiVersion: v2
 name: nsq
 description: A Helm chart for nsq messaing platform
 type: application
-version: 0.1.1
+version: 0.2.1
 appVersion: "v1.1.0"
 dependencies:
 - name: nsqd
-  version: "0.1.4"
+  version: "0.2.1"
   repository: "https://scoretrak.github.io/helm-charts"
