@@ -4,6 +4,6 @@ dependencies:
   version: 6.0.1
 - name: nsqd
   repository: https://scoretrak.github.io/helm-charts
-  version: 0.2.1
-digest: sha256:12d61a35df11d199fed8a6b071de9731654e49c7fbcf7c638da905bb598ce397
-generated: "2021-09-30T14:45:16.080217977-04:00"
+  version: 0.2.2
+digest: sha256:765f02e3682af3b40b2666ad7db6b0ec63f0e2e014df76e59c7027ff0cfd0848
+generated: "2021-09-30T15:06:50.836038939-04:00"
