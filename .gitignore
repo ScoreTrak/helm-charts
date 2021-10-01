@@ -2,4 +2,5 @@
 .vscode
 .cr-release-packages
 
+.idea
 charts/*/charts/*.tgz
