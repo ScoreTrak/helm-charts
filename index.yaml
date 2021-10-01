@@ -448,6 +448,25 @@ entries:
   server:
   - apiVersion: v2
     appVersion: v0.2.3
+    created: "2021-10-01T02:02:16.829120509Z"
+    dependencies:
+    - name: cockroachdb
+      repository: https://charts.cockroachdb.com/
+      version: 6.0.1
+    - condition: nsqd.use
+      name: nsqd
+      repository: https://scoretrak.github.io/helm-charts
+      version: 0.2.3
+    description: A Helm chart for ScoreTrak's server, a competition scoring engine
+      written in go.
+    digest: 4863191d3396da108d331937417c559c887ef156414eeabe8167a8605f706bbb
+    name: server
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.2.4/server-0.2.4.tgz
+    version: 0.2.4
+  - apiVersion: v2
+    appVersion: v0.2.3
     created: "2021-10-01T01:39:51.110319611Z"
     dependencies:
     - name: cockroachdb
@@ -693,4 +712,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-01T01:39:51.110549215Z"
+generated: "2021-10-01T02:02:16.82932531Z"
