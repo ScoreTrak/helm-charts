@@ -28,7 +28,7 @@ The following table lists the configurable parameters of the nsqd chart and thei
 | nameOverride     | string | `""`                                          | String to override client.name template     |
 | podAnnotations   | object | `{}`                                          | Additional annotations for Deployment Pods      |
 | replicaCount     | int    | `1`                                           | Deployment replica count                        |
-| resources        | object | `{}`                                          | Resource requests and lmits for Deployment Pods |
+| resources        | object | `{}`                                          | Resource requests and limits for Deployment Pods |
 | service.port     | int    | `80`                                          | External port to expose for Service             |
 | service.type     | string | `"ClusterIP"`                                 | Service type for client service                 |
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.

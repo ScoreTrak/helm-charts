@@ -68,7 +68,7 @@ persistentVolume:
   # -- Size of Persistent Volumes for StatefulSet Pods
   size: 1Gi
   # -- Storage Class to use when creating Persistent Volumes. "-" means empty.
-  # storageClass: "-"
+  storageClass: "-"
 
 
 # NSQLOOKUPD HELM CHART VALUES

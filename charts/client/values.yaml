@@ -26,8 +26,11 @@ podAnnotations: {}
 service:
   # -- Service type for client service
   type: ClusterIP
-  # -- External port to expose for Service
-  port: 80
+  http:
+    # -- Internal port to expose for Service
+    internalPort: 80
+    # -- External port to expose for Service
+    externalPort: 80
 
 # -- Resource requests and lmits for Deployment Pods
 resources: {}

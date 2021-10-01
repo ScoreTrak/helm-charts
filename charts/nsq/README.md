@@ -28,7 +28,7 @@ The following table lists the configurable parameters of the nsq chart and their
 
 | Parameter                        | Description                                                                                                         | Default        |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------------- | -------------- |
-| `replicaCount`                   | Deployment replicas number                                                                                          | `1`            |
+| `replicaCount`                   | Statefulset replicas number                                                                                          | `1`            |
 | `image.repository`               | Container image name                                                                                                | `nsqio/nsq`    |
 | `image.pullPolicy`               | Container pull policy                                                                                               | `IfNotPresent` |
 | `image.tag`                      | Container image tag                                                                                                 | `""`           |
