@@ -278,6 +278,19 @@ entries:
   nsqlookupd:
   - apiVersion: v2
     appVersion: v1.1.0
+    created: "2021-10-01T01:32:17.567032188Z"
+    description: A Helm chart for nsqlookupd, the daemon that manages topology information.
+    digest: 99afa2e2daa948873c44d07fadc5c2be02f08b67c4c971b66cfdfc764da84271
+    keywords:
+    - nsq
+    - nsqlookupd
+    name: nsqlookupd
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/nsqlookupd-0.2.3/nsqlookupd-0.2.3.tgz
+    version: 0.2.3
+  - apiVersion: v2
+    appVersion: v1.1.0
     created: "2021-10-01T01:31:37.532978889Z"
     description: A Helm chart for nsqlookupd, the daemon that manages topology information.
     digest: 71fc2e7487b76618d7ee6fb6fb18742955deb5efee92115227f9e08765925f87
@@ -642,4 +655,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-01T01:31:37.533339996Z"
+generated: "2021-10-01T01:32:17.567178706Z"
