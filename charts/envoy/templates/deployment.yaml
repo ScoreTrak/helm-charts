@@ -39,9 +39,7 @@ spec:
             - /envoy/envoy.yaml
           ports:
             - name: http
-              containerPort: 8000
-            - name: admin
-              containerPort: 9901
+              containerPort: {{ .Values.service.targetPort }}
           volumeMounts:
             - name: envoy-config
               mountPath: /envoy
