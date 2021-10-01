@@ -21,6 +21,12 @@ kubectl certificate approve default.node.release-cockroachdb-0 default.node.rele
 ```
 
 
+## NodeSelectors for workers
+```
+Label nodes with following:
+scoretrak_worker: <YOUR_LABEL_VALUE>
+```
+
 ## Configuration
 
 The following table lists the configurable parameters of the nsqd chart and their default values.
