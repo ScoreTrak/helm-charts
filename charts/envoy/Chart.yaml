@@ -2,7 +2,7 @@ apiVersion: v2
 name: envoy
 description: A Helm chart for Scoretrak's Envoy
 type: application
-version: 0.2.7
+version: 0.2.8
 appVersion: "v1.18-latest"
 dependencies:
 - name: server
@@ -10,4 +10,4 @@ dependencies:
   version: 0.2.8
 - name: client
   repository: "https://scoretrak.github.io/helm-charts"
-  version: 0.2.3
+  version: 0.2.4
