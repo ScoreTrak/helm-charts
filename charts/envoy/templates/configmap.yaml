@@ -66,7 +66,7 @@ data:
                       address:
                         socket_address:
                           address: {{ include "call-nested" ( list . "server" "server.fullname" ) }}
-                          port_value: {{ .Values.server.service.grpc.extrenalPort }}
+                          port_value: {{ .Values.server.service.grpc.externalPort }}
 
         - name: scoretrak-client
           connect_timeout: 0.25s

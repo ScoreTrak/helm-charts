@@ -76,8 +76,13 @@ global:
 
 # SERVER VALUES
 
-# server: {}
+server:
+  service:
+    grpc:
+      externalPort: 380
 
 # CLIENT VALUES
 
-# client: {}
+client:
+  service:
+    port: 80
