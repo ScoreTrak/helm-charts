@@ -39,7 +39,7 @@ service:
     # -- Internal grpc port to expose for Service
     internalPort: 380
     # -- External grpc port to expose for Service
-    extrenalPort: 380
+    externalPort: 380
 
 # -- Resource requests and limits for Deployment Pods
 resources: {}

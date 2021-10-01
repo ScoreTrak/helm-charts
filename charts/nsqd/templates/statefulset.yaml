@@ -76,16 +76,19 @@ spec:
         - "0.0.0.0:{{ .Values.service.tcp.internalPort }}"
         - -http-address
         - "0.0.0.0:{{ .Values.service.http.internalPort }}"
+        {{ if .Values.nsqlookupd.use }}
         {{ $nsqlookupdFullname := include "call-nested" ( list . "nsqlookupd" "nsqlookupd.fullname" ) }}
+        {{ $nsqlookupdSvcTcpPort := .Values.nsqlookupd.service.tcp.externalPort }}
         {{ if .Values.global }}
         {{ range $i := until ( .Values.global.nsqlookupd.replicaCount | int ) }}
         - -lookupd-tcp-address
-        - "{{ $nsqlookupdFullname }}-{{ $i }}.{{ $nsqlookupdFullname }}:4160"
+        - "{{ $nsqlookupdFullname }}-{{ $i }}.{{ $nsqlookupdFullname }}:{{ $nsqlookupdSvcTcpPort }}"
         {{ end }}
         {{ else }}
         {{ range $i := until ( .Values.nsqlookupd.replicaCount | int ) }}
         - -lookupd-tcp-address
-        - "{{ $nsqlookupdFullname }}-{{ $i }}.{{ $nsqlookupdFullname }}:4160"
+        - "{{ $nsqlookupdFullname }}-{{ $i }}.{{ $nsqlookupdFullname }}:{{ $nsqlookupdSvcTcpPort }}"
+        {{ end }}
         {{ end }}
         {{ end }}
         - -broadcast-address
@@ -97,9 +100,9 @@ spec:
               fieldPath: metadata.name
         ports:
         - name: tcp
-          containerPort: 4150
+          containerPort: {{ .Values.service.tcp.internalPort }}
         - name: http
-          containerPort: 4151
+          containerPort: {{ .Values.service.http.internalPort }}
         livenessProbe:
           httpGet:
             path: /ping

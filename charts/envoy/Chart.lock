@@ -1,0 +1,9 @@
+dependencies:
+- name: server
+  repository: https://scoretrak.github.io/helm-charts
+  version: 0.1.7
+- name: client
+  repository: https://scoretrak.github.io/helm-charts
+  version: 0.1.1
+digest: sha256:0247281d7e1a07b591986154c1f67382e4d09c14559ec0490a935699f7e45de0
+generated: "2021-06-15T19:59:08.489318-04:00"
