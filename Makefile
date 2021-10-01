@@ -9,6 +9,8 @@ apply-envoy:
 	bash ./scripts/deploy-envoy.sh
 stop-dev: kind
 	kind delete cluster || true
-	
+
+reapply-envoy-helm:
+	helm upgrade --install release ./charts/envoy
 
 dev: stop-dev start-dev apply-envoy

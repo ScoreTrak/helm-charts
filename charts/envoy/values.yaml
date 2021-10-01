@@ -77,6 +77,7 @@ global:
 # SERVER VALUES
 
 server:
+  replicaCount: 3
   service:
     grpc:
       externalPort: 380
