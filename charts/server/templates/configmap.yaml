@@ -13,7 +13,7 @@ data:
       use: nsq
       nsq:
         {{ $nsqdFullname := include "call-nested" ( list . "nsqd" "nsqd.fullname" ) }}
-        producernsqd: "{{ $nsqdFullname }}-0:{{ .Values.nsqd.service.tcp.externalPort }}"
+        producernsqd: "{{ $nsqdFullname }}:{{ .Values.nsqd.service.tcp.externalPort }}"
         nsqlookupd:
         {{ $nsqlookupdFullname := include "call-nested" ( list . "nsqd.nsqlookupd" "nsqlookupd.fullname" ) }}
         {{ if .Values.global }}
