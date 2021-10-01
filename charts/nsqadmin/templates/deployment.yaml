@@ -1,0 +1,52 @@
+{{ if .Values.adminEnabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nsq.fullname" . }}
+  labels:
+    {{- include "nsq.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "nsq.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nsq.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+          - /nsqadmin
+          args:
+          {{ $nsqlookupdFullname := include "call-nested" ( list . "nsqd.nsqlookupd" "nsqlookupd.fullname" ) }}
+          {{ range $i := until ( .Values.nsqd.nsqlookupd.replicaCount | int ) }}
+          - -lookupd-http-address
+          - "{{ $nsqlookupdFullname }}-{{ $i }}.{{ $nsqlookupdFullname }}:4161"
+          {{ end }}
+          ports:
+            - name: tcp
+              containerPort: 4170
+            - name: http
+              containerPort: 4171
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: http
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: http
+            initialDelaySeconds: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      terminationGracePeriodSeconds: 60
+{{ end }}
