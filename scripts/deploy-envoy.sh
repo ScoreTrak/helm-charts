@@ -4,7 +4,7 @@ set -m
 echo "========================================"
 echo "Please wait for ScoreTrak to be deployed"
 echo "========================================"
-bash -c 'helm upgrade --install release ./charts/envoy' &
+bash -c 'helm upgrade --install release ./charts/envoy --timeout 600' &
 
 until [ "$(kubectl get csr | grep release | wc -l)" -eq "4" ]; do 
     echo "waiting for certs to become available"
