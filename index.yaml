@@ -64,6 +64,23 @@ entries:
   envoy:
   - apiVersion: v2
     appVersion: v1.18-latest
+    created: "2021-10-01T20:51:05.285401574Z"
+    dependencies:
+    - name: server
+      repository: https://scoretrak.github.io/helm-charts
+      version: 0.2.8
+    - name: client
+      repository: https://scoretrak.github.io/helm-charts
+      version: 0.2.4
+    description: A Helm chart for Scoretrak's Envoy
+    digest: e71c3b35f1988bcb05e09e370eb29ad8c592285e7b10b5687c5d1c170fa41599
+    name: envoy
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/envoy-0.2.8/envoy-0.2.8.tgz
+    version: 0.2.8
+  - apiVersion: v2
+    appVersion: v1.18-latest
     created: "2021-10-01T18:05:46.652463383Z"
     dependencies:
     - name: server
@@ -935,4 +952,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-01T19:28:18.702990115Z"
+generated: "2021-10-01T20:51:05.286144585Z"
