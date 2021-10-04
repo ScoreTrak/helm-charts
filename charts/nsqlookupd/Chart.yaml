@@ -1,9 +1,0 @@
-apiVersion: v2
-name: nsqlookupd
-version: 0.2.3
-description: A Helm chart for nsqlookupd, the daemon that manages topology information.
-type: application
-keywords:
-  - nsq
-  - nsqlookupd
-appVersion: "v1.1.0"

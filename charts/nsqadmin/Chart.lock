@@ -1,6 +1,0 @@
-dependencies:
-- name: nsqd
-  repository: https://scoretrak.github.io/helm-charts
-  version: 0.2.3
-digest: sha256:93444ead7add2d24566df19f476fd6b619a5d3cdd347ab9ac6a920b874cc70f4
-generated: "2021-09-30T22:30:47.362475013-04:00"
