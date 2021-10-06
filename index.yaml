@@ -63,6 +63,16 @@ entries:
     version: 0.1.0
   envoy:
   - apiVersion: v2
+    appVersion: v1.19.1
+    created: "2021-10-06T22:15:28.091472695Z"
+    description: A Helm chart for Envoy Proxy
+    digest: d062e103aa9312aa249c20ab8bdc009da1cdf493e83c5d060014011a51e0ecce
+    name: envoy
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/envoy-0.2.9/envoy-0.2.9.tgz
+    version: 0.2.9
+  - apiVersion: v2
     appVersion: v1.18-latest
     created: "2021-10-01T20:51:05.285401574Z"
     dependencies:
@@ -952,4 +962,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-01T20:51:05.286144585Z"
+generated: "2021-10-06T22:15:28.091949201Z"
