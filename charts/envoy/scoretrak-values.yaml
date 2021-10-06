@@ -85,7 +85,7 @@ config: |-
                     address:
                       socket_address:
                         address: scoretrak
-                        port_value: 380
+                        port_value: {{ .Values.scoretrak-server.service.port }}
 
       - name: scoretrak-web
         connect_timeout: 0.25s
