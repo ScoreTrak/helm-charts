@@ -22,10 +22,11 @@ data:
               codec_type: auto
               stat_prefix: ingress_http
               route_config:
-                name: local_route
+                name: routes
                 virtual_hosts:
-                - name: local_service
-                  domains: ["*"]
+                - name: scoretrak_service
+############################################### .Values.ScoreTrakDomain: (Make sure to not strip quotes ")
+                  domains: ["{{ .Values.ScoreTrakDomain }}"]
                   routes:
                   - match:
                       prefix: "/"
@@ -48,6 +49,26 @@ data:
                     allow_headers: keep-alive,user-agent,cache-control,content-type,content-transfer-encoding,custom-header-1,x-accept-content-transfer-encoding,x-accept-response-streaming,x-user-agent,x-grpc-web,grpc-timeout,authorization
                     max_age: "1728000"
                     expose_headers: custom-header-1,grpc-status,grpc-message
+############################################### .Values.BankDomain: (Make sure to not strip quotes ")
+                - name: bank_service
+                  domains: ["{{ .Values.BankDomain}}"]
+                  routes:
+                  - match:
+                      prefix: "/admin"
+                    route:
+                      cluster: commerce-backend
+                  - match:
+                      prefix: "/api"
+                    route:
+                      cluster: commerce-backend
+                  - match:
+                      prefix: "/static"
+                    route:
+                      cluster: commerce-backend
+                  - match:
+                      prefix: "/"
+                    route:
+                      cluster: commerce-ui
               http_filters:
                 - name: envoy.filters.http.grpc_web
                 - name: envoy.filters.http.cors
@@ -81,3 +102,35 @@ data:
                         socket_address:
                           address: {{ include "call-nested" ( list . "client" "client.fullname" ) }}
                           port_value: {{ .Values.client.service.port }}
+    
+
+#####################################################
+          Optional based on "Bank Enabled Variable"?
+#####################################################
+        - name: commerce-ui
+          connect_timeout: 0.25s
+          type: logical_dns
+          lb_policy: round_robin
+          load_assignment:
+            cluster_name: commerce-ui
+            endpoints:
+              - lb_endpoints:
+                  - endpoint:
+                      address:
+                        socket_address:
+                          address: {{ include "call-nested" ( list . "client" "client.fullname" ) }} ### commerce-ui
+                          port_value: {{ .Values.client.service.port }}  ###commerce-ui
+        
+        - name: commerce-backend
+          connect_timeout: 0.25s
+          type: logical_dns
+          lb_policy: commerce-backend
+          load_assignment:
+            cluster_name: scoretrak-client
+            endpoints:
+              - lb_endpoints:
+                  - endpoint:
+                      address:
+                        socket_address:
+                          address: {{ include "call-nested" ( list . "client" "client.fullname" ) }} #####commerce-backend
+                          port_value: {{ .Values.client.service.port }} #####commerce-backend
