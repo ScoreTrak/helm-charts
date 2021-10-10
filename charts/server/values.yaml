@@ -48,9 +48,12 @@ clusterrole:
   create: false
 
 config:
+  # Decide if this chart should create the config yaml for scoretrak server or a parent chart should create it
+  create: true
   production: false
   nsq:
     use: false
+    producernsqd: ""
     nsqlookupd:
       nodes:
         - ""
@@ -65,4 +68,5 @@ config:
         clientca: "/cockroach-certs/ca.crt"
         clientsslkey: "/cockroach-certs/client.root.key"
         clientsslcert: "/cockroach-certs/client.root.crt"
+        existingClientSecret: ""
   existingConfig: ""

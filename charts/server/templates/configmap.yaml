@@ -1,4 +1,4 @@
-{{ if not .Values.config.existingConfig }}
+{{ if .Values.config.create }}
 {{ $jwtSecret := randAlphaNum 24 }}
 kind: ConfigMap
 apiVersion: v1
@@ -12,6 +12,7 @@ data:
     queue:
       use: nsq
       nsq:
+        producernsqd: {{ .Values.config.nsq.producernsqd }}
         {{ range .Values.config.nsq.nsqlookupd.nodes }}
           - --lookupd-tcp-address={{ . }}
         {{ end }}
@@ -25,7 +26,6 @@ data:
     
     db:
       cockroach:
-{{/*        host: {{ include "call-nested" ( list . "cockroachdb" "cockroachdb.fullname" ) }}-public*/}}
         host: {{ .Values.config.db.cockroach.host }}
         port: {{ .Values.config.db.cockroach.port }}
         database: {{ .Values.config.db.cockroach.database }}
