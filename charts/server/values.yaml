@@ -44,13 +44,9 @@ service:
 # -- Resource requests and limits for Deployment Pods
 resources: {}
 
-clusterrole:
-  create: false
-
 config:
-  # Decide if this chart should create the config yaml for scoretrak server or a parent chart should create it
-  create: true
   production: false
+  create: true
   nsq:
     use: false
     producernsqd: ""
@@ -58,7 +54,7 @@ config:
       nodes:
         - ""
   db:
-    cockroach:
+    cockroachdb:
       host: ""
       port: 0
       database: defaultdb
@@ -68,5 +64,4 @@ config:
         clientca: "/cockroach-certs/ca.crt"
         clientsslkey: "/cockroach-certs/client.root.key"
         clientsslcert: "/cockroach-certs/client.root.crt"
-        existingClientSecret: ""
-  existingConfig: ""
+        createClientSecret: true

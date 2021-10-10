@@ -8,6 +8,7 @@ metadata:
     {{- include "server.labels" . | nindent 4 }}
 data:
   config.yaml: |-
+    {{ tpl fdasfdsa . 
     {{ if .Values.config.nsq.use }}
     queue:
       use: nsq
@@ -26,15 +27,15 @@ data:
     
     db:
       cockroach:
-        host: {{ .Values.config.db.cockroach.host }}
-        port: {{ .Values.config.db.cockroach.port }}
-        database: {{ .Values.config.db.cockroach.database }}
-        {{ if .Values.cockroachdb.tls.enabled }}
-        clientca: {{ .Values.config.db.cockroach.tls.clientca }}
-        clientsslkey: {{ .Values.config.db.cockroach.tls.clientsslkey }}
-        clientsslcert: {{ .Values.config.db.cockroach.tls.clientsslcert }}
+        host: {{ .Values.config.db.cockroachdb.host }}
+        port: {{ .Values.config.db.cockroachdb.port }}
+        database: {{ .Values.config.db.cockroachdb.database }}
+        {{ if .Values.cockroachdbdb.tls.enabled }}
+        clientca: {{ .Values.config.db.cockroachdb.tls.clientca }}
+        clientsslkey: {{ .Values.config.db.cockroachdb.tls.clientsslkey }}
+        clientsslcert: {{ .Values.config.db.cockroachdb.tls.clientsslcert }}
         {{ else }}
-        password: {{ .Values.config.db.cockroach.password }}
+        password: {{ .Values.config.db.cockroachdb.password }}
         {{ end }}
     
     platform:
@@ -42,4 +43,4 @@ data:
 
     jwt:
       secret: {{ $jwtSecret }}
-{{ end }}
+  {{ end }}
