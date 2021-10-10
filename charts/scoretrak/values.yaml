@@ -5,3 +5,12 @@
 #sub chart values
 
 
+
+
+# NSQ HELM CHART VALUES
+
+nsq:
+  use: true
+  nsqd:
+    persistence:
+      enabled: false

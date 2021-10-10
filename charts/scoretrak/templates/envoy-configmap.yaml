@@ -1,0 +1,12 @@
+{{ if not .Values.config.existingConfig }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "envoy.fullname" . }}
+  labels:
+  {{- include "envoy.labels" . | nindent 4 }}
+data:
+  envoy.yaml: |
+    {{- .Values.config.value | nindent 4 }}
+    {{ end }}
+ 
