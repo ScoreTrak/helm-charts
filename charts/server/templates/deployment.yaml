@@ -67,11 +67,11 @@ spec:
       volumes:
         - name: scoretrak-config
           configMap:
-            name: {{ .Values.config.existingConfig | default ( include "server.fullname" . ) }}
+            name: {{ include "server.fullname" . }}
         {{ if .Values.config.cockroachdb.tls.enabled }}
         - name: client-certs
           emptyDir: {}
         - name: cockroachdb-service-account
-{{/*          secret:*/}}
-{{/*            secretName: {{ include "server.fullname" . }}-client-secret*/}}
+          secret:
+            secretName: {{ include "db_client_secret_name" . }}
         {{ end }}
