@@ -2,13 +2,59 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-#sub chart values
+
+scoretrak:
+  FQDN: scoretrak.example.com
+
+bank:
+  FQDN: bank.example.com
+
+config:
+  db_names:
+    - scoretrak
+
+
+# GLOBAL HELM CHART VALUES
+
+global:
+  scoretrak:
+    create_db_client_secret: true
 
 
 
+# COCKROACHDB HELM CHART VALUES
+
+cockroachdb:
+  # -- Specifies whether to create a cockroachdb instance
+  create: true
+  statefulset:
+    replicas: 3
+    resources:
+      limits:
+        memory: "2Gi"
+      requests:
+        memory: "2Gi"
+  storage:
+    persistentVolume:
+      enabled: false
+      size: "5Gi"
+  conf:
+    cache: "500Mi"
+    max-sql-memory: "500Mi"
+    max-offset: 1000ms
+  tls:
+    enabled: true
+    certs:
+      selfSigner: 
+        enabled: true
+  init:
+    provisioning:
+      databases:
+        - scoretrak
+        - bank
+        - payments
 
 # NSQ HELM CHART VALUES
-
 nsq:
   use: true
   nsqd:

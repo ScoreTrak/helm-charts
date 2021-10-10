@@ -5,12 +5,17 @@ kind:
 start-dev: kind
 	kind create cluster --config ./ha-cluster.yaml
 	
-apply-envoy:
-	bash ./scripts/deploy-envoy.sh
+apply-scoretrak:
+	@echo "========================================"
+	@echo "Please wait for ScoreTrak to be deployed"
+	@echo "========================================"
+	
+	helm upgrade --timeout 600s --install release ./charts/scoretrak
+	@echo "Navigate to localhost:30080 to see scoretrak"
+
+dry-run-scoretrak:
+	helm upgrade --timeout 600s --install release ./charts/scoretrak --dry-run
 stop-dev: kind
 	kind delete cluster || true
 
-reapply-envoy-helm:
-	helm upgrade --install release ./charts/envoy
-
-dev: stop-dev start-dev apply-envoy
+dev: stop-dev start-dev apply-scoretrak

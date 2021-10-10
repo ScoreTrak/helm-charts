@@ -1,0 +1,18 @@
+dependencies:
+- name: envoy
+  repository: https://scoretrak.github.io/helm-charts
+  version: 0.2.14
+- name: server
+  repository: https://scoretrak.github.io/helm-charts
+  version: 0.2.14
+- name: client
+  repository: https://scoretrak.github.io/helm-charts
+  version: 0.2.4
+- name: cockroachdb
+  repository: https://charts.cockroachdb.com/
+  version: 6.0.9
+- name: nsq
+  repository: https://beeinventor.github.io/charts
+  version: 1.2.0
+digest: sha256:78710b5fe3993a7f7292cde57aa614cc6fd612fb692b38591b92f39e7f35a96f
+generated: "2021-10-10T18:52:41.412898282-04:00"

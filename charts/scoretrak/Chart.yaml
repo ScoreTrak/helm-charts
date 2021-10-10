@@ -19,16 +19,16 @@ version: 0.1.0
 
 dependencies:
   - name: envoy
-    version: "0.2.9"
+    version: "0.2.14"
     repository: "https://scoretrak.github.io/helm-charts"
   - name: server
-    version: "0.2.8"
+    version: "0.2.14"
     repository: "https://scoretrak.github.io/helm-charts"
   - name: client
     version: "0.2.4"
     repository: "https://scoretrak.github.io/helm-charts"
   - name: cockroachdb
-    version: "6.0.1"
+    version: "6.0.9"
     repository: "https://charts.cockroachdb.com/"
   - name: nsq
     version: "1.2.0"
