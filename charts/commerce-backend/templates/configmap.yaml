@@ -1,0 +1,13 @@
+{{ $jwtSecret := randAlphaNum 24 }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "commerce-backend.fullname" . }}
+  labels:
+    {{- include "commerce-backend.labels" . | nindent 4 }}
+data:
+  DATABASE_URL: {{ printf "postgresql://%s:%s@%s:%d/%s?sslmode=require&sslcert=/cockroach-certs/client.root.crt&sslkey=/cockroach-certs/client.root.key&sslrootcert=/cockroach-certs/ca.crt" .Values.cockroachdb.db_user .Values.cockroachdb.db_password .Values.cockroachdb.db_host .Values.cockroachdb.db_port .Values.cockroachdb.db_name }}
+  USE_COCKROACHDB: {{ .Values.config.use_cockroachdb }}
+  SECRET_KEY: {{ $jwtSecret }}
+  DISCORD_WEBHOOK_URL: {{ .Values.config.discord_webhook_url }}
+  

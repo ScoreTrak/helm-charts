@@ -25,12 +25,91 @@ spec:
       serviceAccountName: {{ include "commerce-backend.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: init-certs
+          image: cockroachdb/cockroach-k8s-request-cert:0.4
+          imagePullPolicy: IfNotPresent
+          command:
+            - "/bin/ash"
+            - "-ecx"
+            - "/request-cert -namespace=${POD_NAMESPACE} -certs-dir=/cockroach-certs -type=client -user=root -symlink-ca-from=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          volumeMounts:
+            - name: client-certs
+              mountPath: /cockroach-certs
+            - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+              name: cockroach-cert-token
+
+        - name: change-cert-perms
+          image: cockroachdb/cockroach-k8s-request-cert:0.4
+          imagePullPolicy: IfNotPresent
+          command:
+            - "/bin/bash"
+            - "-ecx"
+            - "chown 1234:1234 /cockroach-certs/client.root.key /cockroach-certs/client.root.crt"
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          volumeMounts:
+            - name: client-certs
+              mountPath: /cockroach-certs
+
+        - name: start db migration
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: IfNotPresent
+          command:
+            - "/bin/bash"
+            - "-c"
+            - "python manage.py migrate"
+          envFrom:
+            - configMapRef:
+                name: {{ include "commerce-backend.fullname" . }}
+                optional: false
+          volumeMounts:
+            - name: client-certs
+              mountPath: /cockroach-certs
+
+        - name: create superuser
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: IfNotPresent
+          command:
+            - "bash"
+            - "-c"
+            - "python manage.py createsuperuser --noinput"
+          env: #https://stackoverflow.com/a/59467533/9296389
+            - name: DJANGO_SUPERUSER_PASSWORD
+              value: SOME_SECURE_PASSWORD_FOR_ADMIN
+            - name: DJANGO_SUPERUSER_USERNAME
+              value: admin
+            - name: DJANGO_SUPERUSER_EMAIL
+              value: admin@local
+          envFrom:
+            - configMapRef:
+                name: {{ include "commerce-backend.fullname" . }}
+                optional: false
+          volumeMounts:
+            - name: client-certs
+              mountPath: /cockroach-certs
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            -  /bin/bash
+            - -c
+            - sleep 20; daphne -b 0.0.0.0 -p 80 ldfinance.asgi:application #For some reason sleeping is required, otherwise we get: Is the server running on host "scoretrak-cockroachdb-public" (10.233.16.67) and accepting TCP/IP connections on port 26257?
+          envFrom:
+            - configMapRef:
+                name: {{ include "commerce-backend.fullname" . }}
+                optional: false
           ports:
             - name: http
               containerPort: 80
@@ -45,6 +124,12 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: client-certs
+          emptyDir: {}
+        - name: cockroachdb-service-account
+          secret:
+            secretName: {{ include "commerce-backend.fullname" . }}-client-secret
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
