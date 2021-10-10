@@ -75,6 +75,6 @@ tolerations: []
 affinity: {}
 
 config:
-  yaml: ""
+  value: ""
   # Existing Configmap for Envoy
   exisingConfig: ""
