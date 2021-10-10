@@ -81,13 +81,20 @@ tolerations: []
 
 affinity: {}
 
-cockroachdb:
-  db_user: ""
-  db_password: ""
-  db_host: ""
-  db_port: ""
-  db_name: ""
 
 config:
   use_cockroachdb: true
   discord_webhook_url: ""
+  cockroachdb:
+    db_user: ""
+    db_password: ""
+    db_host: ""
+    db_port: ""
+    db_name: ""
+  existingConfig: ""
+
+django_superuser:
+  username: admin
+#  password: ""
+  email: "admin@local"
+  existingSecret: ""

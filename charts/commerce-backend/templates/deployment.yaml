@@ -82,15 +82,11 @@ spec:
             - "bash"
             - "-c"
             - "python manage.py createsuperuser --noinput"
-          env: #https://stackoverflow.com/a/59467533/9296389
-            - name: DJANGO_SUPERUSER_PASSWORD
-              value: SOME_SECURE_PASSWORD_FOR_ADMIN
-            - name: DJANGO_SUPERUSER_USERNAME
-              value: admin
-            - name: DJANGO_SUPERUSER_EMAIL
-              value: admin@local
           envFrom:
             - configMapRef:
+                name: {{ include "commerce-backend.fullname" . }}
+                optional: false
+            - secretRef:
                 name: {{ include "commerce-backend.fullname" . }}
                 optional: false
           volumeMounts:
