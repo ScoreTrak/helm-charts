@@ -84,7 +84,7 @@ Usage:
 {{/*
 CockroachDB client secret name for all that needs it
 */}}
-{{- define "db_client_secret_name" -}}
+{{- define "global_db_client_secret_name" -}}
 {{- .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- printf "%s-db-client-secret" .Release.Name $name | trunc 63 | trimSuffix "-" }}
 {{- end }}
