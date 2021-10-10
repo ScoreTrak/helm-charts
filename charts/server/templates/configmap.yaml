@@ -8,7 +8,6 @@ metadata:
     {{- include "server.labels" . | nindent 4 }}
 data:
   config.yaml: |-
-    {{ tpl fdasfdsa . 
     {{ if .Values.config.nsq.use }}
     queue:
       use: nsq
