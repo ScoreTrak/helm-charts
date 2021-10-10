@@ -36,51 +36,33 @@ service:
   # -- Service type for server service
   type: ClusterIP
   grpc:
-    # -- Internal grpc port to expose for Service
-    internalPort: 380
+    # -- grpc port to expose for Service
+    port: 380
     # -- External grpc port to expose for Service
     externalPort: 380
 
 # -- Resource requests and limits for Deployment Pods
 resources: {}
 
-# -- Flag to server whether this is a production deployment or dev deployment
-production: false
+clusterrole:
+  create: false
 
-# GLOBAL VALUES
-
-global:
-  nsqlookupd:
-    replicaCount: 3
-
-# COCKROACHDB HELM CHART VALUES
-
-cockroachdb:
-  # -- Specifies whether to create a cockroachdb instance
-  create: true
-  statefulset:
-    replicas: 3
-    resources:
-      limits:
-        memory: "2Gi"
-      requests:
-        memory: "2Gi"
-  storage:
-    persistentVolume:
-      enabled: false
-      size: "5Gi"
-  conf:
-    cache: "500Mi"
-    max-sql-memory: "500Mi"
-    max-offset: 1000ms
-  tls:
-    enabled: true
-
-# NSQ HELM CHART VALUES
-
-nsqd:
-  # -- Specifies whether to use nsqd
-  use: true
-  replicaCount: 3
-  persistentVolume:
-    enabled: false
+config:
+  production: false
+  nsq:
+    use: false
+    nsqlookupd:
+      nodes:
+        - ""
+  db:
+    cockroach:
+      host: ""
+      port: 0
+      database: defaultdb
+      password: ""
+      tls:
+        enabled: true
+        clientca: "/cockroach-certs/ca.crt"
+        clientsslkey: "/cockroach-certs/client.root.key"
+        clientsslcert: "/cockroach-certs/client.root.crt"
+  existingConfig: ""

@@ -79,3 +79,26 @@ Usage:
 {{- end }}
 {{- include $template (dict "Chart" (dict "Name" (last $subchart)) "Values" $values "Release" $dot.Release "Capabilities" $dot.Capabilities) }}
 {{- end }}
+
+
+{{/*
+Keep existing credentials lookup function
+*/}}
+{{- define "gen.secret" -}}
+{{- $nameSpace := printf "%s-%s" "wp" (include "site.prefix" .) -}}
+{{- $secretName := printf "%s-%s" "secrets-wp" (include "site.prefix" .) -}}
+{{- $secret := (lookup "v1" "Secret" .Release.Namespace "" ) -}}
+{{- if $secret -}}
+ALLOWSERVER: {{ $secret.data.ALLOWSERVER }}
+DB_NAME: {{ $secret.data.DB_NAME }}
+DB_USER: {{ $secret.data.DB_USER }}
+DB_PASSWORD: {{ $secret.data.DB_PASSWORD }}
+DB_HOST: {{ $secret.data.DB_HOST }}
+{{- else -}}
+ALLOWSERVER: {{ default "10.%.%.%" .Values.config.allowServer | b64enc | quote }}
+DB_NAME: {{ include "site.prefix" . | replace "-" "_" | b64enc | quote }}
+DB_USER: {{ include "site.prefix" . | replace "-" "_" | b64enc | quote }}
+DB_PASSWORD: {{ randAlphaNum 24 | b64enc | quote }}
+DB_HOST: {{ default "wordpress-cluster-haproxy.pxc-wordpress-cluster" .Values.config.dbHost | b64enc | quote }}
+{{- end -}}
+{{- end -}}

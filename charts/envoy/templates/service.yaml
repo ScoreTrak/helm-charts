@@ -8,11 +8,12 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: {{ .Values.service.targetPort }}
+      targetPort: http
+      protocol: TCP
       name: http
-      {{ if eq .Values.service.type "NodePort" }}
-      nodePort: {{ .Values.service.nodePort }}
-      {{ end }}
-      
+    - port: 9901
+      targetPort: 9901
+      protocol: TCP
+      name: admin
   selector:
     {{- include "envoy.selectorLabels" . | nindent 4 }}

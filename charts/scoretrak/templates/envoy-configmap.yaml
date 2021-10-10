@@ -8,5 +8,5 @@ metadata:
 data:
   envoy.yaml: |
     {{- .Values.config.value | nindent 4 }}
-{{ end }}
+    {{ end }}
  

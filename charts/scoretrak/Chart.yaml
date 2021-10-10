@@ -1,6 +1,6 @@
 apiVersion: v2
-name: envoy
-description: A Helm chart for Envoy Proxy
+name: scoretrak
+description: A Helm chart for Scoretrak
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -15,10 +15,22 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.2.10
+version: 0.1.0
 
-# This is the version number of the application being deployed. This version number should be
-# incremented each time you make changes to the application. Versions are not expected to
-# follow Semantic Versioning. They should reflect the version the application is using.
-# It is recommended to use it with quotes.
-appVersion: "v1.19.1"
+dependencies:
+  - name: envoy
+    version: "0.2.9"
+    repository: "https://scoretrak.github.io/helm-charts"
+  - name: server
+    version: "0.2.8"
+    repository: "https://scoretrak.github.io/helm-charts"
+  - name: client
+    version: "0.2.4"
+    repository: "https://scoretrak.github.io/helm-charts"
+  - name: cockroachdb
+    version: "6.0.1"
+    repository: "https://charts.cockroachdb.com/"
+  - name: nsq
+    version: "1.2.0"
+    repository: "https://beeinventor.github.io/charts"
+    condition: nsq.use

@@ -8,7 +8,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.grpc.externalPort }}
-      targetPort: {{ .Values.service.grpc.internalPort }}
+      targetPort: {{ .Values.service.grpc.port }}
       name: grpc
   selector:
     {{- include "server.selectorLabels" . | nindent 4 }}

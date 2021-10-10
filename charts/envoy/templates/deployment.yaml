@@ -13,7 +13,6 @@ spec:
     metadata:
       {{- with .Values.podAnnotations }}
       annotations:
-        checksum/config: {{ include (print $.Template.Basepath "/configmap.yaml") . | sha256sum }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -36,19 +35,31 @@ spec:
             - envoy
           args:
             - -c
-            - /envoy/envoy.yaml
+            - /config/envoy.yaml
+          volumeMounts:
+            - mountPath: /config
+              name: config
           ports:
             - name: http
-              containerPort: {{ .Values.service.targetPort }}
-          volumeMounts:
-            - name: envoy-config
-              mountPath: /envoy
+              containerPort: 80
+              protocol: TCP
+            - name: admin
+              containerPort: 9901
+              protocol: TCP
+{{/*          livenessProbe:*/}}
+{{/*            httpGet:*/}}
+{{/*              path: /*/}}
+{{/*              port: http*/}}
+{{/*          readinessProbe:*/}}
+{{/*            httpGet:*/}}
+{{/*              path: /*/}}
+{{/*              port: http*/}}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-        - name: envoy-config
+        - name: config
           configMap:
-            name: {{ include "envoy.fullname" . }}
+            name: {{ .Values.config.exisingConfig | default ( include "envoy.fullname" . ) }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
