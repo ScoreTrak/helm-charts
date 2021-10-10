@@ -64,4 +64,3 @@ config:
         clientca: "/cockroach-certs/ca.crt"
         clientsslkey: "/cockroach-certs/client.root.key"
         clientsslcert: "/cockroach-certs/client.root.crt"
-        createClientSecret: true
