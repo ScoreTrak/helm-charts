@@ -15,18 +15,18 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.1
+version: 0.1.2
 
 dependencies:
   - name: envoy
-    version: "0.2.14"
-    repository: "https://scoretrak.github.io/helm-charts"
+    version: "0.2.15"
+    repository: "file://../envoy"
   - name: server
-    version: "0.2.14"
-    repository: "https://scoretrak.github.io/helm-charts"
+    version: "0.2.18"
+    repository: "file://../server"
   - name: client
-    version: "0.2.4"
-    repository: "https://scoretrak.github.io/helm-charts"
+    version: "0.2.7"
+    repository: "file://../client"
   - name: cockroachdb
     version: "6.0.9"
     repository: "https://charts.cockroachdb.com/"

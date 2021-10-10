@@ -72,6 +72,7 @@ cockroachdb:
         enabled: true
   init:
     provisioning:
+      enabled: true
       databases:
         - scoretrak
         - bank

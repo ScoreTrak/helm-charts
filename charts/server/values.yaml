@@ -57,7 +57,7 @@ config:
     cockroachdb:
       host: ""
       port: 0
-      database: defaultdb
+      database: scoretrak
       password: ""
       tls:
         enabled: true
