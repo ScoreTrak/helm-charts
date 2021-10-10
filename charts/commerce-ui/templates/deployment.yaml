@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "commerce-ui.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "commerce-ui.selectorLabels" . | nindent 6 }}
