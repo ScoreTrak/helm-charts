@@ -1,3 +1,4 @@
+{{ if not .Values.config.existingConfig }}
 {{ $jwtSecret := randAlphaNum 24 }}
 kind: ConfigMap
 apiVersion: v1
@@ -7,35 +8,33 @@ metadata:
     {{- include "server.labels" . | nindent 4 }}
 data:
   config.yaml: |-
-    {{ if .Values.nsq.use }}
+    {{ if .Values.config.nsq.use }}
     queue:
       use: nsq
       nsq:
-        {{ $nsqdFullName := include "call-nested" ( list . "nsq" "nsq.nsqd.fullname" ) }}
-          producernsqd: "{{ $nsqdFullName }}:4150"
-        {{ $lookupdFullName := include "call-nested" ( list . "nsq" "nsq.nsqlookupd.fullname" ) }}
-        {{ range $i, $e := until (atoi (printf "%d" (int64 .Values.nsq.nsqlookupd.replicaCount))) -}}
-          - --lookupd-tcp-address={{ $lookupdFullName }}-{{ $i }}.{{ $lookupdFullName }}:4160
-        {{ end -}}
-        {{ else }}
+        {{ range .Values.config.nsq.nsqlookupd.nodes }}
+          - --lookupd-tcp-address={{ . }}
+        {{ end }}
+    {{ else }}
     queue:
       use: none
     {{ end }}
 
-    port: {{ .Values.service.grpc.internalPort }}
-    production: {{ .Values.production }}
+    port: {{ .Values.service.grpc.port }}
+    production: {{ .Values.config.production }}
     
     db:
       cockroach:
-        host: {{ include "call-nested" ( list . "cockroachdb" "cockroachdb.fullname" ) }}-public
-        port: {{ .Values.cockroachdb.service.ports.grpc.external.port }}
-        database: defaultdb
+{{/*        host: {{ include "call-nested" ( list . "cockroachdb" "cockroachdb.fullname" ) }}-public*/}}
+        host: {{ .Values.config.db.cockroach.host }}
+        port: {{ .Values.config.db.cockroach.port }}
+        database: {{ .Values.config.db.cockroach.database }}
         {{ if .Values.cockroachdb.tls.enabled }}
-        clientca: "/cockroach-certs/ca.crt"
-        clientsslkey: "/cockroach-certs/client.root.key"
-        clientsslcert: "/cockroach-certs/client.root.crt"
+        clientca: {{ .Values.config.db.cockroach.tls.clientca }}
+        clientsslkey: {{ .Values.config.db.cockroach.tls.clientsslkey }}
+        clientsslcert: {{ .Values.config.db.cockroach.tls.clientsslcert }}
         {{ else }}
-        password: ""
+        password: {{ .Values.config.db.cockroach.password }}
         {{ end }}
     
     platform:
@@ -43,3 +42,4 @@ data:
 
     jwt:
       secret: {{ $jwtSecret }}
+{{ end }}

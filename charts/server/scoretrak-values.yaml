@@ -1,8 +1,5 @@
 
 
-service:
-  port:
-
 # COCKROACHDB HELM CHART VALUES
 
 cockroachdb:
@@ -25,6 +22,9 @@ cockroachdb:
     max-offset: 1000ms
   tls:
     enabled: true
+    certs:
+      selfSigner:
+        enabled: true
 
 # NSQ HELM CHART VALUES
 
