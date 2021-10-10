@@ -20,7 +20,30 @@ global:
   scoretrak:
     create_db_client_secret: true
 
+# ENVOY HELM CHART VALUES
 
+envoy:
+  config:
+    create: false
+
+
+# SERVER HELM CHART VALUES
+
+server:
+  create: false
+  config:
+    db:
+      cockroachdb:
+        host: ""
+        port: 0
+        database: defaultdb
+        password: ""
+        tls:
+          enabled: true
+          clientca: "/cockroach-certs/ca.crt"
+          clientsslkey: "/cockroach-certs/client.root.key"
+          clientsslcert: "/cockroach-certs/client.root.crt"
+      
 
 # COCKROACHDB HELM CHART VALUES
 

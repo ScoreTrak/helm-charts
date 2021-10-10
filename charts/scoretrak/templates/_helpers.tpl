@@ -79,3 +79,11 @@ Usage:
 {{- end }}
 {{- include $template (dict "Chart" (dict "Name" (last $subchart)) "Values" $values "Release" $dot.Release "Capabilities" $dot.Capabilities) }}
 {{- end }}
+
+{{/*
+CockroachDB client secret name for all that needs it
+*/}}
+{{- define "global_db_client_secret_name" -}}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-db-client-secret" .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- end }}
