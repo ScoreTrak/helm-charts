@@ -74,6 +74,16 @@ entries:
   envoy:
   - apiVersion: v2
     appVersion: v1.19.1
+    created: "2021-10-10T22:24:21.22463008Z"
+    description: A Helm chart for Envoy Proxy
+    digest: 6eaa1b5caea87d6bf5d96d3c5184808e49b6389d002e331d68b288a57f90d9fc
+    name: envoy
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/envoy-0.2.14/envoy-0.2.14.tgz
+    version: 0.2.14
+  - apiVersion: v2
+    appVersion: v1.19.1
     created: "2021-10-10T21:48:33.435087613Z"
     description: A Helm chart for Envoy Proxy
     digest: 8b7c129f546bb22f429abbfabd891a79d515fbd7dac97f99864825d51eaeba56
@@ -669,6 +679,17 @@ entries:
   server:
   - apiVersion: v2
     appVersion: v0.2.7
+    created: "2021-10-10T22:24:21.343597751Z"
+    description: A Helm chart for ScoreTrak's server, a competition scoring engine
+      written in go.
+    digest: 1922db5e3117a815716e0564727613909963879fc6515ac16d856d221ec1c3f1
+    name: server
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.2.10/server-0.2.10.tgz
+    version: 0.2.10
+  - apiVersion: v2
+    appVersion: v0.2.7
     created: "2021-10-10T21:48:33.835748192Z"
     description: A Helm chart for ScoreTrak's server, a competition scoring engine
       written in go.
@@ -1020,4 +1041,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-10T21:48:33.836063989Z"
+generated: "2021-10-10T22:24:21.343879355Z"
