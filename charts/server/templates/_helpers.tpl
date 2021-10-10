@@ -82,7 +82,7 @@ Usage:
 
 
 {{/*
-...
+CockroachDB client secret name for all that needs it
 */}}
 {{- define "db_client_secret_name" -}}
 {{- .Release.Name | trunc 63 | trimSuffix "-" }}

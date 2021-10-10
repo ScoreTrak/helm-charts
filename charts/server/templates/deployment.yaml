@@ -73,5 +73,9 @@ spec:
           emptyDir: {}
         - name: cockroachdb-service-account
           secret:
+            {{ if .Values.config.db.cockroachdb.tls.createClientSecret }}
+            secretName: {{ include "server.fullname" . }}-client-secret
+            {{ else }}
             secretName: {{ include "db_client_secret_name" . }}
+            {{ end }}
         {{ end }}
