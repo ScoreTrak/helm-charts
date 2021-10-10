@@ -13,6 +13,8 @@ data:
       use: nsq
       nsq:
         producernsqd: {{ .Values.config.nsq.producernsqd }}
+      
+        nsqlookupd:
         {{ range .Values.config.nsq.nsqlookupd.nodes }}
           - --lookupd-tcp-address={{ . }}
         {{ end }}
@@ -29,7 +31,7 @@ data:
         host: {{ .Values.config.db.cockroachdb.host }}
         port: {{ .Values.config.db.cockroachdb.port }}
         database: {{ .Values.config.db.cockroachdb.database }}
-        {{ if .Values.cockroachdbdb.tls.enabled }}
+        {{ if .Values.config.db.cockroachdb.tls.enabled }}
         clientca: {{ .Values.config.db.cockroachdb.tls.clientca }}
         clientsslkey: {{ .Values.config.db.cockroachdb.tls.clientsslkey }}
         clientsslcert: {{ .Values.config.db.cockroachdb.tls.clientsslcert }}

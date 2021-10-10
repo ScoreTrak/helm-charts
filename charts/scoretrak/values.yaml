@@ -7,6 +7,7 @@ scoretrak:
   FQDN: scoretrak.example.com
 
 bank:
+  enabled: false
   FQDN: bank.example.com
 
 config:
@@ -30,13 +31,13 @@ envoy:
 # SERVER HELM CHART VALUES
 
 server:
-  create: false
   config:
+    create: false
+    nsq:
+      use: true
     db:
       cockroachdb:
-        host: ""
-        port: 0
-        database: defaultdb
+        database: scoretrak
         password: ""
         tls:
           enabled: true
@@ -48,8 +49,6 @@ server:
 # COCKROACHDB HELM CHART VALUES
 
 cockroachdb:
-  # -- Specifies whether to create a cockroachdb instance
-  create: true
   statefulset:
     replicas: 3
     resources:
@@ -74,9 +73,9 @@ cockroachdb:
     provisioning:
       enabled: true
       databases:
-        - scoretrak
-        - bank
-        - payments
+        - name: scoretrak
+        - name: bank
+        - name: payments
 
 # NSQ HELM CHART VALUES
 nsq:

@@ -3,9 +3,9 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: {{ include "call-nested" ( list . "server" "server.fullname" ) . }}
+  name: {{ include "call-nested" ( list . "server" "server.fullname" ) }}
   labels:
-  {{- include "call-nested" ( list . "server" "server.labels" ) . | nindent 4 }}
+  {{ include "scoretrak.labels" . | nindent 4 }}
 data:
   config.yaml: |-
     {{ if .Values.server.config.nsq.use }}
@@ -14,6 +14,8 @@ data:
       nsq:
         {{ $nsqdFullName := include "call-nested" ( list . "nsq" "nsq.nsqd.fullname" ) }}
         producernsqd: "{{ $nsqdFullName }}:4150"
+        
+        nsqlookupd:
         {{ $lookupdFullName := include "call-nested" ( list . "nsq" "nsq.nsqlookupd.fullname" ) }}
         {{ range $i, $e := until (atoi (printf "%d" (int64 .Values.nsq.nsqlookupd.replicaCount))) -}}
           - --lookupd-tcp-address={{ $lookupdFullName }}-{{ $i }}.{{ $lookupdFullName }}:4160
@@ -29,14 +31,14 @@ data:
     db:
       cockroach:
         host: {{ include "call-nested" ( list . "cockroachdb" "cockroachdb.fullname" ) }}-public
-        port: {{ .Values.server.config.db.cockroach.port }}
-        database: {{ .Values.server.config.db.cockroach.database }}
+        port: {{ .Values.cockroachdb.service.ports.grpc.external.port }}
+        database: {{ .Values.server.config.db.cockroachdb.database }}
     {{ if .Values.cockroachdb.tls.enabled }}
-        clientca: {{ .Values.server.config.db.cockroach.tls.clientca }}
-        clientsslkey: {{ .Values.server.config.db.cockroach.tls.clientsslkey }}
-        clientsslcert: {{ .Values.server.config.db.cockroach.tls.clientsslcert }}
+        clientca: {{ .Values.server.config.db.cockroachdb.tls.clientca }}
+        clientsslkey: {{ .Values.server.config.db.cockroachdb.tls.clientsslkey }}
+        clientsslcert: {{ .Values.server.config.db.cockroachdb.tls.clientsslcert }}
     {{ else }}
-        password: {{ .Values.server.config.db.cockroach.password }}
+        password: {{ .Values.server.config.db.cockroachdb.password }}
     {{ end }}
 
     platform:

@@ -28,7 +28,7 @@ dependencies:
     version: "0.2.7"
     repository: "file://../client"
   - name: cockroachdb
-    version: "6.0.9"
+    version: "6.2.4"
     repository: "https://charts.cockroachdb.com/"
   - name: nsq
     version: "1.2.0"
