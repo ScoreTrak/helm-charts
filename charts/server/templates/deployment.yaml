@@ -58,7 +58,7 @@ spec:
           volumeMounts:
             - name: scoretrak-config
               mountPath: /scoretrak
-            {{ if .Values.cockroachdb.tls.enabled }}
+            {{ if .Values.config.db.cockroachdb.tls.enabled }}
             - name: client-certs
               mountPath: /cockroach-certs
             {{ end }}
