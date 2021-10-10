@@ -7,8 +7,8 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.http.externalPort }}
-      targetPort: {{ .Values.service.http.internalPort }}
+    - port: {{ .Values.service.port }}
+      targetPort: http
       name: http
   selector:
     {{- include "client.selectorLabels" . | nindent 4 }}
