@@ -1,4 +1,4 @@
-{{ if not .Values.config.existingConfig }}
+{{ if .Values.config.create }}
 apiVersion: v1
 kind: ConfigMap
 metadata:

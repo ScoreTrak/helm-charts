@@ -75,6 +75,7 @@ tolerations: []
 affinity: {}
 
 config:
+  # Decide if this chart should create the config or a parent chart should create it  
+  create: true
+  # value of config.yaml for envoy if this chart will make it
   value: ""
-  # Existing Configmap for Envoy
-  exisingConfig: ""
