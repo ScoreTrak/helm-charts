@@ -68,7 +68,7 @@ spec:
         - name: scoretrak-config
           configMap:
             name: {{ include "server.fullname" . }}
-        {{ if .Values.config.cockroachdb.tls.enabled }}
+        {{ if .Values.config.db.cockroachdb.tls.enabled }}
         - name: client-certs
           emptyDir: {}
         - name: cockroachdb-service-account
