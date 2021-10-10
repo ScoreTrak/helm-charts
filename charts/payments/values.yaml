@@ -2,10 +2,10 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
+schedule: "*/10 * * * *"
 
 image:
-  repository: nginx
+  repository: ghcr.io/scoretrak/lockdown-payments/lockdown-payments
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
