@@ -73,3 +73,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+config:
+  yaml: ""
+  # Existing Configmap for Envoy
+  exisingConfig: ""

@@ -1,3 +1,4 @@
+{{ if not .Values.config.existingConfig }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -5,6 +6,7 @@ metadata:
   labels:
   {{- include "envoy.labels" . | nindent 4 }}
 data:
-  envoy.yaml: |-
-    {{ tpl .Values.config }}
+  envoy.yaml: |
+    {{- .Values.config.yaml | nindent 4 }}
+{{ end }}
  
