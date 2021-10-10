@@ -59,7 +59,7 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: {{ default .Values.config.exisingConfig ( include "envoy.fullname" . ) }}
+            name: {{ .Values.config.exisingConfig | default ( include "envoy.fullname" . ) }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
