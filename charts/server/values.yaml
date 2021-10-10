@@ -44,9 +44,6 @@ service:
 # -- Resource requests and limits for Deployment Pods
 resources: {}
 
-clusterrole:
-  create: false
-
 config:
   # Decide if this chart should create the config yaml for scoretrak server or a parent chart should create it
   create: true
