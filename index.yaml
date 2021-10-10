@@ -3,6 +3,16 @@ entries:
   client:
   - apiVersion: v2
     appVersion: v0.2.2
+    created: "2021-10-10T21:48:33.241641803Z"
+    description: A Helm chart for ScoreTrak's client
+    digest: ab8fe17306c22ab8bdfeae7d9eb9b340f7c4870134e64eeed9fa3ea70efebed5
+    name: client
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/client-0.2.7/client-0.2.7.tgz
+    version: 0.2.7
+  - apiVersion: v2
+    appVersion: v0.2.2
     created: "2021-10-01T19:28:18.702833416Z"
     description: A Helm chart for ScoreTrak's client
     digest: 91d5da055d47c6ad7338e746092c66b58adfc6997926f291226059e9396c107b
@@ -62,6 +72,16 @@ entries:
     - https://github.com/ScoreTrak/helm-charts/releases/download/client-0.1.0/client-0.1.0.tgz
     version: 0.1.0
   envoy:
+  - apiVersion: v2
+    appVersion: v1.19.1
+    created: "2021-10-10T21:48:33.435087613Z"
+    description: A Helm chart for Envoy Proxy
+    digest: 8b7c129f546bb22f429abbfabd891a79d515fbd7dac97f99864825d51eaeba56
+    name: envoy
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/envoy-0.2.11/envoy-0.2.11.tgz
+    version: 0.2.11
   - apiVersion: v2
     appVersion: v1.19.1
     created: "2021-10-06T22:15:28.091472695Z"
@@ -619,7 +639,45 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/nsqlookupd-0.1.0/nsqlookupd-0.1.0.tgz
     version: 0.1.0
+  scoretrak:
+  - apiVersion: v2
+    created: "2021-10-10T21:48:33.646596538Z"
+    dependencies:
+    - name: envoy
+      repository: https://scoretrak.github.io/helm-charts
+      version: 0.2.9
+    - name: server
+      repository: https://scoretrak.github.io/helm-charts
+      version: 0.2.8
+    - name: client
+      repository: https://scoretrak.github.io/helm-charts
+      version: 0.2.4
+    - name: cockroachdb
+      repository: https://charts.cockroachdb.com/
+      version: 6.0.1
+    - condition: nsq.use
+      name: nsq
+      repository: https://beeinventor.github.io/charts
+      version: 1.2.0
+    description: A Helm chart for Scoretrak
+    digest: b79f54c766fc9d9ee0f1e7e3cf28553b536fcac825be2844b1b30860470f276d
+    name: scoretrak
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/scoretrak-0.1.0/scoretrak-0.1.0.tgz
+    version: 0.1.0
   server:
+  - apiVersion: v2
+    appVersion: v0.2.7
+    created: "2021-10-10T21:48:33.835748192Z"
+    description: A Helm chart for ScoreTrak's server, a competition scoring engine
+      written in go.
+    digest: 7c24df9a9ed65a6e01c1bf5705941c653b26a727e16c30c8795c2f36185bc9d6
+    name: server
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.2.9/server-0.2.9.tgz
+    version: 0.2.9
   - apiVersion: v2
     appVersion: v0.2.7
     created: "2021-10-01T17:37:34.952604985Z"
@@ -962,4 +1020,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-06T22:15:28.091949201Z"
+generated: "2021-10-10T21:48:33.836063989Z"
