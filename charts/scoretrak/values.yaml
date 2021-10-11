@@ -68,7 +68,7 @@ cockroachdb:
     enabled: true
     certs:
       selfSigner: 
-        enabled: true
+        enabled: false
   init:
     provisioning:
       enabled: true
