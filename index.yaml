@@ -1,5 +1,23 @@
 apiVersion: v1
 entries:
+  bank:
+  - apiVersion: v2
+    appVersion: v0.2.2
+    created: "2021-10-11T23:34:38.372470765Z"
+    dependencies:
+    - name: commerce-backend
+      repository: file://../commerce-backend
+      version: 0.1.0
+    - name: commerce-ui
+      repository: file://../commerce-ui
+      version: 0.1.0
+    description: A Helm chart for Kubernetes
+    digest: 0955e42efbe0848f0647b63e16cde31f135cf253aaef74b0673da0db8fe581d1
+    name: bank
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/bank-0.1.0/bank-0.1.0.tgz
+    version: 0.1.0
   client:
   - apiVersion: v2
     appVersion: v0.2.2
@@ -71,6 +89,17 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/client-0.1.0/client-0.1.0.tgz
     version: 0.1.0
+  commerce-backend:
+  - apiVersion: v2
+    appVersion: v0.2.3
+    created: "2021-10-11T23:34:38.538051857Z"
+    description: A Helm chart for Scoretrak Bank Backend
+    digest: da6877ebb13f804f9cb17a2970eb18626e271145eddce46596ef22d6db5f8f2a
+    name: commerce-backend
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/commerce-backend-0.1.1/commerce-backend-0.1.1.tgz
+    version: 0.1.1
   commerce-ui:
   - apiVersion: v2
     appVersion: v0.2.1
@@ -1200,4 +1229,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-11T23:24:34.494714549Z"
+generated: "2021-10-11T23:34:38.538594769Z"
