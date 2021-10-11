@@ -7,12 +7,12 @@ dependencies:
   version: 0.2.18
 - name: client
   repository: file://../client
-  version: 0.2.7
+  version: 0.2.8
 - name: cockroachdb
   repository: https://charts.cockroachdb.com/
   version: 6.2.4
 - name: nsq
   repository: https://beeinventor.github.io/charts
   version: 1.2.0
-digest: sha256:4018a11a69bcb85b38dd69c78f01b4cfc595d31d58597caacceb83aac32d3fac
-generated: "2021-10-10T21:33:19.367894762-04:00"
+digest: sha256:ab33e960ef12a0baf54fc4ca4b59fa5295fed2e064d9871a53a5dfd44c320872
+generated: "2021-10-11T11:20:41.582851365-04:00"

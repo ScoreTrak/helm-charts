@@ -48,7 +48,7 @@ service:
 resources: {}
 
 config:
-  production: false
+  production: true
   create: true
   nsq:
     use: false
