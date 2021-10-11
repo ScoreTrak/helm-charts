@@ -1,3 +1,4 @@
+{{ if .Values.config.create }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -24,26 +25,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "server.serviceAccountName" . }}
-      initContainers:
-        {{ if .Values.config.db.cockroachdb.tls.enabled }}
-        - name: init-certs
-          image: cockroachdb/cockroach-k8s-request-cert:0.4
-          imagePullPolicy: IfNotPresent
-          command:
-          - "/bin/ash"
-          - "-ecx"
-          - "/request-cert -namespace=${POD_NAMESPACE} -certs-dir=/cockroach-certs -type=client -user=root -symlink-ca-from=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-          env:
-          - name: POD_NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-          volumeMounts:
-          - name: client-certs
-            mountPath: /cockroach-certs
-          - name: cockroachdb-service-account
-            mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        {{ end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -70,12 +51,7 @@ spec:
             name: {{ include "server.fullname" . }}
         {{ if .Values.config.db.cockroachdb.tls.enabled }}
         - name: client-certs
-          emptyDir: {}
-        - name: cockroachdb-service-account
           secret:
-            {{ if .Values.global.scoretrak.create_db_client_secret }}
-            secretName: {{ include "global_db_client_secret_name" . }}
-            {{ else }}
-            secretName: {{ include "server.fullname" . }}-client-secret
-            {{ end }}
+            secretName: {{ .Values.cockroachdb.clientCertSecretName }}
         {{ end }}
+  {{end}}

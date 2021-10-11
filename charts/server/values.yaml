@@ -32,6 +32,9 @@ serviceAccount:
 # -- Additional annotations for StatefulSet Pods
 podAnnotations: {}
 
+cockroachdb:
+  clientCertSecretName: ""
+
 service:
   # -- Service type for server service
   type: ClusterIP
@@ -62,5 +65,5 @@ config:
       tls:
         enabled: true
         clientca: "/cockroach-certs/ca.crt"
-        clientsslkey: "/cockroach-certs/client.root.key"
-        clientsslcert: "/cockroach-certs/client.root.crt"
+        clientsslkey: "/cockroach-certs/tls.key"
+        clientsslcert: "/cockroach-certs/tls.crt"

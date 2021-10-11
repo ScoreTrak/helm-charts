@@ -1,0 +1,57 @@
+{{ if not .Values.server.config.create }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "server.fullname" . }}
+  labels:
+  {{- include "server.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.server.replicaCount }}
+  selector:
+    matchLabels:
+  {{- include "server.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.server.podAnnotations }}
+      annotations:
+        checksum/config: {{ include (print $.Template.Basepath "/configmap.yaml") . | sha256sum }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+    {{- include "server.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.server.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "scoretrak.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
+          command:
+            - ./master
+            - -config
+            - /scoretrak/config.yaml
+          ports:
+            - name: grpc
+              containerPort: {{ .Values.server.service.grpc.port }}
+          volumeMounts:
+            - name: scoretrak-config
+              mountPath: /scoretrak
+            {{ if .Values.server.config.db.cockroachdb.tls.enabled }}
+            - name: client-certs
+              mountPath: /cockroach-certs
+          {{ end }}
+          resources:
+      {{- toYaml .Values.server.resources | nindent 12 }}
+      volumes:
+        - name: scoretrak-config
+          configMap:
+            name: {{ include "server.fullname" . }}
+        {{ if .Values.server.config.db.cockroachdb.tls.enabled }}
+        - name: client-certs
+          secret:
+            secretName: {{ include "call-nested" ( list . "cockroachdb" "cockroachdb.fullname" ) }}-client-secret
+  {{ end }}
+{{ end }}

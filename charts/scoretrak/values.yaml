@@ -42,8 +42,8 @@ server:
         tls:
           enabled: true
           clientca: "/cockroach-certs/ca.crt"
-          clientsslkey: "/cockroach-certs/client.root.key"
-          clientsslcert: "/cockroach-certs/client.root.crt"
+          clientsslkey: "/cockroach-certs/tls.key"
+          clientsslcert: "/cockroach-certs/tls.crt"
       
 
 # COCKROACHDB HELM CHART VALUES
@@ -66,9 +66,7 @@ cockroachdb:
     max-offset: 1000ms
   tls:
     enabled: true
-    certs:
-      selfSigner: 
-        enabled: false
+    
   init:
     provisioning:
       enabled: true

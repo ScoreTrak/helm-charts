@@ -54,10 +54,10 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Create the name of the service account to use
 */}}
 {{- define "scoretrak.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "scoretrak.fullname" .) .Values.serviceAccount.name }}
+{{- if .Values.server.serviceAccount.create }}
+{{- default (include "scoretrak.fullname" .) .Values.server.serviceAccount.name }}
 {{- else }}
-{{- default "default" .Values.serviceAccount.name }}
+{{- default "default" .Values.server.serviceAccount.name }}
 {{- end }}
 {{- end }}
 
@@ -84,6 +84,5 @@ Usage:
 CockroachDB client secret name for all that needs it
 */}}
 {{- define "global_db_client_secret_name" -}}
-{{- .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- printf "%s-db-client-secret" .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- end }}
