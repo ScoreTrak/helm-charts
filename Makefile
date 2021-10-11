@@ -6,6 +6,7 @@ start-dev: kind
 	kind create cluster --config ./ha-cluster.yaml
 
 apply-scoretrak:
+	helm dep update ./charts/scoretrak
 	@echo "========================================"
 	@echo "Please wait for ScoreTrak to be deployed"
 	@echo "========================================"
