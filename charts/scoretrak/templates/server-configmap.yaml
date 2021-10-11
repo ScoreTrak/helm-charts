@@ -18,7 +18,7 @@ data:
         nsqlookupd:
         {{ $lookupdFullName := include "call-nested" ( list . "nsq" "nsq.nsqlookupd.fullname" ) }}
         {{ range $i, $e := until (atoi (printf "%d" (int64 .Values.nsq.nsqlookupd.replicaCount))) -}}
-          - --lookupd-tcp-address={{ $lookupdFullName }}-{{ $i }}.{{ $lookupdFullName }}:4160
+          - {{ $lookupdFullName }}-{{ $i }}.{{ $lookupdFullName }}:4160
         {{ end -}}
     {{ else }}
     queue:

@@ -16,7 +16,7 @@ data:
       
         nsqlookupd:
         {{ range .Values.config.nsq.nsqlookupd.nodes }}
-          - --lookupd-tcp-address={{ . }}
+          - {{ . }}
         {{ end }}
     {{ else }}
     queue:
