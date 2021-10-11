@@ -750,6 +750,17 @@ entries:
   server:
   - apiVersion: v2
     appVersion: v0.2.7
+    created: "2021-10-11T23:24:34.494302544Z"
+    description: A Helm chart for ScoreTrak's server, a competition scoring engine
+      written in go.
+    digest: ca1dba49608635066f5c82c1494ae60875728e444bcd975ad5a865fd6c85f802
+    name: server
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.2.19/server-0.2.19.tgz
+    version: 0.2.19
+  - apiVersion: v2
+    appVersion: v0.2.7
     created: "2021-10-10T23:58:00.203637839Z"
     description: A Helm chart for ScoreTrak's server, a competition scoring engine
       written in go.
@@ -1189,4 +1200,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-11T23:02:21.934092262Z"
+generated: "2021-10-11T23:24:34.494714549Z"
