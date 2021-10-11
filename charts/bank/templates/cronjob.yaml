@@ -1,0 +1,64 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "bank.fullname" . }}
+  labels:
+  {{- include "bank.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.schedule }}
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          {{- with .Values.podAnnotations }}
+          annotations:
+          {{- toYaml . | nindent 8 }}
+          {{- end }}
+          labels:
+        {{- include "bank.selectorLabels" . | nindent 8 }}
+        spec:
+          {{- with .Values.imagePullSecrets }}
+          imagePullSecrets:
+          {{- toYaml . | nindent 8 }}
+          {{- end }}
+          serviceAccountName: {{ include "bank.serviceAccountName" . }}
+          securityContext:
+          {{- toYaml .Values.podSecurityContext | nindent 8 }}
+          containers:
+            - name: {{ .Chart.Name }}
+              securityContext:
+              {{- toYaml .Values.securityContext | nindent 12 }}
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              command:
+                - ./payer
+                - --config
+                - /etc/payments/config.yml
+              volumeMounts:
+                - name: config
+                  mountPath: /etc/payments/
+                - name: client-certs
+                  mountPath: /cockroach-certs
+              resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+          volumes:
+            - name: config
+              configMap:
+                name: {{ include "bank.fullname" . }}
+                optional: false
+            - name: cockroach-client-secret
+              secret:
+                secretName: {{ include "global_db_client_secret_name" . }}
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+          {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.affinity }}
+          affinity:
+          {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with .Values.tolerations }}
+          tolerations:
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+          restartPolicy: OnFailure

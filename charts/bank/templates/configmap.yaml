@@ -1,0 +1,26 @@
+{{ if not .Values.config.existingSecret }}
+{{ $password := randAlphaNum 18 }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "bank.fullname" . }}
+  labels:
+  {{- include "bank.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+    bankusername: {{ .Values.config.bank.username }}
+    bankpassword: {{ .Values.config.bank.password }}
+    bankbaseurl: {{ .Values.config.bank.url }}
+    scoretrakusername: {{ .Values.config.scoretrak.username }}
+    scoretrakpassword: {{ .Values.config.scoretrak.password }}
+    scoretrakaddress: {{ .Values.config.scoretrak.host }}
+    db:
+      cockroach:
+        host: {{ .Values.config.cockroachdb.db_host }}
+        password: {{ .Values.config.cockroachdb.db_password | default $password }}
+        clientca: {{ .Values.config.cockroachdb.clientca }}
+        clientsslkey: {{ .Values.config.cockroachdb.clientsslkey }}
+        clientsslcert: {{ .Values.config.cockroachdb.clientsslcert }}
+        database: payments
+  {{ end }}
+  
