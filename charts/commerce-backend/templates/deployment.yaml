@@ -1,0 +1,126 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "commerce-backend.fullname" . }}
+  labels:
+    {{- include "commerce-backend.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "commerce-backend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "commerce-backend.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "commerce-backend.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+{{/*        - name: change-cert-perms*/}}
+{{/*          image: cockroachdb/cockroach-k8s-request-cert:0.4*/}}
+{{/*          imagePullPolicy: IfNotPresent*/}}
+{{/*          command:*/}}
+{{/*            - "/bin/bash"*/}}
+{{/*            - "-ecx"*/}}
+{{/*            - "chown 1234:1234 /cockroach-certs/client.root.key /cockroach-certs/client.root.crt"*/}}
+{{/*          env:*/}}
+{{/*            - name: POD_NAMESPACE*/}}
+{{/*              valueFrom:*/}}
+{{/*                fieldRef:*/}}
+{{/*                  fieldPath: metadata.namespace*/}}
+{{/*          volumeMounts:*/}}
+{{/*            - name: client-certs*/}}
+{{/*              mountPath: /cockroach-certs*/}}
+
+        - name: start db migration
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: IfNotPresent
+          command:
+            - "/bin/bash"
+            - "-c"
+            - "python manage.py migrate"
+          envFrom:
+            - secretRef:
+                name: {{ include "commerce-backend.fullname" . }}
+                optional: false
+          volumeMounts:
+            - name: cockroachdb-client-secret
+              mountPath: /cockroach-certs
+
+        - name: create superuser
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: IfNotPresent
+          command:
+            - "bash"
+            - "-c"
+            - "python manage.py createsuperuser --noinput"
+          envFrom:
+            - secretRef:
+                name: {{ include "commerce-backend.fullname" . }}
+                optional: false
+            - secretRef:
+                name: {{ include "commerce-backend.fullname" . }}-django
+                optional: false
+          volumeMounts:
+            - name: cockroachdb-client-secret
+              mountPath: /cockroach-certs
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            -  /bin/bash
+            - -c
+            - sleep 20; daphne -b 0.0.0.0 -p 80 ldfinance.asgi:application #For some reason sleeping is required, otherwise we get: Is the server running on host "scoretrak-cockroachdb-public" (10.233.16.67) and accepting TCP/IP connections on port 26257?
+          envFrom:
+            - secretRef:
+                name: {{ include "commerce-backend.fullname" . }}
+                optional: false
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: client-certs
+          emptyDir: {}
+        - name: cockroachdb-client-secret
+          secret:
+            {{ if .Values.global.scoretrak.create_db_client_secret }}
+            secretName: {{ include "global_db_client_secret_name" . }}
+            {{ else }}
+            secretName: {{ include "commerce-backend.fullname" . }}-client-secret
+      {{ end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
