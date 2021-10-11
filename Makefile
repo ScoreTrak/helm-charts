@@ -20,7 +20,5 @@ reapply-scoretrak:
 
 dry-run-scoretrak:
 	helm upgrade --timeout 600s --install release ./charts/scoretrak --dry-run
-stop-dev: kind
-	kind delete cluster || true
 
 dev: stop-dev start-dev apply-scoretrak

@@ -4,7 +4,7 @@
 
 
 scoretrak:
-  FQDN: scoretrak.example.com
+  FQDN: "*"
 
 bank:
   enabled: false

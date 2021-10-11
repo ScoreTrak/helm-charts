@@ -71,11 +71,11 @@ data:
                       prefix: "/"
                     route:
                       cluster: commerce_ui
+{{ end }}
               http_filters:
                 - name: envoy.filters.http.grpc_web
                 - name: envoy.filters.http.cors
                 - name: envoy.filters.http.router
-{{ end }}
       clusters:
         - name: scoretrak-server
           connect_timeout: 0.25s

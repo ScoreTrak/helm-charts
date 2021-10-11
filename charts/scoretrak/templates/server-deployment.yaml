@@ -24,7 +24,7 @@ spec:
       imagePullSecrets:
       {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "scoretrak.serviceAccountName" . }}
+      serviceAccountName: {{ .Values.server.serviceAccount.name }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag | default .Chart.AppVersion }}"
@@ -48,7 +48,7 @@ spec:
       volumes:
         - name: scoretrak-config
           configMap:
-            name: {{ include "server.fullname" . }}
+            name: {{ include "call-nested" ( list . "server" "server.fullname" ) }}
         {{ if .Values.server.config.db.cockroachdb.tls.enabled }}
         - name: client-certs
           secret:
