@@ -5,30 +5,23 @@
 
 scoretrak:
   FQDN: "*"
+  bank:
+    enabled: false
+    FQDN: bank.example.com
 
-bank:
-  enabled: false
-  FQDN: bank.example.com
 
 config:
   db_names:
     - scoretrak
 
-
-# GLOBAL HELM CHART VALUES
-
-global:
-  scoretrak:
-    create_db_client_secret: true
-
-# ENVOY HELM CHART VALUES
+# ENVOY SUB HELM CHART VALUES
 
 envoy:
   config:
     create: false
 
 
-# SERVER HELM CHART VALUES
+# SERVER SUB HELM CHART VALUES
 
 server:
   config:
@@ -41,12 +34,23 @@ server:
         password: ""
         tls:
           enabled: true
-          clientca: "/cockroach-certs/ca.crt"
-          clientsslkey: "/cockroach-certs/tls.key"
-          clientsslcert: "/cockroach-certs/tls.crt"
-      
 
-# COCKROACHDB HELM CHART VALUES
+# BANK SUB HELM CHART VALUES
+
+bank:
+
+# COMMERCE BACKEND SUB SUB HELM CHART VALUES
+  commerce-backend:
+ 
+# COMMERCE UI SUB SUB HELM CHART VALUES
+  commerce-ui: 
+    
+payments:
+  admin:
+    username: payments
+ 
+
+# COCKROACHDB SUB HELM CHART VALUES
 
 cockroachdb:
   statefulset:
@@ -75,7 +79,7 @@ cockroachdb:
         - name: bank
         - name: payments
 
-# NSQ HELM CHART VALUES
+# NSQ SUB HELM CHART VALUES
 nsq:
   use: true
   nsqd:

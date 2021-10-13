@@ -7,6 +7,7 @@ metadata:
   labels:
   {{ include "scoretrak.labels" . | nindent 4 }}
 data:
+  scoretrak-password
   config.yaml: |-
     {{ if .Values.server.config.nsq.use }}
     queue:
@@ -34,9 +35,9 @@ data:
         port: {{ .Values.cockroachdb.service.ports.grpc.external.port }}
         database: {{ .Values.server.config.db.cockroachdb.database }}
     {{ if .Values.cockroachdb.tls.enabled }}
-        clientca: {{ .Values.server.config.db.cockroachdb.tls.clientca }}
-        clientsslkey: {{ .Values.server.config.db.cockroachdb.tls.clientsslkey }}
-        clientsslcert: {{ .Values.server.config.db.cockroachdb.tls.clientsslcert }}
+        clientca: "/cockroach-certs/ca.crt"
+        clientsslkey: "/cockroach-certs/tls.key"
+        clientsslcert: "/cockroach-certs/tls.crt"
     {{ else }}
         password: {{ .Values.server.config.db.cockroachdb.password }}
     {{ end }}

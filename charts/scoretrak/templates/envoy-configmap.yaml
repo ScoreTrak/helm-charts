@@ -51,9 +51,9 @@ data:
                     allow_headers: keep-alive,user-agent,cache-control,content-type,content-transfer-encoding,custom-header-1,x-accept-content-transfer-encoding,x-accept-response-streaming,x-user-agent,x-grpc-web,grpc-timeout,authorization
                     max_age: "1728000"
                     expose_headers: custom-header-1,grpc-status,grpc-message
-{{ if .Values.bank.enabled }}
+{{ if .Values.scoretrak.bank.enabled }}
                 - name: bank_service
-                  domains: ["{{ .Values.bank.FQDN }}"]
+                  domains: ["{{ .Values.scoretrak.bank.FQDN }}"]
                   routes:
                   - match:
                       prefix: "/admin"
@@ -105,7 +105,7 @@ data:
                         socket_address:
                           address: {{ include "call-nested" ( list . "client" "client.fullname" ) }}
                           port_value: {{ .Values.client.service.port }}
-{{ if .Values.bank.enabled }}
+{{ if .Values.scoretrak.bank.enabled }}
         - name: commerce_ui
           connect_timeout: 0.25s
           type: logical_dns

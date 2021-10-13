@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-bank-user
+spec:
+  template:
+    spec:
+      containers:
+        - name: create-bank-user
+          image: ghcr.io/scoretrak/scoretrak/scoretrak-server:v0.2.11
+          command:
+            - ./cli
+            - create-super-user 
+            - --admin-name
+            - {{ .Values.server.config.admin.username }} 
+            - --admin-password
+            - {{ .Values.server.config.admin.password }}
+            - --new-user-name 
+            - {{ .Values.payments.admin.username }} 
+            - --new-user-password 
+            - {{ .Values.payments.admin.password }}
+            - --address 
+            - {{ include "call-nested" (list . "server" "server.fullname") }}
+      restartPolicy: Never
+  backoffLimit: 10

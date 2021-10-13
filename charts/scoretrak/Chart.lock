@@ -4,15 +4,18 @@ dependencies:
   version: 0.2.15
 - name: server
   repository: file://../server
-  version: 0.2.18
+  version: 0.2.21
 - name: client
   repository: file://../client
   version: 0.2.8
+- name: bank
+  repository: file://../bank
+  version: 0.1.0
 - name: cockroachdb
   repository: https://charts.cockroachdb.com/
   version: 6.2.4
 - name: nsq
   repository: https://beeinventor.github.io/charts
   version: 1.2.0
-digest: sha256:ab33e960ef12a0baf54fc4ca4b59fa5295fed2e064d9871a53a5dfd44c320872
-generated: "2021-10-11T11:20:41.582851365-04:00"
+digest: sha256:04c112bacc09f5ffe6f2cce75f720d6193707ca63a128faab4281138d1d318bd
+generated: "2021-10-13T00:26:27.681992-04:00"

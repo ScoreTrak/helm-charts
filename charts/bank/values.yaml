@@ -82,6 +82,7 @@ tolerations: []
 affinity: {}
 
 config:
+  create: true
   bank:
     username: ""
     password: ""

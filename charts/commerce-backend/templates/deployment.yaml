@@ -107,11 +107,7 @@ spec:
           emptyDir: {}
         - name: cockroachdb-client-secret
           secret:
-            {{ if .Values.global.scoretrak.create_db_client_secret }}
             secretName: {{ include "global_db_client_secret_name" . }}
-            {{ else }}
-            secretName: {{ include "commerce-backend.fullname" . }}-client-secret
-      {{ end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
