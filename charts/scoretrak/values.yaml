@@ -40,7 +40,8 @@ server:
 # BANK SUB HELM CHART VALUES
 
 bank:
-
+  admin:
+    username: bank
 # COMMERCE BACKEND SUB SUB HELM CHART VALUES
   commerce-backend:
  

@@ -27,9 +27,9 @@ dependencies:
   - name: client
     version: "0.2.8"
     repository: "file://../client"
-  - name: bank
+  - name: payments
     version: "0.1.0"
-    repository: "file://../bank"
+    repository: "file://../payments"
   - name: cockroachdb
     version: "6.2.4"
     repository: "https://charts.cockroachdb.com/"

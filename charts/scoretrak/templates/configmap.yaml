@@ -8,12 +8,17 @@ metadata:
   labels:
   {{- include "scoretrak.labels" . | nindent 4 }}
 data:
-  {{/*  SCORETRAK_USER:*/}}
+  {{ if .Release.IsInstall }}
   SCORETRAK_PASS: {{ $scoretrakAdminPassword }}
-  {{/*  BANK_USERN: */}}
   BANK_PASS: {{ $bankAdminPassword }}
-  {{/*  PAYMENTS_USER: */}}
-  PAYMENTS_PASS: {{ $paymentAdminPassword}}
+  PAYMENTS_PASS: {{ $paymentAdminPassword }}
+  {{ else }}
+  SCORETRAK_PASS: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "SCORETRAK_PASS"  }}
+  BANK_PASS: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "BANK_PASS"  }}
+  PAYMENTS_PASS: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "PAYMENTS_PASS"  }}
+  {{ end }}
+
+  
 
 ---
 
@@ -32,18 +37,26 @@ spec:
     spec:
       containers:
         - name: create-bank-user
-          image: ghcr.io/scoretrak/scoretrak/scoretrak-server:v0.2.11
+          image:  #ghcr.io/scoretrak/scoretrak/scoretrak-server:v0.2.11 
           command:
             - ./cli
             - create-super-user
             - --admin-name
             - {{ .Values.server.config.admin.username }}
             - --admin-password
+            {{ if .Release.IsInstall }}
             - {{ $scoretrakAdminPassword }}
+            {{ else }}
+            - {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "SCORETRAK_PASS"  }}
+            {{ end }}
             - --new-user-name
             - {{ .Values.payments.admin.username }}
             - --new-user-password
+            {{ if .Release.IsInstall }}
             - {{ $paymentAdminPassword }}
+            {{ else }}
+            - {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "PAYMENTS_PASS"  }}
+            {{ end }}
             - --address
             - {{ include "call-nested" (list . "server" "server.fullname") }}
       restartPolicy: Never
@@ -60,8 +73,8 @@ metadata:
   {{- include "scoretrak.labels" . | nindent 4 }}
 data:
   config.yaml: |
-    bankusername: {{ .Values.config.bank.username }}
-    scoretrakusername: {{ .Values.config.scoretrak.username }}
+    bankusername: {{ .Values.bank.admin.username }}
+    scoretrakusername: {{ .Values.payments.admin.username }}
     bankbaseurl: {{ include "call-nested" ( list . "bank" "bank.fullname" ) }}
     scoretrakaddress: {{ include "call-nested" ( list . "server" "server.fullname" ) }}
     {{ if .Release.IsInstall }}
