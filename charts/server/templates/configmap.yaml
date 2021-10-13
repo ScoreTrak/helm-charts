@@ -26,6 +26,9 @@ data:
     port: {{ .Values.service.grpc.port }}
     production: {{ .Values.config.production }}
     
+    adminusername: {{ .Values.config.admin.username }}
+    adminpassword: {{ .Values.config.admin.password }}
+    
     db:
       cockroach:
         host: {{ .Values.config.db.cockroachdb.host }}
