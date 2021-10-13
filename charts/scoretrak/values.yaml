@@ -25,6 +25,8 @@ envoy:
 
 server:
   config:
+    admin:
+      username: "admin"
     create: false
     nsq:
       use: true

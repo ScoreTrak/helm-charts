@@ -25,8 +25,15 @@ data:
     queue:
       use: none
     {{ end }}
-
-    port: {{ .Values.server.service.grpc.port }}
+    
+    adminusername: {{ .Values.server.config.admin.username }}
+    {{ if .Release.IsInstall }}
+    adminpassword: {{ .Values.server.config.admin.password }}
+    {{ else }}
+    adminpassword: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "SCORETRAK_PASS"  }}
+    {{ end }}
+    
+    port: 380
     production: {{ .Values.server.config.production }}
 
     db:
