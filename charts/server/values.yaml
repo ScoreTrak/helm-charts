@@ -11,7 +11,7 @@ image:
   # -- Container image name
   pullPolicy: IfNotPresent
   # -- Container image tag
-  tag: "v0.2.7"
+  tag: ""
 
 # -- Secrets to pull container image
 imagePullSecrets: []
@@ -27,28 +27,39 @@ serviceAccount:
   annotations: {}
   # -- The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: "master"
+  name: ""
 
 # -- Additional annotations for StatefulSet Pods
 podAnnotations: {}
 
-cockroachdb:
-  clientCertSecretName: ""
+podSecurityContext: {}
+# fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+# runAsUser: 1000
 
 service:
   # -- Service type for server service
   type: ClusterIP
-  grpc:
-    # -- grpc port to expose for Service
-    port: 380
-    # -- External grpc port to expose for Service
-    externalPort: 380
+  port: 380
 
 # -- Resource requests and limits for Deployment Pods
 resources: {}
 
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+
 config:
-  production: true
+  production: false
   create: true
   nsq:
     use: false
@@ -56,6 +67,9 @@ config:
     nsqlookupd:
       nodes:
         - ""
+  admin:
+    username: "admin"
+    password: "changeme"
   db:
     cockroachdb:
       host: ""
@@ -64,6 +78,3 @@ config:
       password: ""
       tls:
         enabled: true
-        clientca: "/cockroach-certs/ca.crt"
-        clientsslkey: "/cockroach-certs/tls.key"
-        clientsslcert: "/cockroach-certs/tls.crt"

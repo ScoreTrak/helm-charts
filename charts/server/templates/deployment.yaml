@@ -13,7 +13,6 @@ spec:
     metadata:
       {{- with .Values.podAnnotations }}
       annotations:
-        checksum/config: {{ include (print $.Template.Basepath "/configmap.yaml") . | sha256sum }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
@@ -23,7 +22,9 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ .Values.serviceAccount.name }}
+      serviceAccountName: {{ include "server.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -34,7 +35,7 @@ spec:
           - /scoretrak/config.yaml
           ports:
             - name: grpc
-              containerPort: {{ .Values.service.grpc.port }}
+              containerPort: 380
           volumeMounts:
             - name: scoretrak-config
               mountPath: /scoretrak
@@ -51,9 +52,17 @@ spec:
         {{ if .Values.config.db.cockroachdb.tls.enabled }}
         - name: cockroachdb-client-secret
           secret:
-            {{ if .Values.global.scoretrak.create_db_client_secret }}
             secretName: {{ include "global_db_client_secret_name" . }}
-            {{ else }}
-            secretName: {{ include "server.fullname" . }}-client-secret
-            {{ end }}
         {{ end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

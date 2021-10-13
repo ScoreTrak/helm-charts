@@ -23,7 +23,7 @@ data:
       use: none
     {{ end }}
 
-    port: {{ .Values.service.grpc.port }}
+    port: 380
     production: {{ .Values.config.production }}
     
     adminusername: {{ .Values.config.admin.username }}
@@ -35,9 +35,9 @@ data:
         port: {{ .Values.config.db.cockroachdb.port }}
         database: {{ .Values.config.db.cockroachdb.database }}
         {{ if .Values.config.db.cockroachdb.tls.enabled }}
-        clientca: {{ .Values.config.db.cockroachdb.tls.clientca }}
-        clientsslkey: {{ .Values.config.db.cockroachdb.tls.clientsslkey }}
-        clientsslcert: {{ .Values.config.db.cockroachdb.tls.clientsslcert }}
+        clientca: "/cockroach-certs/ca.crt"
+        clientsslkey: "/cockroach-certs/tls.key"
+        clientsslcert: "/cockroach-certs/tls.crt"
         {{ else }}
         password: {{ .Values.config.db.cockroachdb.password }}
         {{ end }}
