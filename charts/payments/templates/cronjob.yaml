@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ include "bank.fullname" . }}
+  name: {{ include "payments.fullname" . }}
   labels:
-  {{- include "bank.labels" . | nindent 4 }}
+  {{- include "payments.labels" . | nindent 4 }}
 spec:
   schedule: {{ .Values.schedule }}
   jobTemplate:
@@ -15,13 +15,13 @@ spec:
           {{- toYaml . | nindent 8 }}
           {{- end }}
           labels:
-        {{- include "bank.selectorLabels" . | nindent 8 }}
+        {{- include "payments.selectorLabels" . | nindent 8 }}
         spec:
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets:
           {{- toYaml . | nindent 8 }}
           {{- end }}
-          serviceAccountName: {{ include "bank.serviceAccountName" . }}
+          serviceAccountName: {{ include "payments.serviceAccountName" . }}
           securityContext:
           {{- toYaml .Values.podSecurityContext | nindent 8 }}
           containers:
@@ -44,7 +44,7 @@ spec:
           volumes:
             - name: config
               configMap:
-                name: {{ include "bank.fullname" . }}
+                name: {{ include "payments.fullname" . }}
                 optional: false
             - name: cockroach-client-secret
               secret:
