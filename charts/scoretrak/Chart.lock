@@ -8,8 +8,8 @@ dependencies:
 - name: client
   repository: file://../client
   version: 0.2.8
-- name: bank
-  repository: file://../bank
+- name: payments
+  repository: file://../payments
   version: 0.1.0
 - name: cockroachdb
   repository: https://charts.cockroachdb.com/
@@ -17,5 +17,5 @@ dependencies:
 - name: nsq
   repository: https://beeinventor.github.io/charts
   version: 1.2.0
-digest: sha256:04c112bacc09f5ffe6f2cce75f720d6193707ca63a128faab4281138d1d318bd
-generated: "2021-10-13T00:26:27.681992-04:00"
+digest: sha256:1f450dc7c8595551237a34541ae23b6b06975ef9efcf8f8944fb3bf953efcd83
+generated: "2021-10-13T02:05:05.805460317-04:00"

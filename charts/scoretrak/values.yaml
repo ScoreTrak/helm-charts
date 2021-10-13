@@ -5,9 +5,6 @@
 
 scoretrak:
   FQDN: "*"
-  bank:
-    enabled: false
-    FQDN: bank.example.com
 
 
 config:
@@ -40,6 +37,8 @@ server:
 # BANK SUB HELM CHART VALUES
 
 bank:
+  enabled: false
+  FQDN: bank.example.com
   admin:
     username: bank
 # COMMERCE BACKEND SUB SUB HELM CHART VALUES

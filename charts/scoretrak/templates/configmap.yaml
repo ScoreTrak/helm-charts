@@ -25,7 +25,7 @@ data:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: create-bank-user
+  name: create-payments-user
   annotations:
     # This is what defines this resource as a hook. Without this line, the
     # job is considered part of the release.
@@ -36,7 +36,7 @@ spec:
   template:
     spec:
       containers:
-        - name: create-bank-user
+        - name: create-payments-user
           image:  #ghcr.io/scoretrak/scoretrak/scoretrak-server:v0.2.11 
           command:
             - ./cli
@@ -68,14 +68,14 @@ spec:
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: {{ include "call-nested" ( list . "bank" "bank.fullname" ) }}
+  name: {{ include "call-nested" ( list . "payments" "payments.fullname" ) }}
   labels:
   {{- include "scoretrak.labels" . | nindent 4 }}
 data:
   config.yaml: |
     bankusername: {{ .Values.bank.admin.username }}
     scoretrakusername: {{ .Values.payments.admin.username }}
-    bankbaseurl: {{ include "call-nested" ( list . "bank" "bank.fullname" ) }}
+    bankbaseurl: {{ include "call-nested" ( list . "payments" "payments.fullname" ) }}
     scoretrakaddress: {{ include "call-nested" ( list . "server" "server.fullname" ) }}
     {{ if .Release.IsInstall }}
     scoretrakpassword: {{ $paymentAdminPassword }}
