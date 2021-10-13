@@ -9,11 +9,11 @@ metadata:
   {{- include "scoretrak.labels" . | nindent 4 }}
 data:
   {{ if .Release.IsInstall }}
-  SCORETRAK_PASS: {{ $scoretrakAdminPassword }}
-  BANK_PASS: {{ $bankAdminPassword }}
-  PAYMENTS_PASS: {{ $paymentAdminPassword }}
+  SCORETRAK_PASS: {{ $scoretrakAdminPassword | b64enc }}
+  BANK_PASS: {{ $bankAdminPassword | b64enc }}
+  PAYMENTS_PASS: {{ $paymentAdminPassword | b64enc }}
   {{ else }}
-  SCORETRAK_PASS: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "SCORETRAK_PASS"  }}
+  SCORETRAK_PASS: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "SCORETRAK_PASS" }}
   BANK_PASS: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "BANK_PASS"  }}
   PAYMENTS_PASS: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "PAYMENTS_PASS"  }}
   {{ end }}
@@ -47,7 +47,7 @@ spec:
             {{ if .Release.IsInstall }}
             - {{ $scoretrakAdminPassword }}
             {{ else }}
-            - {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "SCORETRAK_PASS"  }}
+            - {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "SCORETRAK_PASS" | b64dec }}
             {{ end }}
             - --new-user-name
             - {{ .Values.payments.admin.username }}
@@ -55,7 +55,7 @@ spec:
             {{ if .Release.IsInstall }}
             - {{ $paymentAdminPassword }}
             {{ else }}
-            - {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "PAYMENTS_PASS"  }}
+            - {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "PAYMENTS_PASS" | b64dec }}
             {{ end }}
             - --address
             - {{ include "call-nested" (list . "server" "server.fullname") }}
@@ -81,8 +81,8 @@ data:
     scoretrakpassword: {{ $paymentAdminPassword }}
     bankpassword: {{ $bankAdminPassword }}
     {{ else }}
-    scoretrakpassword: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "PAYMENTS_PASS"  }}
-    bankpassword: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "BANK_PASS"  }}
+    scoretrakpassword: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "PAYMENTS_PASS" | b64dec }}
+    bankpassword: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "BANK_PASS" | b64dec }}
     {{ end }}
     db:
       cockroach:
@@ -125,7 +125,7 @@ data:
     {{ if .Release.IsInstall }}
     adminpassword: {{ $scoretrakAdminPassword }}
     {{ else }}
-    adminpassword: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "SCORETRAK_PASS"  }}
+    adminpassword: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "SCORETRAK_PASS" | b64dec }}
     {{ end }}
 
     port: 380
