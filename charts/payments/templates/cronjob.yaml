@@ -4,6 +4,9 @@ metadata:
   name: {{ include "payments.fullname" . }}
   labels:
   {{- include "payments.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
 spec:
   schedule: "{{ .Values.schedule }}"
   jobTemplate:
