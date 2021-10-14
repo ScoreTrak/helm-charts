@@ -50,7 +50,7 @@ spec:
             - {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "SCORETRAK_PASS" | b64dec }}
             {{ end }}
             - --new-user-name
-            - {{ .Values.payments.admin.username }}
+            - {{ .Values.payments.config.scoretrak.username }}
             - --new-user-password
             {{ if .Release.IsInstall }}
             - {{ $paymentAdminPassword }}
@@ -73,8 +73,8 @@ metadata:
   {{- include "scoretrak.labels" . | nindent 4 }}
 data:
   config.yaml: |
-    bankusername: {{ .Values.commerce_backend.admin.username }}
-    scoretrakusername: {{ .Values.payments.admin.username }}
+    bankusername: {{ .Values.commerce_backend.config.admin.username }}
+    scoretrakusername: {{ .Values.payments.config.scoretrak.username }}
     bankbaseurl: {{ include "call-nested" ( list . "payments" "payments.fullname" ) }}
     scoretrakaddress: {{ include "call-nested" ( list . "server" "server.fullname" ) }}
     {{ if .Release.IsInstall }}

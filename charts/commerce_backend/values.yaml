@@ -97,8 +97,8 @@ config:
     clientsslcert: "/cockroach-certs/tls.crt"
   existingConfig: ""
 
-admin:
-  username: admin
-#  password: ""
-  email: "admin@local"
-  existingSecret: ""
+  admin:
+    username: admin
+    password: ""
+    email: "admin@local"
+    existingSecret: ""

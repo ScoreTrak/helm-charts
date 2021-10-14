@@ -22,8 +22,6 @@ envoy:
 
 server:
   config:
-    admin:
-      username: "admin"
     create: false
     nsq:
       use: true
@@ -51,11 +49,8 @@ commerce_ui:
     create: false
     
 payments:
-  admin:
-    username: payments
   config:
     create: false
-
 # COCKROACHDB SUB HELM CHART VALUES
 
 cockroachdb:
