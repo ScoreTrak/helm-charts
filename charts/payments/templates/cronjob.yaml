@@ -49,7 +49,7 @@ spec:
               configMap:
                 name: {{ include "payments.fullname" . }}
                 optional: false
-            - name: cockroach-client-secret
+            - name: client-certs
               secret:
                 secretName: {{ include "global_db_client_secret_name" . }}
           {{- with .Values.nodeSelector }}
