@@ -4,7 +4,7 @@
 
 
 scoretrak:
-  FQDN: "*"
+  FQDN: "scoretrak.example.com"
 
 
 config:
