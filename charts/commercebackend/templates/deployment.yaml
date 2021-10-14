@@ -26,22 +26,6 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
-{{/*        - name: change-cert-perms*/}}
-{{/*          image: cockroachdb/cockroach-k8s-request-cert:0.4*/}}
-{{/*          imagePullPolicy: IfNotPresent*/}}
-{{/*          command:*/}}
-{{/*            - "/bin/bash"*/}}
-{{/*            - "-ecx"*/}}
-{{/*            - "chown 1234:1234 /cockroach-certs/client.root.key /cockroach-certs/client.root.crt"*/}}
-{{/*          env:*/}}
-{{/*            - name: POD_NAMESPACE*/}}
-{{/*              valueFrom:*/}}
-{{/*                fieldRef:*/}}
-{{/*                  fieldPath: metadata.namespace*/}}
-{{/*          volumeMounts:*/}}
-{{/*            - name: client-certs*/}}
-{{/*              mountPath: /cockroach-certs*/}}
-
         - name: start-db-migration
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: IfNotPresent

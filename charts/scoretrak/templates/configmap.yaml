@@ -36,12 +36,11 @@ data:
       nsq:
     {{ $nsqdFullName := include "call-nested" ( list . "nsq" "nsq.nsqd.fullname" ) }}
         producernsqd: "{{ $nsqdFullName }}:4150"
-
         nsqlookupd:
-    {{ $lookupdFullName := include "call-nested" ( list . "nsq" "nsq.nsqlookupd.fullname" ) }}
-    {{ range $i, $e := until (atoi (printf "%d" (int64 .Values.nsq.nsqlookupd.replicaCount))) -}}
-          - {{ $lookupdFullName }}-{{ $i }}.{{ $lookupdFullName }}:4161
-    {{ end -}}
+          {{ $lookupdFullName := include "call-nested" ( list . "nsq" "nsq.nsqlookupd.fullname" ) }}
+          {{ range $i, $e := until (atoi (printf "%d" (int64 .Values.nsq.nsqlookupd.replicaCount))) -}}
+              - {{ $lookupdFullName }}-{{ $i }}.{{ $lookupdFullName }}:4161
+          {{ end -}}
     {{ else }}
     queue:
       use: none
@@ -83,7 +82,7 @@ data:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: create-payments-user
+  name: {{ .Release.Name }}-create-payments-user
   annotations:
     # This is what defines this resource as a hook. Without this line, the
     # job is considered part of the release.
@@ -157,7 +156,7 @@ data:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ include "commercebackend.fullname" . }}-django
+  name: {{ include "call-nested" ( list . "commercebackend" "commercebackend.fullname" ) }}-django
   labels:
   {{- include "commercebackend.labels" . | nindent 4 }}
 type: Opaque
@@ -175,7 +174,7 @@ data:
 kind: Secret
 apiVersion: v1
 metadata:
-  name: {{ include "commercebackend.fullname" . }}
+  name: {{ include "call-nested" ( list . "commercebackend" "commercebackend.fullname" ) }}
   labels:
   {{- include "commercebackend.labels" . | nindent 4 }}
 data:
