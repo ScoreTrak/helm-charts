@@ -1,5 +1,5 @@
 apiVersion: v2
-name: commerce-ui
+name: commerce_ui
 description: A Helm chart for Scoretrak Bank UI
 
 # A chart can be either an 'application' or a 'library' chart.

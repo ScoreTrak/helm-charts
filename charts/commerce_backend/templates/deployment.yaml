@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "commerce-backend.fullname" . }}
+  name: {{ include "commerce_backend.fullname" . }}
   labels:
-    {{- include "commerce-backend.labels" . | nindent 4 }}
+    {{- include "commerce_backend.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "commerce-backend.selectorLabels" . | nindent 6 }}
+      {{- include "commerce_backend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -16,13 +16,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "commerce-backend.selectorLabels" . | nindent 8 }}
+        {{- include "commerce_backend.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "commerce-backend.serviceAccountName" . }}
+      serviceAccountName: {{ include "commerce_backend.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
@@ -51,7 +51,7 @@ spec:
             - "python manage.py migrate --noinput"
           envFrom:
             - secretRef:
-                name: {{ include "commerce-backend.fullname" . }}
+                name: {{ include "commerce_backend.fullname" . }}
                 optional: false
           volumeMounts:
             - name: cockroachdb-client-secret
@@ -66,10 +66,10 @@ spec:
             - "python manage.py createsuperuser --noinput"
           envFrom:
             - secretRef:
-                name: {{ include "commerce-backend.fullname" . }}
+                name: {{ include "commerce_backend.fullname" . }}
                 optional: false
             - secretRef:
-                name: {{ include "commerce-backend.fullname" . }}-django
+                name: {{ include "commerce_backend.fullname" . }}-django
                 optional: false
           volumeMounts:
             - name: cockroachdb-client-secret
@@ -86,7 +86,7 @@ spec:
             - sleep 20; daphne -b 0.0.0.0 -p 80 ldfinance.asgi:application #For some reason sleeping is required, otherwise we get: Is the server running on host "scoretrak-cockroachdb-public" (10.233.16.67) and accepting TCP/IP connections on port 26257?
           envFrom:
             - secretRef:
-                name: {{ include "commerce-backend.fullname" . }}
+                name: {{ include "commerce_backend.fullname" . }}
                 optional: false
           ports:
             - name: http

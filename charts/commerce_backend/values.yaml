@@ -1,4 +1,4 @@
-# Default values for commerce-backend.
+# Default values for commerce_backend.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -83,6 +83,7 @@ affinity: {}
 
 
 config:
+  create: true
   use_cockroachdb: true
   discord_webhook_url: ""
   cockroachdb:
@@ -96,7 +97,7 @@ config:
     clientsslcert: "/cockroach-certs/tls.crt"
   existingConfig: ""
 
-django_superuser:
+admin:
   username: admin
 #  password: ""
   email: "admin@local"

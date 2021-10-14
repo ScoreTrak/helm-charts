@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "commerce-backend.name" -}}
+{{- define "commerce_backend.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "commerce-backend.fullname" -}}
+{{- define "commerce_backend.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "commerce-backend.chart" -}}
+{{- define "commerce_backend.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "commerce-backend.labels" -}}
-helm.sh/chart: {{ include "commerce-backend.chart" . }}
-{{ include "commerce-backend.selectorLabels" . }}
+{{- define "commerce_backend.labels" -}}
+helm.sh/chart: {{ include "commerce_backend.chart" . }}
+{{ include "commerce_backend.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "commerce-backend.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "commerce-backend.name" . }}
+{{- define "commerce_backend.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "commerce_backend.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "commerce-backend.serviceAccountName" -}}
+{{- define "commerce_backend.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "commerce-backend.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "commerce_backend.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
