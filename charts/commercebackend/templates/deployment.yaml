@@ -26,19 +26,30 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
+        - name: change-cert-perms
+          image: busybox
+          command:
+            - "/bin/sh"
+            - "-c"
+            - "cp -L /cockroach-certs-readonly/* cockroach-certs/ && chown 1234:1234 /cockroach-certs/tls.key /cockroach-certs/tls.crt && chmod 0600 /cockroach-certs/tls.key /cockroach-certs/tls.crt"
+          volumeMounts:
+            - name: cockroachdb-client-secret
+              mountPath: /cockroach-certs-readonly
+            - name: client-certs
+              mountPath: /cockroach-certs
         - name: start-db-migration
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: IfNotPresent
           command:
             - "/bin/bash"
             - "-c"
-            - "python manage.py migrate --noinput"
+            - "ls -la /cockroach-certs && python manage.py migrate --noinput"
           envFrom:
             - secretRef:
                 name: {{ include "commercebackend.fullname" . }}
                 optional: false
           volumeMounts:
-            - name: cockroachdb-client-secret
+            - name: client-certs
               mountPath: /cockroach-certs
 
         - name: create-superuser
@@ -56,7 +67,7 @@ spec:
                 name: {{ include "commercebackend.fullname" . }}-django
                 optional: false
           volumeMounts:
-            - name: cockroachdb-client-secret
+            - name: client-certs
               mountPath: /cockroach-certs
       containers:
         - name: {{ .Chart.Name }}

@@ -25,8 +25,8 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
-  # fsGroup: 2000
+podSecurityContext:
+  fsGroup: 1234
 
 securityContext: {}
   # capabilities:
@@ -87,11 +87,11 @@ config:
   use_cockroachdb: true
   discord_webhook_url: ""
   cockroachdb:
-    db_user: ""
+    db_user: "root"
     db_password: ""
     db_host: ""
-    db_port: ""
-    db_name: ""
+    db_port: 26257
+    db_name: "bank"
     clientca: "/cockroach-certs/ca.crt"
     clientsslkey: "/cockroach-certs/tls.key"
     clientsslcert: "/cockroach-certs/tls.crt"
@@ -100,4 +100,3 @@ config:
   admin:
     username: admin
     password: ""
-    email: "admin@local"

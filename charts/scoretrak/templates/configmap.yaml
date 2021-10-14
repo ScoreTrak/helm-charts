@@ -167,7 +167,6 @@ data:
   DJANGO_SUPERUSER_PASSWORD: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "BANK_PASS"  }}
   {{ end }}
   DJANGO_SUPERUSER_USERNAME: {{ .Values.commercebackend.config.admin.username | b64enc }}
-  DJANGO_SUPERUSER_EMAIL: {{ .Values.commercebackend.config.admin.email | b64enc}}
 
 ---
   {{ $jwtSecretBank := randAlphaNum 24 }}
@@ -179,9 +178,9 @@ metadata:
   {{- include "commercebackend.labels" . | nindent 4 }}
 data:
   {{ if .Values.commercebackend.config.cockroachdb.db_password }}
-  DATABASE_URL: {{ printf "postgresql://%s:%s@%s:%d/%s?sslmode=require&sslcert=%s&sslkey=%s&sslrootcert=%s" .Values.commercebackend.config.cockroachdb.db_user .Values.commercebackend.config.cockroachdb.db_password .Values.commercebackend.config.cockroachdb.db_host .Values.commercebackend.config.cockroachdb.db_port .Values.commercebackend.config.cockroachdb.db_name .Values.commercebackend.config.cockroachdb.clientsslcert .Values.commercebackend.config.cockroachdb.clientsslkey .Values.commercebackend.config.cockroachdb.clientca | b64enc }}
+  DATABASE_URL: {{ printf "postgresql://%s:%s@%s-public:%d/%s?sslmode=require&sslcert=%s&sslkey=%s&sslrootcert=%s" .Values.commercebackend.config.cockroachdb.db_user .Values.commercebackend.config.cockroachdb.db_password (include "call-nested" ( list . "cockroachdb" "cockroachdb.fullname" )) (.Values.commercebackend.config.cockroachdb.db_port | int) .Values.commercebackend.config.cockroachdb.db_name .Values.commercebackend.config.cockroachdb.clientsslcert .Values.commercebackend.config.cockroachdb.clientsslkey .Values.commercebackend.config.cockroachdb.clientca | b64enc }}
   {{ else }}
-  DATABASE_URL: {{ printf "postgresql://%s@%s:%d/%s?sslmode=require&sslcert=%s&sslkey=%s&sslrootcert=%s" .Values.commercebackend.config.cockroachdb.db_user .Values.commercebackend.config.cockroachdb.db_host .Values.commercebackend.config.cockroachdb.db_port .Values.commercebackend.config.cockroachdb.db_name .Values.commercebackend.config.cockroachdb.clientsslcert .Values.commercebackend.config.cockroachdb.clientsslkey .Values.commercebackend.config.cockroachdb.clientca | b64enc }}
+  DATABASE_URL: {{ printf "postgresql://%s@%s-public:%d/%s?sslmode=require&sslcert=%s&sslkey=%s&sslrootcert=%s" .Values.commercebackend.config.cockroachdb.db_user (include "call-nested" ( list . "cockroachdb" "cockroachdb.fullname" )) (.Values.commercebackend.config.cockroachdb.db_port | int) .Values.commercebackend.config.cockroachdb.db_name .Values.commercebackend.config.cockroachdb.clientsslcert .Values.commercebackend.config.cockroachdb.clientsslkey .Values.commercebackend.config.cockroachdb.clientca | b64enc }}
   {{ end }}
   {{ if .Values.commercebackend.config.use_cockroachdb}}
   USE_COCKROACHDB: "{{ .Values.commercebackend.config.use_cockroachdb | toString | b64enc }}"
