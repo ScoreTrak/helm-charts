@@ -5,29 +5,29 @@ metadata:
   labels:
   {{- include "payments.labels" . | nindent 4 }}
 spec:
-  schedule: {{ .Values.schedule }}
+  schedule: "{{ .Values.schedule }}"
   jobTemplate:
     spec:
       template:
         metadata:
           {{- with .Values.podAnnotations }}
           annotations:
-          {{- toYaml . | nindent 8 }}
+          {{- toYaml . | nindent 14 }}
           {{- end }}
           labels:
-        {{- include "payments.selectorLabels" . | nindent 8 }}
+          {{- include "payments.selectorLabels" . | nindent 14 }}
         spec:
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets:
-          {{- toYaml . | nindent 8 }}
+          {{- toYaml . | nindent 12 }}
           {{- end }}
           serviceAccountName: {{ include "payments.serviceAccountName" . }}
           securityContext:
-          {{- toYaml .Values.podSecurityContext | nindent 8 }}
+          {{- toYaml .Values.podSecurityContext | nindent 16 }}
           containers:
             - name: {{ .Chart.Name }}
               securityContext:
-              {{- toYaml .Values.securityContext | nindent 12 }}
+              {{- toYaml .Values.securityContext | nindent 18 }}
               image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: {{ .Values.image.pullPolicy }}
               command:
@@ -40,7 +40,7 @@ spec:
                 - name: client-certs
                   mountPath: /cockroach-certs
               resources:
-          {{- toYaml .Values.resources | nindent 12 }}
+          {{- toYaml .Values.resources | nindent 18 }}
           volumes:
             - name: config
               configMap:
@@ -51,14 +51,14 @@ spec:
                 secretName: {{ include "global_db_client_secret_name" . }}
           {{- with .Values.nodeSelector }}
           nodeSelector:
-          {{- toYaml . | nindent 8 }}
+          {{- toYaml . | nindent 14 }}
           {{- end }}
           {{- with .Values.affinity }}
           affinity:
-          {{- toYaml . | nindent 8 }}
+          {{- toYaml . | nindent 14 }}
           {{- end }}
           {{- with .Values.tolerations }}
           tolerations:
-          {{- toYaml . | nindent 8 }}
+          {{- toYaml . | nindent 14 }}
         {{- end }}
           restartPolicy: OnFailure
