@@ -17,10 +17,68 @@ data:
   BANK_PASS: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "BANK_PASS"  }}
   PAYMENTS_PASS: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "PAYMENTS_PASS"  }}
   {{ end }}
-
-  
-
 ---
+
+
+  {{ if not .Values.server.config.create }}
+  {{ $jwtSecretScoreTrak := randAlphaNum 24 }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "call-nested" ( list . "server" "server.fullname" ) }}
+  labels:
+  {{ include "scoretrak.labels" . | nindent 4 }}
+data:
+  config.yaml: |-
+    {{ if .Values.server.config.nsq.use }}
+    queue:
+      use: nsq
+      nsq:
+    {{ $nsqdFullName := include "call-nested" ( list . "nsq" "nsq.nsqd.fullname" ) }}
+        producernsqd: "{{ $nsqdFullName }}:4150"
+
+        nsqlookupd:
+    {{ $lookupdFullName := include "call-nested" ( list . "nsq" "nsq.nsqlookupd.fullname" ) }}
+    {{ range $i, $e := until (atoi (printf "%d" (int64 .Values.nsq.nsqlookupd.replicaCount))) -}}
+          - {{ $lookupdFullName }}-{{ $i }}.{{ $lookupdFullName }}:4161
+    {{ end -}}
+    {{ else }}
+    queue:
+      use: none
+    {{ end }}
+
+    adminusername: {{ .Values.server.config.admin.username }}
+    {{ if .Release.IsInstall }}
+    adminpassword: {{ $scoretrakAdminPassword }}
+    {{ else }}
+    adminpassword: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "SCORETRAK_PASS" | b64dec }}
+    {{ end }}
+
+    port: 380
+    production: {{ .Values.server.config.production }}
+
+    db:
+      cockroach:
+        host: {{ include "call-nested" ( list . "cockroachdb" "cockroachdb.fullname" ) }}-public
+        port: {{ .Values.cockroachdb.service.ports.grpc.external.port }}
+        database: {{ .Values.server.config.db.cockroachdb.database }}
+    {{ if .Values.cockroachdb.tls.enabled }}
+        clientca: "/cockroach-certs/ca.crt"
+        clientsslkey: "/cockroach-certs/tls.key"
+        clientsslcert: "/cockroach-certs/tls.crt"
+    {{ else }}
+        password: {{ .Values.server.config.db.cockroachdb.password }}
+    {{ end }}
+
+    platform:
+      use: kubernetes
+
+    jwt:
+      secret: {{ $jwtSecretScoreTrak }}
+    {{ end }}
+---
+
+  {{ if .Values.bank.enabled }}
   {{ if not .Values.payments.config.create }}
 apiVersion: batch/v1
 kind: Job
@@ -92,62 +150,43 @@ data:
         clientsslcert: "/cockroach-certs/tls.crt"
         database: payments
   {{ end }}
+        
 ---
 
+{{ if not .Values.commerce_backend.config.create }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "commerce_backend.fullname" . }}-django
+  labels:
+  {{- include "commerce_backend.labels" . | nindent 4 }}
+type: Opaque
+data:
+  {{ if .Release.IsInstall }}
+  DJANGO_SUPERUSER_PASSWORD: {{ $bankAdminPassword | b64enc }}
+  {{ else }}
+  DJANGO_SUPERUSER_PASSWORD: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "BANK_PASS"  }}
+  {{ end }}
+  DJANGO_SUPERUSER_USERNAME: {{ .Values.commerce_backend.config.admin.username }}
+  DJANGO_SUPERUSER_EMAIL: {{ .Values.commerce_backend.config.admin.email }}
 
-{{ if not .Values.server.config.create }}
-{{ $jwtSecret := randAlphaNum 24 }}
-kind: ConfigMap
+---
+  {{ $jwtSecretBank := randAlphaNum 24 }}
+kind: Secret
 apiVersion: v1
 metadata:
-  name: {{ include "call-nested" ( list . "server" "server.fullname" ) }}
+  name: {{ include "commerce_backend.fullname" . }}
   labels:
-  {{ include "scoretrak.labels" . | nindent 4 }}
+  {{- include "commerce_backend.labels" . | nindent 4 }}
 data:
-  config.yaml: |-
-    {{ if .Values.server.config.nsq.use }}
-    queue:
-      use: nsq
-      nsq:
-    {{ $nsqdFullName := include "call-nested" ( list . "nsq" "nsq.nsqd.fullname" ) }}
-        producernsqd: "{{ $nsqdFullName }}:4150"
-
-        nsqlookupd:
-    {{ $lookupdFullName := include "call-nested" ( list . "nsq" "nsq.nsqlookupd.fullname" ) }}
-    {{ range $i, $e := until (atoi (printf "%d" (int64 .Values.nsq.nsqlookupd.replicaCount))) -}}
-          - {{ $lookupdFullName }}-{{ $i }}.{{ $lookupdFullName }}:4161
-    {{ end -}}
-    {{ else }}
-    queue:
-      use: none
-    {{ end }}
-
-    adminusername: {{ .Values.server.config.admin.username }}
-    {{ if .Release.IsInstall }}
-    adminpassword: {{ $scoretrakAdminPassword }}
-    {{ else }}
-    adminpassword: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "SCORETRAK_PASS" | b64dec }}
-    {{ end }}
-
-    port: 380
-    production: {{ .Values.server.config.production }}
-
-    db:
-      cockroach:
-        host: {{ include "call-nested" ( list . "cockroachdb" "cockroachdb.fullname" ) }}-public
-        port: {{ .Values.cockroachdb.service.ports.grpc.external.port }}
-        database: {{ .Values.server.config.db.cockroachdb.database }}
-    {{ if .Values.cockroachdb.tls.enabled }}
-        clientca: "/cockroach-certs/ca.crt"
-        clientsslkey: "/cockroach-certs/tls.key"
-        clientsslcert: "/cockroach-certs/tls.crt"
-    {{ else }}
-        password: {{ .Values.server.config.db.cockroachdb.password }}
-    {{ end }}
-
-    platform:
-      use: kubernetes
-
-    jwt:
-      secret: {{ $jwtSecret }}
+  {{ if .Values.commerce_backend.config.cockroachdb.db_password }}
+  DATABASE_URL: {{ printf "postgresql://%s:%s@%s:%d/%s?sslmode=require&sslcert=%s&sslkey=%s&sslrootcert=%s" .Values.commerce_backend.config.cockroachdb.db_user .Values.commerce_backend.config.cockroachdb.db_password .Values.commerce_backend.config.cockroachdb.db_host .Values.commerce_backend.config.cockroachdb.db_port .Values.commerce_backend.config.cockroachdb.db_name .Values.commerce_backend.config.cockroachdb.clientsslcert .Values.commerce_backend.config.cockroachdb.clientsslkey .Values.commerce_backend.config.cockroachdb.clientca }}
+  {{ else }}
+  DATABASE_URL: {{ printf "postgresql://%s@%s:%d/%s?sslmode=require&sslcert=%s&sslkey=%s&sslrootcert=%s" .Values.commerce_backend.config.cockroachdb.db_user .Values.commerce_backend.config.cockroachdb.db_host .Values.commerce_backend.config.cockroachdb.db_port .Values.commerce_backend.config.cockroachdb.db_name .Values.commerce_backend.config.cockroachdb.clientsslcert .Values.commerce_backend.config.cockroachdb.clientsslkey .Values.commerce_backend.config.cockroachdb.clientca }}
   {{ end }}
+  USE_COCKROACHDB: {{ .Values.commerce_backend.config.use_cockroachdb }}
+  SECRET_KEY: {{ $jwtSecretBank }}
+  DISCORD_WEBHOOK_URL: {{ .Values.commerce_backend.config.discord_webhook_url }}
+{{ end }}
+
+{{ end }}

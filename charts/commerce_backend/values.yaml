@@ -101,4 +101,3 @@ config:
     username: admin
     password: ""
     email: "admin@local"
-    existingSecret: ""
