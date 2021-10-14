@@ -89,7 +89,7 @@ config:
     url: ""
   scoretrak:
     host: ""
-    username: ""
+    username: "payments"
     password: ""
   cockroachdb:
     db_host: ""

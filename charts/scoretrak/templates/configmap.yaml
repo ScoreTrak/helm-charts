@@ -184,9 +184,13 @@ data:
   {{ else }}
   DATABASE_URL: {{ printf "postgresql://%s@%s:%d/%s?sslmode=require&sslcert=%s&sslkey=%s&sslrootcert=%s" .Values.commerce_backend.config.cockroachdb.db_user .Values.commerce_backend.config.cockroachdb.db_host .Values.commerce_backend.config.cockroachdb.db_port .Values.commerce_backend.config.cockroachdb.db_name .Values.commerce_backend.config.cockroachdb.clientsslcert .Values.commerce_backend.config.cockroachdb.clientsslkey .Values.commerce_backend.config.cockroachdb.clientca }}
   {{ end }}
-  USE_COCKROACHDB: {{ .Values.commerce_backend.config.use_cockroachdb }}
+  {{ if .Values.commerce_backend.config.use_cockroachdb}}
+  USE_COCKROACHDB: "{{ .Values.commerce_backend.config.use_cockroachdb }}"
+  {{ end }}
   SECRET_KEY: {{ $jwtSecretBank }}
-  DISCORD_WEBHOOK_URL: {{ .Values.commerce_backend.config.discord_webhook_url }}
+  DISCORD_WEBHOOK_URL: "{{ .Values.commerce_backend.config.discord_webhook_url }}"
+  
+  
 {{ end }}
 
 {{ end }}
