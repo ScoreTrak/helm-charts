@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
         - name: create-payments-user
-          image:  #ghcr.io/scoretrak/scoretrak/scoretrak-server:v0.2.11 
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}" 
           command:
             - ./cli
             - create-super-user
