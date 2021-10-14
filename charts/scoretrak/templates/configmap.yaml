@@ -115,7 +115,7 @@ spec:
             - {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "PAYMENTS_PASS" | b64dec }}
             {{ end }}
             - --address
-            - {{ include "call-nested" (list . "server" "server.fullname") }}
+            - {{ include "call-nested" (list . "server" "server.fullname") }}:{{ .Values.server.service.port }}
       restartPolicy: Never
   backoffLimit: 10
   {{ end }}
@@ -133,7 +133,7 @@ data:
     bankusername: {{ .Values.commercebackend.config.admin.username }}
     scoretrakusername: {{ .Values.payments.config.scoretrak.username }}
     bankbaseurl: {{ include "call-nested" ( list . "payments" "payments.fullname" ) }}
-    scoretrakaddress: {{ include "call-nested" ( list . "server" "server.fullname" ) }}
+    scoretrakaddress: {{ include "call-nested" ( list . "server" "server.fullname" ) }}:{{ .Values.server.service.port }}
     {{ if .Release.IsInstall }}
     scoretrakpassword: {{ $paymentAdminPassword }}
     bankpassword: {{ $bankAdminPassword }}

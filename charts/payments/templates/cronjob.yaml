@@ -36,7 +36,7 @@ spec:
               command:
                 - ./payer
                 - --config
-                - /etc/payments/config.yml
+                - /etc/payments/config.yaml
               volumeMounts:
                 - name: config
                   mountPath: /etc/payments/
