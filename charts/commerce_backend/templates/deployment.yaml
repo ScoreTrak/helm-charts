@@ -63,7 +63,7 @@ spec:
           command:
             - "bash"
             - "-c"
-            - "python manage.py createsuperuser --noinput"
+            - "python manage.py ensure_adminuser"
           envFrom:
             - secretRef:
                 name: {{ include "commerce_backend.fullname" . }}
