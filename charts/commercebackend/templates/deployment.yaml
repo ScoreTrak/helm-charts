@@ -78,23 +78,23 @@ spec:
           command:
             -  /bin/bash
             - -c
-            - sleep 20; daphne -b 0.0.0.0 -p 80 ldfinance.asgi:application #For some reason sleeping is required, otherwise we get: Is the server running on host "scoretrak-cockroachdb-public" (10.233.16.67) and accepting TCP/IP connections on port 26257?
+            - sleep 20; daphne -b 0.0.0.0 -p {{ .Values.service.port }} ldfinance.asgi:application #For some reason sleeping is required, otherwise we get: Is the server running on host "scoretrak-cockroachdb-public" (10.233.16.67) and accepting TCP/IP connections on port 26257?
           envFrom:
             - secretRef:
                 name: {{ include "commercebackend.fullname" . }}
                 optional: false
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /admin
+              port: {{ .Values.service.port }}
           readinessProbe:
             httpGet:
-              path: /
-              port: http
+              path: /admin
+              port: {{ .Values.service.port }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

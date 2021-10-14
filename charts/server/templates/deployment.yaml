@@ -35,7 +35,7 @@ spec:
           - /scoretrak/config.yaml
           ports:
             - name: grpc
-              containerPort: 380
+              containerPort: {{ .Values.service.port }}
           volumeMounts:
             - name: scoretrak-config
               mountPath: /scoretrak

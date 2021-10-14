@@ -8,7 +8,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: 380
+      targetPort: {{ .Values.service.port }}
       name: grpc
   selector:
     {{- include "server.selectorLabels" . | nindent 4 }}

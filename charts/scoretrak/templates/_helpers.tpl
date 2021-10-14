@@ -68,3 +68,8 @@ Usage:
 {{- end }}
 {{- include $template (dict "Chart" (dict "Name" (last $subchart)) "Values" $values "Release" $dot.Release "Capabilities" $dot.Capabilities) }}
 {{- end }}
+
+
+{{- define "global_db_client_secret_name" -}}
+{{- printf "%s-cockroachdb-client-secret" .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- end }}

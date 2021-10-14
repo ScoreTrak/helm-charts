@@ -23,7 +23,7 @@ data:
       use: none
     {{ end }}
 
-    port: 380
+    port: {{ .Values.service.port }}
     production: {{ .Values.config.production }}
     
     adminusername: {{ .Values.config.admin.username }}

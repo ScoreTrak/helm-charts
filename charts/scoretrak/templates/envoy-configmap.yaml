@@ -23,6 +23,7 @@ data:
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
               codec_type: auto
+              strip_any_host_port: true
               stat_prefix: ingress_http
               route_config:
                 name: routes

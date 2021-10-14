@@ -53,7 +53,7 @@ data:
     adminpassword: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "SCORETRAK_PASS" | b64dec }}
     {{ end }}
 
-    port: 380
+    port: {{ .Values.server.service.port }}
     production: {{ .Values.server.config.production }}
 
     db:
@@ -132,7 +132,7 @@ data:
   config.yaml: |
     bankusername: {{ .Values.commercebackend.config.admin.username }}
     scoretrakusername: {{ .Values.payments.config.scoretrak.username }}
-    bankbaseurl: {{ include "call-nested" ( list . "payments" "payments.fullname" ) }}
+    bankbaseurl: http://{{ include "call-nested" ( list . "payments" "payments.fullname" ) }}:{{ .Values.commercebackend.service.port }}
     scoretrakaddress: {{ include "call-nested" ( list . "server" "server.fullname" ) }}:{{ .Values.server.service.port }}
     {{ if .Release.IsInstall }}
     scoretrakpassword: {{ $paymentAdminPassword }}
