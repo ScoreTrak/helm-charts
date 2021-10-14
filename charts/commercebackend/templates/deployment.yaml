@@ -42,7 +42,7 @@ spec:
 {{/*            - name: client-certs*/}}
 {{/*              mountPath: /cockroach-certs*/}}
 
-        - name: start db migration
+        - name: start-db-migration
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: IfNotPresent
           command:
@@ -57,7 +57,7 @@ spec:
             - name: cockroachdb-client-secret
               mountPath: /cockroach-certs
 
-        - name: create superuser
+        - name: create-superuser
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: IfNotPresent
           command:
