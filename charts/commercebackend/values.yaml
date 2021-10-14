@@ -92,9 +92,6 @@ config:
     db_host: ""
     db_port: 26257
     db_name: "bank"
-    clientca: "/cockroach-certs/ca.crt"
-    clientsslkey: "/cockroach-certs/tls.key"
-    clientsslcert: "/cockroach-certs/tls.crt"
   existingConfig: ""
 
   admin:
