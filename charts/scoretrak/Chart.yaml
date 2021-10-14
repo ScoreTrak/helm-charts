@@ -30,6 +30,12 @@ dependencies:
   - name: payments
     version: "0.1.0"
     repository: "file://../payments"
+  - name: commerce_backend
+    version: "0.1.0"
+    repository: "file://../commerce_backend"
+  - name: commerce_ui
+    version: "0.1.0"
+    repository: "file://../commerce_ui"
   - name: cockroachdb
     version: "6.2.4"
     repository: "https://charts.cockroachdb.com/"

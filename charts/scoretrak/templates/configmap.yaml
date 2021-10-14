@@ -21,7 +21,7 @@ data:
   
 
 ---
-
+  {{ if not .Values.payments.config.create }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -61,10 +61,10 @@ spec:
             - {{ include "call-nested" (list . "server" "server.fullname") }}
       restartPolicy: Never
   backoffLimit: 10
-
+  {{ end }}
 ---
 
-  {{ $password := randAlphaNum 18 }}
+{{ if not .Values.payments.config.create }}
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -73,7 +73,7 @@ metadata:
   {{- include "scoretrak.labels" . | nindent 4 }}
 data:
   config.yaml: |
-    bankusername: {{ .Values.bank.admin.username }}
+    bankusername: {{ .Values.commerce_backend.admin.username }}
     scoretrakusername: {{ .Values.payments.admin.username }}
     bankbaseurl: {{ include "call-nested" ( list . "payments" "payments.fullname" ) }}
     scoretrakaddress: {{ include "call-nested" ( list . "server" "server.fullname" ) }}
@@ -91,11 +91,12 @@ data:
         clientsslkey: "/cockroach-certs/tls.key"
         clientsslcert: "/cockroach-certs/tls.crt"
         database: payments
-
+  {{ end }}
 ---
 
-  {{ if not .Values.server.config.create }}
-  {{ $jwtSecret := randAlphaNum 24 }}
+
+{{ if not .Values.server.config.create }}
+{{ $jwtSecret := randAlphaNum 24 }}
 kind: ConfigMap
 apiVersion: v1
 metadata:

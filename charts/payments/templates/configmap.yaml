@@ -1,3 +1,4 @@
+{{ if .Values.config.create }}
 {{ if not .Values.config.existingSecret }}
 {{ $password := randAlphaNum 18 }}
 kind: ConfigMap
@@ -22,5 +23,6 @@ data:
         clientsslkey: {{ .Values.config.cockroachdb.clientsslkey }}
         clientsslcert: {{ .Values.config.cockroachdb.clientsslcert }}
         database: payments
+  {{ end }}
   {{ end }}
   

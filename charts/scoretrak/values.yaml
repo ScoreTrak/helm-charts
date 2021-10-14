@@ -37,20 +37,24 @@ server:
 # BANK SUB HELM CHART VALUES
 
 bank:
-  enabled: false
+  enabled: true
   FQDN: bank.example.com
-  admin:
-    username: bank
+    
 # COMMERCE BACKEND SUB SUB HELM CHART VALUES
-  commerce-backend:
- 
+commerce_backend:
+  config:
+    create: false
+
 # COMMERCE UI SUB SUB HELM CHART VALUES
-  commerce-ui: 
+commerce_ui:
+  config:
+    create: false
     
 payments:
   admin:
     username: payments
- 
+  config:
+    create: false
 
 # COCKROACHDB SUB HELM CHART VALUES
 
