@@ -131,7 +131,7 @@ metadata:
   {{- include "scoretrak.labels" . | nindent 4 }}
 data:
   config.yaml: |
-    bankusername: {{ .Values.commerce_backend.config.admin.username }}
+    bankusername: {{ .Values.commercebackend.config.admin.username }}
     scoretrakusername: {{ .Values.payments.config.scoretrak.username }}
     bankbaseurl: {{ include "call-nested" ( list . "payments" "payments.fullname" ) }}
     scoretrakaddress: {{ include "call-nested" ( list . "server" "server.fullname" ) }}
@@ -153,13 +153,13 @@ data:
         
 ---
 
-{{ if not .Values.commerce_backend.config.create }}
+{{ if not .Values.commercebackend.config.create }}
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ include "commerce_backend.fullname" . }}-django
+  name: {{ include "commercebackend.fullname" . }}-django
   labels:
-  {{- include "commerce_backend.labels" . | nindent 4 }}
+  {{- include "commercebackend.labels" . | nindent 4 }}
 type: Opaque
 data:
   {{ if .Release.IsInstall }}
@@ -167,28 +167,28 @@ data:
   {{ else }}
   DJANGO_SUPERUSER_PASSWORD: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "BANK_PASS"  }}
   {{ end }}
-  DJANGO_SUPERUSER_USERNAME: {{ .Values.commerce_backend.config.admin.username }}
-  DJANGO_SUPERUSER_EMAIL: {{ .Values.commerce_backend.config.admin.email }}
+  DJANGO_SUPERUSER_USERNAME: {{ .Values.commercebackend.config.admin.username }}
+  DJANGO_SUPERUSER_EMAIL: {{ .Values.commercebackend.config.admin.email }}
 
 ---
   {{ $jwtSecretBank := randAlphaNum 24 }}
 kind: Secret
 apiVersion: v1
 metadata:
-  name: {{ include "commerce_backend.fullname" . }}
+  name: {{ include "commercebackend.fullname" . }}
   labels:
-  {{- include "commerce_backend.labels" . | nindent 4 }}
+  {{- include "commercebackend.labels" . | nindent 4 }}
 data:
-  {{ if .Values.commerce_backend.config.cockroachdb.db_password }}
-  DATABASE_URL: {{ printf "postgresql://%s:%s@%s:%d/%s?sslmode=require&sslcert=%s&sslkey=%s&sslrootcert=%s" .Values.commerce_backend.config.cockroachdb.db_user .Values.commerce_backend.config.cockroachdb.db_password .Values.commerce_backend.config.cockroachdb.db_host .Values.commerce_backend.config.cockroachdb.db_port .Values.commerce_backend.config.cockroachdb.db_name .Values.commerce_backend.config.cockroachdb.clientsslcert .Values.commerce_backend.config.cockroachdb.clientsslkey .Values.commerce_backend.config.cockroachdb.clientca }}
+  {{ if .Values.commercebackend.config.cockroachdb.db_password }}
+  DATABASE_URL: {{ printf "postgresql://%s:%s@%s:%d/%s?sslmode=require&sslcert=%s&sslkey=%s&sslrootcert=%s" .Values.commercebackend.config.cockroachdb.db_user .Values.commercebackend.config.cockroachdb.db_password .Values.commercebackend.config.cockroachdb.db_host .Values.commercebackend.config.cockroachdb.db_port .Values.commercebackend.config.cockroachdb.db_name .Values.commercebackend.config.cockroachdb.clientsslcert .Values.commercebackend.config.cockroachdb.clientsslkey .Values.commercebackend.config.cockroachdb.clientca }}
   {{ else }}
-  DATABASE_URL: {{ printf "postgresql://%s@%s:%d/%s?sslmode=require&sslcert=%s&sslkey=%s&sslrootcert=%s" .Values.commerce_backend.config.cockroachdb.db_user .Values.commerce_backend.config.cockroachdb.db_host .Values.commerce_backend.config.cockroachdb.db_port .Values.commerce_backend.config.cockroachdb.db_name .Values.commerce_backend.config.cockroachdb.clientsslcert .Values.commerce_backend.config.cockroachdb.clientsslkey .Values.commerce_backend.config.cockroachdb.clientca }}
+  DATABASE_URL: {{ printf "postgresql://%s@%s:%d/%s?sslmode=require&sslcert=%s&sslkey=%s&sslrootcert=%s" .Values.commercebackend.config.cockroachdb.db_user .Values.commercebackend.config.cockroachdb.db_host .Values.commercebackend.config.cockroachdb.db_port .Values.commercebackend.config.cockroachdb.db_name .Values.commercebackend.config.cockroachdb.clientsslcert .Values.commercebackend.config.cockroachdb.clientsslkey .Values.commercebackend.config.cockroachdb.clientca }}
   {{ end }}
-  {{ if .Values.commerce_backend.config.use_cockroachdb}}
-  USE_COCKROACHDB: "{{ .Values.commerce_backend.config.use_cockroachdb }}"
+  {{ if .Values.commercebackend.config.use_cockroachdb}}
+  USE_COCKROACHDB: "{{ .Values.commercebackend.config.use_cockroachdb }}"
   {{ end }}
   SECRET_KEY: {{ $jwtSecretBank }}
-  DISCORD_WEBHOOK_URL: "{{ .Values.commerce_backend.config.discord_webhook_url }}"
+  DISCORD_WEBHOOK_URL: "{{ .Values.commercebackend.config.discord_webhook_url }}"
   
   
 {{ end }}

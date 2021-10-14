@@ -1,11 +1,11 @@
-# Default values for commerce_ui.
+# Default values for commercebackend.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: ghcr.io/scoretrak/commerce/commerce-ui
+  repository: ghcr.io/scoretrak/commerce/commerce-backend
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -80,3 +80,24 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+
+config:
+  create: true
+  use_cockroachdb: true
+  discord_webhook_url: ""
+  cockroachdb:
+    db_user: ""
+    db_password: ""
+    db_host: ""
+    db_port: ""
+    db_name: ""
+    clientca: "/cockroach-certs/ca.crt"
+    clientsslkey: "/cockroach-certs/tls.key"
+    clientsslcert: "/cockroach-certs/tls.crt"
+  existingConfig: ""
+
+  admin:
+    username: admin
+    password: ""
+    email: "admin@local"

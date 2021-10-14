@@ -39,12 +39,12 @@ bank:
   FQDN: bank.example.com
     
 # COMMERCE BACKEND SUB SUB HELM CHART VALUES
-commerce_backend:
+commercebackend:
   config:
     create: false
 
 # COMMERCE UI SUB SUB HELM CHART VALUES
-commerce_ui:
+commerceui:
   config:
     create: false
     

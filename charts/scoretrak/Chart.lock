@@ -11,11 +11,11 @@ dependencies:
 - name: payments
   repository: file://../payments
   version: 0.1.0
-- name: commerce_backend
-  repository: file://../commerce_backend
+- name: commercebackend
+  repository: file://../commercebackend
   version: 0.1.1
-- name: commerce_ui
-  repository: file://../commerce_ui
+- name: commerceui
+  repository: file://../commerceui
   version: 0.1.0
 - name: cockroachdb
   repository: https://charts.cockroachdb.com/
@@ -23,5 +23,5 @@ dependencies:
 - name: nsq
   repository: https://beeinventor.github.io/charts
   version: 1.2.0
-digest: sha256:0bfe85e85d1499957bc7088688539bdd58e05962076b3c25ef86932e9edbea75
-generated: "2021-10-14T00:09:36.458210242-04:00"
+digest: sha256:a92ed6a47cc411cbc7f53dd8db641d9d598b2bdc8b42711f648db18bbd30f2ec
+generated: "2021-10-14T03:58:30.677598611-04:00"

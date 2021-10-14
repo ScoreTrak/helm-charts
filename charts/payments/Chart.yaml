@@ -22,11 +22,3 @@ version: 0.1.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "v0.2.2"
-
-dependencies:
-  - name: commerce-backend
-    version: 0.1.0
-    repository: file://../commerce-backend
-  - name: commerce-ui
-    version: 0.1.0
-    repository: file://../commerce-ui

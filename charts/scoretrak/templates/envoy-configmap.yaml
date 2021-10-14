@@ -58,19 +58,19 @@ data:
                   - match:
                       prefix: "/admin"
                     route:
-                      cluster: commerce_backend
+                      cluster: commercebackend
                   - match:
                       prefix: "/api"
                     route:
-                      cluster: commerce_backend
+                      cluster: commercebackend
                   - match:
                       prefix: "/static"
                     route:
-                      cluster: commerce_backend
+                      cluster: commercebackend
                   - match:
                       prefix: "/"
                     route:
-                      cluster: commerce_ui
+                      cluster: commerceui
 {{ end }}
               http_filters:
                 - name: envoy.filters.http.grpc_web
@@ -106,31 +106,31 @@ data:
                           address: {{ include "call-nested" ( list . "client" "client.fullname" ) }}
                           port_value: {{ .Values.client.service.port }}
 {{ if .Values.bank.enabled }}
-        - name: commerce_ui
+        - name: commerceui
           connect_timeout: 0.25s
           type: logical_dns
           lb_policy: round_robin
           load_assignment:
-            cluster_name: commerce_ui
+            cluster_name: commerceui
             endpoints:
               - lb_endpoints:
                   - endpoint:
                       address:
                         socket_address:
-                          address: {{ include "call-nested" ( list . "commerce_ui" "commerce_ui.fullname" ) }}
-                          port_value: {{ .Values.commerce_ui.service.port }}
-        - name: commerce_backend
+                          address: {{ include "call-nested" ( list . "commerceui" "commerceui.fullname" ) }}
+                          port_value: {{ .Values.commerceui.service.port }}
+        - name: commercebackend
           connect_timeout: 0.25s
           type: logical_dns
           lb_policy: round_robin
           load_assignment:
-            cluster_name: commerce_backend
+            cluster_name: commercebackend
             endpoints:
               - lb_endpoints:
                   - endpoint:
                       address:
                         socket_address:
-                          address: {{ include "call-nested" ( list . "commerce_backend" "commerce_backend.fullname" ) }}
-                          port_value: {{ .Values.commerce_backend.service.port }}
+                          address: {{ include "call-nested" ( list . "commercebackend" "commercebackend.fullname" ) }}
+                          port_value: {{ .Values.commercebackend.service.port }}
 {{ end }}
 {{ end }}
