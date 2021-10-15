@@ -32,9 +32,9 @@ spec:
               image: "mikefarah/yq:4"
               imagePullPolicy: IfNotPresent
               command:
-                - /bin/sh
+                - "/bin/sh"
               args:
-                - -c
+                - "-c"
                 - "for i in $(seq 1 200); do nc -z -w3 $(yq e '.scoretrakaddress' /etc/payments/config.yaml | sed 's/:/ /g') && nc -z -w3 $(yq e '.bankbaseurl' /etc/payments/config.yaml | sed -e 's/^http:\/\///g' -e 's/^https:\/\///g' | sed 's/:/ /g') && exit 0 || sleep 3; done; exit 1"
               volumeMounts:
                 - name: config
