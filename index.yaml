@@ -111,6 +111,17 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/commerce-ui-0.1.0/commerce-ui-0.1.0.tgz
     version: 0.1.0
+  commercebackend:
+  - apiVersion: v2
+    appVersion: v0.2.10
+    created: "2021-10-15T02:02:30.317754247Z"
+    description: A Helm chart for Scoretrak Bank Backend
+    digest: 6630e5e8800ce93d572cfc1a103ff290d7099a6ce2be3839c6f460dc91f92e33
+    name: commercebackend
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/commercebackend-0.1.3/commercebackend-0.1.3.tgz
+    version: 0.1.3
   envoy:
   - apiVersion: v2
     appVersion: v1.19.1
@@ -1240,4 +1251,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-13T04:15:38.147032798Z"
+generated: "2021-10-15T02:02:30.318804054Z"
