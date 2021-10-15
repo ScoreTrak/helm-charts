@@ -141,6 +141,7 @@ data:
     scoretrakpassword: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "PAYMENTS_PASS" | b64dec }}
     bankpassword: {{ index (lookup "v1" "Secret" .Release.Namespace ( include "scoretrak.fullname" . ) ).data "BANK_PASS" | b64dec }}
     {{ end }}
+    bankamountperpoint: {{ .Values.payments.config.bank.amountPerPoint }}
     db:
       cockroach:
         host: {{ include "call-nested" ( list . "cockroachdb" "cockroachdb.fullname" ) }}-public
