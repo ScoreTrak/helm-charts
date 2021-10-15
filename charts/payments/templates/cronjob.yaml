@@ -29,13 +29,13 @@ spec:
           {{- toYaml .Values.podSecurityContext | nindent 16 }}
           initContainers:
             - name: wait-for-scoretrak-and-bank
-              image: "mikefarah/yq:4"
+              image: "ghcr.io/scoretrak/utils/scoretrak-utils:v0.1.1"
               imagePullPolicy: IfNotPresent
               command:
-                - "/bin/sh"
+                - "/bin/bash"
                 - "-c"
 {{/*                - "for i in $(seq 1 200); do nc -z -w3 $(yq e '.scoretrakaddress' /etc/payments/config.yaml | sed 's/:/ /g') && nc -z -w3 $(yq e '.bankbaseurl' /etc/payments/config.yaml | sed -e 's/^http:\/\///g' -e 's/^https:\/\///g' | sed 's/:/ /g') && exit 0 || sleep 3; done; exit 1"*/}}
-                - "base64 -D <<< Zm9yIGkgaW4gJChzZXEgMSAyMDApOyBkbyBuYyAteiAtdzMgJCh5cSBlICcuc2NvcmV0cmFrYWRkcmVzcycgL2V0Yy9wYXltZW50cy9jb25maWcueWFtbCB8IHNlZCAncy86LyAvZycpICYmIG5jIC16IC13MyAkKHlxIGUgJy5iYW5rYmFzZXVybCcgL2V0Yy9wYXltZW50cy9jb25maWcueWFtbCB8IHNlZCAtZSAncy9eaHR0cDpcL1wvLy9nJyAtZSAncy9eaHR0cHM6XC9cLy8vZycgfCBzZWQgJ3MvOi8gL2cnKSAmJiBleGl0IDAgfHwgc2xlZXAgMzsgZG9uZTsgZXhpdCAx | sh"
+                - "base64 -D <<< Zm9yIGkgaW4gJChzZXEgMSAyMDApOyBkbyBuYyAteiAtdzMgJCh5cSBlICcuc2NvcmV0cmFrYWRkcmVzcycgL2V0Yy9wYXltZW50cy9jb25maWcueWFtbCB8IHNlZCAncy86LyAvZycpICYmIG5jIC16IC13MyAkKHlxIGUgJy5iYW5rYmFzZXVybCcgL2V0Yy9wYXltZW50cy9jb25maWcueWFtbCB8IHNlZCAtZSAncy9eaHR0cDpcL1wvLy9nJyAtZSAncy9eaHR0cHM6XC9cLy8vZycgfCBzZWQgJ3MvOi8gL2cnKSAmJiBleGl0IDAgfHwgc2xlZXAgMzsgZG9uZTsgZXhpdCAx | bash"
               volumeMounts:
                 - name: config
                   mountPath: /etc/payments/
