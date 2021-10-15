@@ -132,7 +132,7 @@ data:
   config.yaml: |
     bankusername: {{ .Values.commercebackend.config.admin.username }}
     scoretrakusername: {{ .Values.payments.config.scoretrak.username }}
-    bankbaseurl: http://{{ include "call-nested" ( list . "payments" "payments.fullname" ) }}:{{ .Values.commercebackend.service.port }}
+    bankbaseurl: http://{{ include "call-nested" ( list . "commercebackend" "commercebackend.fullname" ) }}:{{ .Values.commercebackend.service.port }}
     scoretrakaddress: {{ include "call-nested" ( list . "server" "server.fullname" ) }}:{{ .Values.server.service.port }}
     {{ if .Release.IsInstall }}
     scoretrakpassword: {{ $paymentAdminPassword }}
