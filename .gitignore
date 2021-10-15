@@ -4,3 +4,4 @@
 
 .idea
 charts/*/charts/*.tgz
+./values.yaml
