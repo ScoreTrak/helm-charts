@@ -58,7 +58,7 @@ spec:
           command:
             - "bash"
             - "-c"
-            - "python manage.py ensure_adminuser"
+            - "python manage.py ensure_adminuser && python manage.py collectstatic"
           envFrom:
             - secretRef:
                 name: {{ include "commercebackend.fullname" . }}
