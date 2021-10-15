@@ -94,10 +94,10 @@ spec:
     spec:
       initContainers:
         - name: wait-for-scoretrak
-          image: "alpine"
+          image: "ghcr.io/scoretrak/utils/scoretrak-utils:v0.1.2"
           imagePullPolicy: IfNotPresent
           command:
-            - "/bin/sh"
+            - "/bin/bash"
             - "-c"
             - "for i in $(seq 1 200); do nc -z -w3 {{ include "call-nested" ( list . "server" "server.fullname" ) }} {{ .Values.server.service.port }} && exit 0 || sleep 3; done; exit 1"
       containers:
