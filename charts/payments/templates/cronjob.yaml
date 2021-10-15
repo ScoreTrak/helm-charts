@@ -29,7 +29,7 @@ spec:
           {{- toYaml .Values.podSecurityContext | nindent 16 }}
           initContainers:
             - name: wait-for-scoretrak-and-bank
-              image: "ghcr.io/scoretrak/utils/scoretrak-utils:v0.1.1"
+              image: "ghcr.io/scoretrak/utils/scoretrak-utils:v0.1.2"
               imagePullPolicy: IfNotPresent
               command:
                 - "/bin/bash"
