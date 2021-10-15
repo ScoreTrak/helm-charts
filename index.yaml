@@ -20,6 +20,16 @@ entries:
     version: 0.1.0
   client:
   - apiVersion: v2
+    appVersion: v0.2.4
+    created: "2021-10-15T07:51:47.703163252Z"
+    description: A Helm chart for ScoreTrak's client
+    digest: e8fc0868a27e78d579316a39deddf91c7fc3d0ec2c7a5a3315ce23223905b699
+    name: client
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/client-0.2.10/client-0.2.10.tgz
+    version: 0.2.10
+  - apiVersion: v2
     appVersion: v0.2.2
     created: "2021-10-10T21:48:33.241641803Z"
     description: A Helm chart for ScoreTrak's client
@@ -1594,4 +1604,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-15T04:50:23.789232372Z"
+generated: "2021-10-15T07:51:47.703538674Z"
