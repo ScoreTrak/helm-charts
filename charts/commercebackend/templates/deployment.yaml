@@ -43,7 +43,7 @@ spec:
           command:
             - "/bin/bash"
             - "-c"
-            - "ls -la /cockroach-certs && python manage.py migrate --noinput"
+            - "python manage.py migrate --noinput"
           envFrom:
             - secretRef:
                 name: {{ include "commercebackend.fullname" . }}
@@ -83,6 +83,9 @@ spec:
             - secretRef:
                 name: {{ include "commercebackend.fullname" . }}
                 optional: false
+          volumeMounts:
+            - name: client-certs
+              mountPath: /cockroach-certs
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
