@@ -15,6 +15,7 @@ data:
     scoretrakusername: {{ .Values.config.scoretrak.username }}
     scoretrakpassword: {{ .Values.config.scoretrak.password }}
     scoretrakaddress: {{ .Values.config.scoretrak.host }}
+    bankamountperpoint: {{ .Values.config.bank.amountPerPoint }}
     db:
       cockroach:
         host: {{ .Values.config.cockroachdb.db_host }}

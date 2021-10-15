@@ -84,6 +84,7 @@ affinity: {}
 config:
   create: true
   bank:
+    amountPerPoint: 10
     username: ""
     password: ""
     url: ""
