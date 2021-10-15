@@ -92,6 +92,15 @@ metadata:
 spec:
   template:
     spec:
+      initContainers:
+        - name: wait-for-scoretrak
+          image: "alpine"
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+          args:
+            - -c
+            - "for i in $(seq 1 200); do nc -z -w3 {{ include "call-nested" ( list . "server" "server.fullname" ) }} {{ .Values.server.service.port }} && exit 0 || sleep 3; done; exit 1"
       containers:
         - name: create-payments-user
           image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}" 

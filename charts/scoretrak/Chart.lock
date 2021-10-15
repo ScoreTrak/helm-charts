@@ -10,7 +10,7 @@ dependencies:
   version: 0.2.9
 - name: payments
   repository: file://../payments
-  version: 0.1.2
+  version: 0.1.3
 - name: commercebackend
   repository: file://../commercebackend
   version: 0.1.3
@@ -23,5 +23,5 @@ dependencies:
 - name: nsq
   repository: https://beeinventor.github.io/charts
   version: 1.2.0
-digest: sha256:b990fff9b881144ec3bcb45159ebafb364c5df9fe46eacd93913b517499658ef
-generated: "2021-10-14T22:18:29.710745241-04:00"
+digest: sha256:b102662410fcc5d229bdf712f6cf3866c358ae527ea3b6ad3ad7e5a1a912bda1
+generated: "2021-10-14T23:00:32.199184189-04:00"
