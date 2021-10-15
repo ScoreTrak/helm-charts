@@ -1,27 +1,27 @@
 dependencies:
 - name: envoy
   repository: file://../envoy
-  version: 0.2.15
+  version: 0.2.16
 - name: server
   repository: file://../server
-  version: 0.2.21
+  version: 0.2.22
 - name: client
   repository: file://../client
-  version: 0.2.8
+  version: 0.2.9
 - name: payments
   repository: file://../payments
-  version: 0.1.0
+  version: 0.1.1
 - name: commercebackend
   repository: file://../commercebackend
-  version: 0.1.1
+  version: 0.1.2
 - name: commerceui
   repository: file://../commerceui
-  version: 0.1.0
+  version: 0.1.1
 - name: cockroachdb
   repository: https://charts.cockroachdb.com/
   version: 6.2.4
 - name: nsq
   repository: https://beeinventor.github.io/charts
   version: 1.2.0
-digest: sha256:a92ed6a47cc411cbc7f53dd8db641d9d598b2bdc8b42711f648db18bbd30f2ec
-generated: "2021-10-14T04:03:27.83189962-04:00"
+digest: sha256:b279fae60488cf8f2980682420c80ac3542dbe15f0d50d4d54e524f3db8deadc
+generated: "2021-10-14T21:59:14.853884351-04:00"

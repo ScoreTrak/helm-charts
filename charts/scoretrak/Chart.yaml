@@ -19,22 +19,22 @@ version: 0.1.3
 
 dependencies:
   - name: envoy
-    version: "0.2.15"
+    version: "0.2.16"
     repository: "file://../envoy"
   - name: server
-    version: "0.2.21"
+    version: "0.2.22"
     repository: "file://../server"
   - name: client
-    version: "0.2.8"
+    version: "0.2.9"
     repository: "file://../client"
   - name: payments
-    version: "0.1.0"
+    version: "0.1.1"
     repository: "file://../payments"
   - name: commercebackend
-    version: "0.1.0"
+    version: "0.1.2"
     repository: "file://../commercebackend"
   - name: commerceui
-    version: "0.1.0"
+    version: "0.1.1"
     repository: "file://../commerceui"
   - name: cockroachdb
     version: "6.2.4"
