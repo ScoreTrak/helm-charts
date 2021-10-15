@@ -13,7 +13,7 @@ dependencies:
   version: 0.1.8
 - name: commercebackend
   repository: file://../commercebackend
-  version: 0.1.4
+  version: 0.1.5
 - name: commerceui
   repository: file://../commerceui
   version: 0.1.1
@@ -23,5 +23,5 @@ dependencies:
 - name: nsq
   repository: https://beeinventor.github.io/charts
   version: 1.2.0
-digest: sha256:f99192e8d40ab9b479c1c422aadc02bc28fd93fe40af729172bc21ec31397095
-generated: "2021-10-15T04:36:23.457787354-04:00"
+digest: sha256:3c064825e33c5f696fde02a5f7c02496411bed9e63a9a3cf70fc5d936cbea62f
+generated: "2021-10-15T04:44:16.766723623-04:00"
