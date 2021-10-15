@@ -10,7 +10,7 @@ apply-scoretrak:
 	@echo "========================================"
 	@echo "Please wait for ScoreTrak to be deployed"
 	@echo "========================================"
-	helm upgrade --timeout 600s --install release ./charts/scoretrak
+	helm upgrade --timeout 1800s --install release ./charts/scoretrak
 	@echo "Navigate to localhost:30080 to see scoretrak"
 
 stop-dev: kind
