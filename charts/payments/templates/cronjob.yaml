@@ -33,9 +33,9 @@ spec:
               imagePullPolicy: IfNotPresent
               command:
                 - "/bin/sh"
-              args:
                 - "-c"
-                - "for i in $(seq 1 200); do nc -z -w3 $(yq e '.scoretrakaddress' /etc/payments/config.yaml | sed 's/:/ /g') && nc -z -w3 $(yq e '.bankbaseurl' /etc/payments/config.yaml | sed -e 's/^http:\/\///g' -e 's/^https:\/\///g' | sed 's/:/ /g') && exit 0 || sleep 3; done; exit 1"
+{{/*                - "for i in $(seq 1 200); do nc -z -w3 $(yq e '.scoretrakaddress' /etc/payments/config.yaml | sed 's/:/ /g') && nc -z -w3 $(yq e '.bankbaseurl' /etc/payments/config.yaml | sed -e 's/^http:\/\///g' -e 's/^https:\/\///g' | sed 's/:/ /g') && exit 0 || sleep 3; done; exit 1"*/}}
+                - "base64 -D <<< Zm9yIGkgaW4gJChzZXEgMSAyMDApOyBkbyBuYyAteiAtdzMgJCh5cSBlICcuc2NvcmV0cmFrYWRkcmVzcycgL2V0Yy9wYXltZW50cy9jb25maWcueWFtbCB8IHNlZCAncy86LyAvZycpICYmIG5jIC16IC13MyAkKHlxIGUgJy5iYW5rYmFzZXVybCcgL2V0Yy9wYXltZW50cy9jb25maWcueWFtbCB8IHNlZCAtZSAncy9eaHR0cDpcL1wvLy9nJyAtZSAncy9eaHR0cHM6XC9cLy8vZycgfCBzZWQgJ3MvOi8gL2cnKSAmJiBleGl0IDAgfHwgc2xlZXAgMzsgZG9uZTsgZXhpdCAx | sh"
               volumeMounts:
                 - name: config
                   mountPath: /etc/payments/
