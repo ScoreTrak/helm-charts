@@ -710,6 +710,17 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/nsqlookupd-0.1.0/nsqlookupd-0.1.0.tgz
     version: 0.1.0
+  payments:
+  - apiVersion: v2
+    appVersion: v0.2.5
+    created: "2021-10-15T02:18:05.767978527Z"
+    description: A Helm chart for Kubernetes
+    digest: 931148774f6d2090d404e15515559e9361cb2d998adc161652fd1aaef6bd67f3
+    name: payments
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/payments-0.1.2/payments-0.1.2.tgz
+    version: 0.1.2
   scoretrak:
   - apiVersion: v2
     created: "2021-10-15T02:03:14.475666886Z"
@@ -1285,4 +1296,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-15T02:03:14.476139288Z"
+generated: "2021-10-15T02:18:05.768214327Z"
