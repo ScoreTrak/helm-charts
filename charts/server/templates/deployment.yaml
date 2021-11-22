@@ -30,9 +30,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
-          - ./master
-          - -config
-          - /scoretrak/config.yaml
+            - master
+            - --config
+            - /scoretrak/config.yaml
           ports:
             - name: grpc
               containerPort: {{ .Values.service.port }}

@@ -104,7 +104,6 @@ spec:
         - name: create-payments-user
           image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}" 
           command:
-            - ./cli
             - create-super-user
             - --admin-name
             - {{ .Values.server.config.admin.username }}
