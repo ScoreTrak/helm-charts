@@ -3,7 +3,7 @@ kind:
 	$(call go-get-tool,$(KIND),sigs.k8s.io/kind@v0.11.0)
 	
 start-dev: kind
-	kind create cluster --config ./ha-cluster.yaml
+	kind create cluster --config ./ha-cluster.yaml --image kindest/node:v1.17.17
 
 apply-scoretrak:
 	helm dep update ./charts/scoretrak
