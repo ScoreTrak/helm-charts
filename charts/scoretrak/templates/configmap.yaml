@@ -104,6 +104,8 @@ spec:
         - name: create-payments-user
           image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}" 
           command:
+            - ./scoretrak
+          args:
             - create-super-user
             - --admin-name
             - {{ .Values.server.config.admin.username }}
