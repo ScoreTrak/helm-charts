@@ -23,5 +23,5 @@ dependencies:
 - name: nsq
   repository: https://beeinventor.github.io/charts
   version: 1.2.0
-digest: sha256:1641571cfae5dfcbc3dd4ecc113f953724bfdd87562382fac0348ef34946ce92
-generated: "2021-11-22T21:10:22.312438514-05:00"
+digest: sha256:bfbdbf5cead85362d7a84e1e7f198710da8100cf330dccde13efa0350484cf71
+generated: "2021-11-25T02:14:27.329567768-05:00"
