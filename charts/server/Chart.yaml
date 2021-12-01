@@ -2,5 +2,5 @@ apiVersion: v2
 name: server
 description: A Helm chart for ScoreTrak's server, a competition scoring engine written in go.
 type: application
-version: 0.3.0-alpha8
-appVersion: "v0.3.0-alpha8"
+version: 0.3.0-alpha9
+appVersion: "v0.3.0-alpha9"
