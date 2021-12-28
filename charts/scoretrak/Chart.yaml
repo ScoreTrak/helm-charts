@@ -30,15 +30,15 @@ dependencies:
   - name: payments
     version: "0.1.8"
     repository: "file://../payments"
-    condition: payments.use
+    condition: bank.enabled
   - name: commercebackend
     version: "0.1.7"
     repository: "file://../commercebackend"
-    condition: commercebackend.use
+    condition: bank.enabled
   - name: commerceui
     version: "0.1.1"
     repository: "file://../commerceui"
-    condition: commerceui.use
+    condition: bank.enabled
   - name: cockroachdb
     version: "6.2.4"
     repository: "https://charts.cockroachdb.com/"
