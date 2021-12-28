@@ -22,7 +22,7 @@ dependencies:
     version: "0.2.16"
     repository: "file://../envoy"
   - name: server
-    version: "0.3.0-alpha9"
+    version: "0.3.0-alpha14"
     repository: "file://../server"
   - name: client
     version: "0.2.10"
@@ -30,12 +30,15 @@ dependencies:
   - name: payments
     version: "0.1.8"
     repository: "file://../payments"
+    condition: payments.use
   - name: commercebackend
     version: "0.1.7"
     repository: "file://../commercebackend"
+    condition: commercebackend.use
   - name: commerceui
     version: "0.1.1"
     repository: "file://../commerceui"
+    condition: commerceui.use
   - name: cockroachdb
     version: "6.2.4"
     repository: "https://charts.cockroachdb.com/"
