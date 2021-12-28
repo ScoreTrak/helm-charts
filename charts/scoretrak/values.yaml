@@ -40,18 +40,15 @@ bank:
     
 # COMMERCE BACKEND SUB SUB HELM CHART VALUES
 commercebackend:
-  use: false
   config:
     create: false
 
 # COMMERCE UI SUB SUB HELM CHART VALUES
 commerceui:
-  use: false
   config:
     create: false
     
 payments:
-  use: false
   config:
     create: false
 
