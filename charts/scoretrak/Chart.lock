@@ -4,7 +4,7 @@ dependencies:
   version: 0.2.16
 - name: server
   repository: file://../server
-  version: 0.3.0-alpha14
+  version: 0.3.0-alpha18
 - name: client
   repository: file://../client
   version: 0.2.10
@@ -23,5 +23,5 @@ dependencies:
 - name: nsq
   repository: https://beeinventor.github.io/charts
   version: 1.2.0
-digest: sha256:9451b043607df3e3a98e824422fce6204d0f1878cf742c7db813fb839ba60838
-generated: "2021-12-28T18:30:03.46544-05:00"
+digest: sha256:9c2367ef17ef09d9d77e207dfa4ee23cbeaa0ae19094400ea57871c5cc3fd913
+generated: "2021-12-31T03:35:22.99463-05:00"
