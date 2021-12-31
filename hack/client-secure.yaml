@@ -1,9 +1,9 @@
-#kubectl exec -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=./test --host=lockdown-cockroachdb-public
+#kubectl exec -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=./test --host=release-cockroachdb-public
 
 apiVersion: v1
 kind: Pod
 metadata:
-  name: cockroachdb-client-secure
+  name: release-cockroachdb-client-secure
   labels:
     app: cockroachdb-client
 spec:
@@ -22,4 +22,4 @@ spec:
   volumes:
   - name: client-certs
     secret:
-      secretName: cockroachdb-client-secret
+      secretName: release-cockroachdb-client-secret
