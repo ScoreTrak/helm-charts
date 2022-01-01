@@ -833,6 +833,44 @@ entries:
     version: 0.1.2
   scoretrak:
   - apiVersion: v2
+    created: "2022-01-01T00:57:42.041969172Z"
+    dependencies:
+    - name: envoy
+      repository: file://../envoy
+      version: 0.2.16
+    - name: server
+      repository: file://../server
+      version: 0.3.0
+    - name: client
+      repository: file://../client
+      version: 0.2.10
+    - condition: bank.enabled
+      name: payments
+      repository: file://../payments
+      version: 0.1.8
+    - condition: bank.enabled
+      name: commercebackend
+      repository: file://../commercebackend
+      version: 0.1.7
+    - condition: bank.enabled
+      name: commerceui
+      repository: file://../commerceui
+      version: 0.1.1
+    - name: cockroachdb
+      repository: https://charts.cockroachdb.com/
+      version: 6.2.4
+    - condition: nsq.use
+      name: nsq
+      repository: https://beeinventor.github.io/charts
+      version: 1.2.0
+    description: A Helm chart for Scoretrak
+    digest: c3a56b09835355306f3fef559d902d89e4088955e4bdc401d4bcb826ca08fdcb
+    name: scoretrak
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/scoretrak-0.2.0/scoretrak-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
     created: "2021-10-16T17:08:15.998804758Z"
     dependencies:
     - name: envoy
@@ -1422,6 +1460,17 @@ entries:
     version: 0.1.0
   server:
   - apiVersion: v2
+    appVersion: v0.3.0
+    created: "2022-01-01T00:57:42.158489029Z"
+    description: A Helm chart for ScoreTrak's server, a competition scoring engine
+      written in go.
+    digest: 0e1d023667fa1a194243003ba07a3752c82f335ae68ff616b89d346af654ab0d
+    name: server
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.3.0/server-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
     appVersion: v0.2.13
     created: "2021-10-16T17:07:12.994501086Z"
     description: A Helm chart for ScoreTrak's server, a competition scoring engine
@@ -1906,4 +1955,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2021-10-16T17:08:15.999282562Z"
+generated: "2022-01-01T00:57:42.161078079Z"
