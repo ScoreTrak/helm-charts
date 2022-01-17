@@ -1,8 +1,8 @@
-# client
+# commerceui
 
-![Version: 0.2.10](https://img.shields.io/badge/Version-0.2.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.2.4](https://img.shields.io/badge/AppVersion-v0.2.4-informational?style=flat-square)
+![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.2.10](https://img.shields.io/badge/AppVersion-v0.2.10-informational?style=flat-square)
 
-A Helm chart for ScoreTrak's client
+A Helm chart for Scoretrak Bank UI
 
 ## Installing the Chart
 
@@ -10,7 +10,7 @@ To install the chart with the release name `my-release`:
 
 ```console
 $ helm repo add scoretrak http://scoretrak.github.io.com/helm-charts
-$ helm install my-release scoretrak/client
+$ helm install my-release scoretrak/commerceui
 ```
 
 ## Values
@@ -22,11 +22,11 @@ $ helm install my-release scoretrak/client
 | autoscaling.maxReplicas | int | `100` |  |
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.targetCPUUtilizationPercentage | int | `80` |  |
-| fullnameOverride | string | `""` | String to override client.fullname template |
-| image.pullPolicy | string | `"IfNotPresent"` | Container pull policy |
-| image.repository | string | `"ghcr.io/scoretrak/client/scoretrak-client"` | Container image name |
-| image.tag | string | `""` | Container image tag |
-| imagePullSecrets | list | `[]` | Secrets to pull container image |
+| fullnameOverride | string | `""` |  |
+| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.repository | string | `"ghcr.io/scoretrak/commerce/commerce-ui"` |  |
+| image.tag | string | `""` |  |
+| imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `""` |  |
 | ingress.enabled | bool | `false` |  |
@@ -34,12 +34,12 @@ $ helm install my-release scoretrak/client
 | ingress.hosts[0].paths[0].path | string | `"/"` |  |
 | ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
 | ingress.tls | list | `[]` |  |
-| nameOverride | string | `""` | String to override client.name template |
+| nameOverride | string | `""` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
-| replicaCount | int | `1` | Deployment replica count |
-| resources | object | `{}` | Resource requests and limits for Deployment Pods |
+| replicaCount | int | `1` |  |
+| resources | object | `{}` |  |
 | securityContext | object | `{}` |  |
 | service.port | int | `80` |  |
 | service.type | string | `"ClusterIP"` |  |
