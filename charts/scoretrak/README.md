@@ -1,6 +1,6 @@
 # scoretrak
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.2.1](https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 A Helm chart for Scoretrak
 
@@ -17,7 +17,7 @@ $ helm install my-release scoretrak/scoretrak
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../client | client | 0.2.10 |
+| file://../client | client | 0.2.11 |
 | file://../commercebackend | commercebackend | 0.1.7 |
 | file://../commerceui | commerceui | 0.1.1 |
 | file://../envoy | envoy | 0.2.16 |
