@@ -4,6 +4,8 @@ repos:
     hooks:
       - id: helm-docs
         args:
+          - --log-level
+          - debug
           - --chart-search-root=charts
           - --template-files=./_templates.gotmpl
           - --template-files=README.md.gotmpl
