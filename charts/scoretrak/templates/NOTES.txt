@@ -27,3 +27,16 @@ echo $PAYMENTS_PASSWORD | pbcopy
   echo "Visit http://127.0.0.1:8080 to use your application"
   kubectl --namespace {{ .Release.Namespace }} port-forward $POD_NAME 8080:$CONTAINER_PORT
 {{- end }}
+
+{{ if and (eq ( lower .Values.server.config.db.use ) "cockroach") (.Values.server.config.db.cockroachdb.configureZones | default true) }}
+3. Execute queries to ensure cockroach database stability for scoretrak (temp fix)
+
+curl -OOOOOOOOO https://raw.githubusercontent.com/cockroachdb/cockroach/master/cloud/kubernetes/client-secure.yaml
+yq e -i '.spec.serviceAccountName = "{{ .Release.Name }}-cockroachdb"' client-secure.yaml
+k create -f client-secure.yaml
+kubectl exec -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=/cockroach-certs --host={{ .Release.Name }}-cockroachdb-public
+
+Execute the following queries
+ALTER RANGE default CONFIGURE ZONE USING gc.ttlseconds = {{ .Values.server.config.db.cockroachdb.defaultZoneConfig.GcTtlSeconds | default 600 }}
+SET CLUSTER SETTING kv.range.backpressure_range_size_multiplier = {{ .Values.server.config.db.cockroachdb.defaultZoneConfig.Backpressure | default 0 }}
+{{ end }}
