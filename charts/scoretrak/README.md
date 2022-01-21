@@ -22,7 +22,7 @@ $ helm install my-release scoretrak/scoretrak
 | file://../commerceui | commerceui | 0.1.1 |
 | file://../envoy | envoy | 0.2.16 |
 | file://../payments | payments | 0.1.8 |
-| file://../server | server | 0.3.2 |
+| file://../server | server | 0.3.4 |
 | https://beeinventor.github.io/charts | nsq | 1.2.0 |
 | https://charts.cockroachdb.com/ | cockroachdb | 6.2.4 |
 
@@ -31,7 +31,7 @@ $ helm install my-release scoretrak/scoretrak
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | bank.FQDN | string | `"bank.example.com"` |  |
-| bank.enabled | bool | `true` |  |
+| bank.enabled | bool | `false` |  |
 | cockroachdb.init.provisioning.databases[0].name | string | `"scoretrak"` |  |
 | cockroachdb.init.provisioning.databases[1].name | string | `"bank"` |  |
 | cockroachdb.init.provisioning.databases[2].name | string | `"payments"` |  |
