@@ -1,6 +1,6 @@
 # scoretrak
 
-![Version: 0.2.2](https://img.shields.io/badge/Version-0.2.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.2.3](https://img.shields.io/badge/Version-0.2.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 A Helm chart for Scoretrak
 
@@ -22,7 +22,7 @@ $ helm install my-release scoretrak/scoretrak
 | file://../commerceui | commerceui | 0.1.1 |
 | file://../envoy | envoy | 0.2.16 |
 | file://../payments | payments | 0.1.8 |
-| file://../server | server | 0.3.4 |
+| file://../server | server | 0.3.5 |
 | https://beeinventor.github.io/charts | nsq | 1.2.0 |
 | https://charts.cockroachdb.com/ | cockroachdb | 6.2.4 |
 
