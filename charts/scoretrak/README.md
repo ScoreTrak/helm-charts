@@ -1,6 +1,6 @@
 # scoretrak
 
-![Version: 0.2.1](https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
+![Version: 0.2.3](https://img.shields.io/badge/Version-0.2.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 A Helm chart for Scoretrak
 
@@ -17,12 +17,12 @@ $ helm install my-release scoretrak/scoretrak
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../client | client | 0.2.11 |
+| file://../client | client | 0.2.12 |
 | file://../commercebackend | commercebackend | 0.1.7 |
 | file://../commerceui | commerceui | 0.1.1 |
 | file://../envoy | envoy | 0.2.16 |
 | file://../payments | payments | 0.1.8 |
-| file://../server | server | 0.3.0 |
+| file://../server | server | 0.3.5 |
 | https://beeinventor.github.io/charts | nsq | 1.2.0 |
 | https://charts.cockroachdb.com/ | cockroachdb | 6.2.4 |
 
@@ -31,7 +31,7 @@ $ helm install my-release scoretrak/scoretrak
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | bank.FQDN | string | `"bank.example.com"` |  |
-| bank.enabled | bool | `true` |  |
+| bank.enabled | bool | `false` |  |
 | cockroachdb.init.provisioning.databases[0].name | string | `"scoretrak"` |  |
 | cockroachdb.init.provisioning.databases[1].name | string | `"bank"` |  |
 | cockroachdb.init.provisioning.databases[2].name | string | `"payments"` |  |

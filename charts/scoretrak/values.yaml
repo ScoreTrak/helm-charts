@@ -38,7 +38,7 @@ server:
 # BANK SUB HELM CHART VALUES
 
 bank:
-  enabled: true
+  enabled: false
   FQDN: "bank.example.com"
     
 # COMMERCE BACKEND SUB SUB HELM CHART VALUES
