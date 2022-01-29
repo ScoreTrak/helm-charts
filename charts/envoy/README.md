@@ -9,7 +9,7 @@ A Helm chart for Envoy Proxy
 To install the chart with the release name `my-release`:
 
 ```console
-$ helm repo add scoretrak http://scoretrak.github.io.com/helm-charts
+$ helm repo add scoretrak https://scoretrak.github.io/helm-charts
 $ helm install my-release scoretrak/envoy
 ```
 
