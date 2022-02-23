@@ -1,0 +1,83 @@
+# Default values for scoretrak.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+
+scoretrak:
+  FQDN: "scoretrak.example.com"
+
+
+config:
+  db_names:
+    - scoretrak
+
+# ENVOY SUB HELM CHART VALUES
+
+envoy:
+  config:
+    create: false
+
+# CLIENT SUB HELM CHART VALUES
+
+# client:
+
+# SERVER SUB HELM CHART VALUES
+
+server:
+  image:
+    tag: "v0.3.3"
+  config:
+    create: false
+    nsq:
+      use: false
+    db:
+      cockroachdb:
+        database: scoretrak
+        password: ""
+        tls:
+          enabled: true
+
+# BANK SUB HELM CHART VALUES
+
+bank:
+  enabled: false
+  FQDN: "bank.example.com"
+
+# COMMERCE BACKEND SUB SUB HELM CHART VALUES
+commercebackend:
+  config:
+    create: false
+
+# COMMERCE UI SUB SUB HELM CHART VALUES
+commerceui:
+  config:
+    create: false
+
+payments:
+  config:
+    create: false
+
+
+# COCKROACHDB SUB HELM CHART VALUES
+
+cockroachdb:
+  single-node: yes
+  statefulset:
+    replicas: 1
+  storage:
+    persistentVolume:
+      size: "10Gi"
+  tls:
+    enabled: true
+  
+  init:
+    provisioning:
+      enabled: true
+      databases:
+        - name: scoretrak
+        - name: bank
+        - name: payments
+
+# NSQ SUB HELM CHART VALUES
+nsq:
+  use: false
