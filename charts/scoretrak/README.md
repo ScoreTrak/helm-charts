@@ -17,11 +17,11 @@ $ helm install my-release scoretrak/scoretrak
 
 | Repository | Name | Version |
 |------------|------|---------|
-| file://../client | client | 0.2.12 |
-| file://../commercebackend | commercebackend | 0.1.7 |
-| file://../commerceui | commerceui | 0.1.1 |
-| file://../envoy | envoy | 0.2.16 |
-| file://../payments | payments | 0.1.8 |
+| file://../client | client | 0.2.13 |
+| file://../commercebackend | commercebackend | 0.1.8 |
+| file://../commerceui | commerceui | 0.1.2 |
+| file://../envoy | envoy | 0.2.17 |
+| file://../payments | payments | 0.1.9 |
 | file://../server | server | 0.3.6 |
 | https://beeinventor.github.io/charts | nsq | 1.2.0 |
 | https://charts.cockroachdb.com/ | cockroachdb | 6.2.4 |
