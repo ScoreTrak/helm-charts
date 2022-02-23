@@ -22,7 +22,7 @@ $ helm install my-release scoretrak/scoretrak
 | file://../commerceui | commerceui | 0.1.1 |
 | file://../envoy | envoy | 0.2.16 |
 | file://../payments | payments | 0.1.8 |
-| file://../server | server | 0.3.5 |
+| file://../server | server | 0.3.6 |
 | https://beeinventor.github.io/charts | nsq | 1.2.0 |
 | https://charts.cockroachdb.com/ | cockroachdb | 6.2.4 |
 

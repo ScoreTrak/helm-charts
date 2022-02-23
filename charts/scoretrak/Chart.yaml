@@ -22,7 +22,7 @@ dependencies:
     version: "0.2.16"
     repository: "file://../envoy"
   - name: server
-    version: "0.3.5"
+    version: "0.3.6"
     repository: "file://../server"
   - name: client
     version: "0.2.12"
