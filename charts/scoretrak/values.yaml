@@ -24,6 +24,8 @@ envoy:
 # SERVER SUB HELM CHART VALUES
 
 server:
+  image:
+    tag: "v0.3.2-alpha6"
   config:
     create: false
     nsq:
