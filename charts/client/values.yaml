@@ -29,6 +29,9 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+extraEnvs:
+  REACT_APP_COMPETITION_NAME: "Olympics"
+
 podAnnotations: {}
 
 podSecurityContext: {}
