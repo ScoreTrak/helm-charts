@@ -25,7 +25,7 @@ envoy:
 
 server:
   image:
-    tag: "v0.3.2-alpha6"
+    tag: "v0.3.3"
   config:
     create: false
     nsq:
@@ -63,7 +63,7 @@ payments:
 cockroachdb:
   storage:
     persistentVolume:
-      size: "10Gi"
+      enabled: false
   tls:
     enabled: true
     
