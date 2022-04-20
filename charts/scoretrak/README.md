@@ -13,6 +13,11 @@ $ helm repo add scoretrak https://scoretrak.github.io/helm-charts
 $ helm install my-release scoretrak/scoretrak
 ```
 
+
+## Accessing CockroachDB via CLI
+To access database, via SQL Client, follow cockroach DB's docs at: [Step 3. Use the built-in SQL client](https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-with-kubernetes.html?filters=helm#step-3-use-the-built-in-sql-client)
+
+
 ## Requirements
 
 | Repository | Name | Version |
