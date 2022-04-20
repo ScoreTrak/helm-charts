@@ -1,0 +1,25 @@
+#kubectl exec -it cockroachdb-client-secure -- ./cockroach sql --certs-dir=./test --host=release-cockroachdb-public
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: release-cockroachdb-client-secure
+  labels:
+    app: cockroachdb-client
+spec:
+  containers:
+  - name: cockroachdb-client
+    image: cockroachdb/cockroach:v21.1.10
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+    - name: client-certs
+      mountPath: /cockroach-certs
+    command:
+    - "bash"
+    - "-c"
+    - "mkdir -p test && cp /cockroach-certs/tls.crt ./test/client.root.crt && cp /cockroach-certs/tls.key ./test/client.root.key && cp /cockroach-certs/ca.crt ./test/ca.crt  && chmod 0600 ./test/client.root.key && sleep 2147483648"
+  terminationGracePeriodSeconds: 0
+  volumes:
+  - name: client-certs
+    secret:
+      secretName: release-cockroachdb-client-secret
