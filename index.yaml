@@ -153,6 +153,16 @@ entries:
     version: 0.1.0
   commercebackend:
   - apiVersion: v2
+    appVersion: v0.2.15
+    created: "2022-05-12T02:46:52.534384101Z"
+    description: A Helm chart for Scoretrak Bank Backend
+    digest: 9b3b89cc8a9463a9d90188ef07d855ddcfeb135a4d3542c2fa28a59bd33b75cb
+    name: commercebackend
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/commercebackend-0.1.10/commercebackend-0.1.10.tgz
+    version: 0.1.10
+  - apiVersion: v2
     appVersion: v0.2.13
     created: "2022-04-15T20:31:35.924803626Z"
     description: A Helm chart for Scoretrak Bank Backend
@@ -943,6 +953,44 @@ entries:
     - https://github.com/ScoreTrak/helm-charts/releases/download/payments-0.1.2/payments-0.1.2.tgz
     version: 0.1.2
   scoretrak:
+  - apiVersion: v2
+    created: "2022-05-12T02:46:52.668194948Z"
+    dependencies:
+    - name: envoy
+      repository: file://../envoy
+      version: 0.2.18
+    - name: server
+      repository: file://../server
+      version: 0.3.7
+    - name: client
+      repository: file://../client
+      version: 0.2.14
+    - condition: bank.enabled
+      name: payments
+      repository: file://../payments
+      version: 0.1.10
+    - condition: bank.enabled
+      name: commercebackend
+      repository: file://../commercebackend
+      version: 0.1.10
+    - condition: bank.enabled
+      name: commerceui
+      repository: file://../commerceui
+      version: 0.1.3
+    - name: cockroachdb
+      repository: https://charts.cockroachdb.com/
+      version: 6.2.4
+    - condition: nsq.use
+      name: nsq
+      repository: https://beeinventor.github.io/charts
+      version: 1.2.0
+    description: A Helm chart for Scoretrak
+    digest: 6c4eeb8b32a7165d9bb5f018e90b86bc8b8e1ecdf5ed397bcb3ab54f04d533b2
+    name: scoretrak
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/scoretrak-0.2.6/scoretrak-0.2.6.tgz
+    version: 0.2.6
   - apiVersion: v2
     created: "2022-04-15T20:31:36.422658336Z"
     dependencies:
@@ -2300,4 +2348,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2022-04-15T20:31:36.545158041Z"
+generated: "2022-05-12T02:46:52.669363061Z"
