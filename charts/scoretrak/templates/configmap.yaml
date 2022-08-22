@@ -70,7 +70,9 @@ data:
     {{ end }}
 
     platform:
-      use: kubernetes
+      use: "kubernetes"
+      kubernetes:
+        namespace: "{{ .Release.Namespace }}"
 
     jwt:
       secret: {{ $jwtSecretScoreTrak }}

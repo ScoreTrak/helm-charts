@@ -4,7 +4,7 @@ dependencies:
   version: 0.2.18
 - name: server
   repository: file://../server
-  version: 0.3.7
+  version: 0.3.8
 - name: client
   repository: file://../client
   version: 0.2.14
@@ -21,7 +21,7 @@ dependencies:
   repository: https://charts.cockroachdb.com/
   version: 6.2.4
 - name: nsq
-  repository: https://beeinventor.github.io/charts
-  version: 1.2.0
-digest: sha256:783262381e5a13e602906eba83a42db2e99f9c17c5904a8f0f4d398625b14dd7
-generated: "2022-05-11T22:44:05.90504-04:00"
+  repository: https://nsqio.github.io/helm-chart
+  version: 0.0.6
+digest: sha256:40df4d3b97ba7d0869922866b21ba48aea55c99dd71570bbfd754f61e9183bcd
+generated: "2022-08-22T01:36:33.403702-04:00"

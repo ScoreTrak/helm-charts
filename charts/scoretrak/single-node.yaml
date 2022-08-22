@@ -66,7 +66,7 @@ cockroachdb:
     replicas: 1
   storage:
     persistentVolume:
-      size: "10Gi"
+      enabled: false
   tls:
     enabled: true
   
