@@ -154,6 +154,16 @@ entries:
   commercebackend:
   - apiVersion: v2
     appVersion: v0.2.15
+    created: "2022-08-23T23:10:29.840626352Z"
+    description: A Helm chart for Scoretrak Bank Backend
+    digest: 853140e7ee861787024907a180b6ba303730e427891f5a4ff2d51a8cf8c97c6d
+    name: commercebackend
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/commercebackend-0.1.11/commercebackend-0.1.11.tgz
+    version: 0.1.11
+  - apiVersion: v2
+    appVersion: v0.2.15
     created: "2022-05-12T02:46:52.534384101Z"
     description: A Helm chart for Scoretrak Bank Backend
     digest: 9b3b89cc8a9463a9d90188ef07d855ddcfeb135a4d3542c2fa28a59bd33b75cb
@@ -953,6 +963,44 @@ entries:
     - https://github.com/ScoreTrak/helm-charts/releases/download/payments-0.1.2/payments-0.1.2.tgz
     version: 0.1.2
   scoretrak:
+  - apiVersion: v2
+    created: "2022-08-23T23:10:29.963797634Z"
+    dependencies:
+    - name: envoy
+      repository: file://../envoy
+      version: 0.2.18
+    - name: server
+      repository: file://../server
+      version: 0.3.8
+    - name: client
+      repository: file://../client
+      version: 0.2.14
+    - condition: bank.enabled
+      name: payments
+      repository: file://../payments
+      version: 0.1.10
+    - condition: bank.enabled
+      name: commercebackend
+      repository: file://../commercebackend
+      version: 0.1.11
+    - condition: bank.enabled
+      name: commerceui
+      repository: file://../commerceui
+      version: 0.1.3
+    - name: cockroachdb
+      repository: https://charts.cockroachdb.com/
+      version: 6.2.4
+    - condition: nsq.use
+      name: nsq
+      repository: https://nsqio.github.io/helm-chart
+      version: 0.0.6
+    description: A Helm chart for Scoretrak
+    digest: dcef12ab7f9c0aa3cccf76a33f4e4e4880679fc3d65fee5f0bb1683c47b7ac08
+    name: scoretrak
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/scoretrak-0.2.8/scoretrak-0.2.8.tgz
+    version: 0.2.8
   - apiVersion: v2
     created: "2022-05-12T02:46:52.668194948Z"
     dependencies:
@@ -1810,6 +1858,17 @@ entries:
   server:
   - apiVersion: v2
     appVersion: v0.3.3
+    created: "2022-08-23T23:10:30.261214783Z"
+    description: A Helm chart for ScoreTrak's server, a competition scoring engine
+      written in go.
+    digest: bcddc98680e1cd7e85b870d2949c55baf813c62ff4ea9aef5cc4ec6488f895b4
+    name: server
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.3.8/server-0.3.8.tgz
+    version: 0.3.8
+  - apiVersion: v2
+    appVersion: v0.3.3
     created: "2022-04-15T20:31:36.543846326Z"
     description: A Helm chart for ScoreTrak's server, a competition scoring engine
       written in go.
@@ -2348,4 +2407,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2022-05-12T02:46:52.669363061Z"
+generated: "2022-08-23T23:10:30.262064936Z"
