@@ -28,7 +28,7 @@ jobs:
         run: |
           helm repo add scoretrak https://scoretrak.github.io/helm-charts
           helm repo add cockroachdb https://charts.cockroachdb.com
-          helm repo add beeinvetor https://beeinventor.github.io/charts
+          helm repo add nsqio https://nsqio.github.io/helm-chart
 
 
       - name: Run chart-releaser
