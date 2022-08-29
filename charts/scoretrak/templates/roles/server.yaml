@@ -1,7 +1,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: Role
 metadata:
-  name: {{ include "server.fullname" . }}
+  name: {{ include "scoretrak.server.fullname" . }}
   namespace: {{ .Release.Namespace }}
 rules:
   - resources:

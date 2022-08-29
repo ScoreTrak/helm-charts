@@ -24,6 +24,54 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 
 {{/*
+server fullname
+*/}}
+{{- define "scoretrak.server.fullname" -}}
+{{- if .Values.server.fullnameOverride }}
+{{- .Values.server.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- $name := default "server" .Values.server.nameOverride }}
+{{- if contains $name .Release.Name }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+envoy fullname
+*/}}
+{{- define "scoretrak.envoy.fullname" -}}
+{{- if .Values.envoy.fullnameOverride }}
+{{- .Values.envoy.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- $name := default "envoy" .Values.envoy.nameOverride }}
+{{- if contains $name .Release.Name }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+client fullname
+*/}}
+{{- define "scoretrak.client.fullname" -}}
+{{- if .Values.client.fullnameOverride }}
+{{- .Values.client.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- $name := default "client" .Values.client.nameOverride }}
+{{- if contains $name .Release.Name }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "scoretrak.chart" -}}
@@ -35,19 +83,42 @@ Common labels
 */}}
 {{- define "scoretrak.labels" -}}
 helm.sh/chart: {{ include "scoretrak.chart" . }}
-{{ include "scoretrak.selectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
+app.kubernetes.io/name: {{ include "scoretrak.name" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Selector labels
+Server selector labels
 */}}
-{{- define "scoretrak.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "scoretrak.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+{{- define "scoretrak.server.selectorLabels" -}}
+app.kubernetes.io/component: server
+{{- end }}
+
+{{/*
+Envoy selector labels
+*/}}
+{{- define "scoretrak.envoy.selectorLabels" -}}
+app.kubernetes.io/component: envoy
+{{- end }}
+
+{{/*
+Client selector labels
+*/}}
+{{- define "scoretrak.client.selectorLabels" -}}
+app.kubernetes.io/component: client
+{{- end }}
+
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "scoretrak.server.serviceAccountName" -}}
+{{- if .Values.server.serviceAccount.create }}
+{{- default (include "scoretrak.server.fullname" .) .Values.server.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.server.serviceAccount.name }}
+{{- end }}
 {{- end }}
 
 {{/*

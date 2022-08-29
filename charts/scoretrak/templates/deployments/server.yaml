@@ -1,68 +1,68 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "server.fullname" . }}
+  name: {{ include "scoretrak.server.fullname" . }}
   labels:
-    {{- include "server.labels" . | nindent 4 }}
+    {{- include "scoretrak.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.server.replicaCount }}
   selector:
     matchLabels:
-      {{- include "server.selectorLabels" . | nindent 6 }}
+      {{- include "scoretrak.server.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- with .Values.server.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "server.selectorLabels" . | nindent 8 }}
+        {{- include "scoretrak.server.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- with .Values.server.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "server.serviceAccountName" . }}
+      serviceAccountName: {{ include "scoretrak.server.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.server.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.server.image.repository }}:{{ .Values.server.image.tag }}"
+          imagePullPolicy: {{ .Values.server.image.pullPolicy }}
           args:
             - master
             - --config
             - /scoretrak/config.yaml
           ports:
             - name: grpc
-              containerPort: {{ .Values.service.port }}
+              containerPort: 9090
           volumeMounts:
             - name: scoretrak-config
               mountPath: /scoretrak
-            {{ if .Values.config.db.cockroachdb.tls.enabled }}
+            {{ if .Values.server.config.db.cockroachdb.tls.enabled }}
             - name: cockroachdb-client-secret
               mountPath: /cockroach-certs
             {{ end }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.server.resources | nindent 12 }}
       volumes:
         - name: scoretrak-config
           configMap:
-            name: {{ include "server.fullname" . }}
-        {{ if .Values.config.db.cockroachdb.tls.enabled }}
+            name: {{ include "scoretrak.server.fullname" . }}
+        {{ if .Values.server.config.db.cockroachdb.tls.enabled }}
         - name: cockroachdb-client-secret
           secret:
             secretName: {{ include "global_db_client_secret_name" . }}
         {{ end }}
-      {{- with .Values.nodeSelector }}
+      {{- with .Values.server.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with .Values.server.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with .Values.server.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

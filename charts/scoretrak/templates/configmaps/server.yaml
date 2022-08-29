@@ -1,0 +1,49 @@
+{{ $jwtSecret := randAlphaNum 24 }}
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "scoretrak.server.fullname" . }}
+  labels:
+    {{- include "scoretrak.labels" . | nindent 4 }}
+data:
+  config.yaml: |-
+    {{ if .Values.server.config.nsq.use }}
+    queue:
+      use: nsq
+      nsq:
+    {{ $nsqdFullName := include "call-nested" ( list . "nsq" "nsq.nsqd.fullname" ) }}
+        producernsqd: "{{ $nsqdFullName }}:4150"
+        nsqlookupd:
+          {{ $lookupdFullName := include "call-nested" ( list . "nsq" "nsq.nsqlookupd.fullname" ) }}
+          {{ range $i, $e := until (atoi (printf "%d" (int64 .Values.nsq.nsqlookupd.replicaCount))) -}}
+              - {{ $lookupdFullName }}-{{ $i }}.{{ $lookupdFullName }}:4161
+          {{ end -}}
+    {{ else }}
+    queue:
+      use: none
+    {{ end }}
+
+    port: 9090
+    production: {{ .Values.server.config.production }}
+    
+    adminusername: {{ .Values.server.config.admin.username }}
+    adminpassword: {{ .Values.server.config.admin.password }}
+    
+    db:
+      cockroach:
+        host: {{ include "call-nested" ( list . "cockroachdb" "cockroachdb.fullname" ) }}-public
+        port: {{ .Values.cockroachdb.service.ports.grpc.external.port }}
+        database: {{ .Values.server.config.db.cockroachdb.database }}
+        {{ if .Values.cockroachdb.tls.enabled }}
+        clientca: "/cockroach-certs/ca.crt"
+        clientsslkey: "/cockroach-certs/tls.key"
+        clientsslcert: "/cockroach-certs/tls.crt"
+        {{ else }}
+        password: {{ .Values.server.config.db.cockroachdb.password }}
+        {{ end }}
+    
+    platform:
+      use: kubernetes
+
+    jwt:
+      secret: {{ $jwtSecret }}

@@ -1,22 +1,16 @@
-{{ if not .Values.envoy.config.create }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "call-nested" ( list . "envoy" "envoy.fullname" ) }}
+  name: {{ include "scoretrak.envoy.fullname" . }}
   labels:
   {{ include "scoretrak.labels" . | nindent 4 }}
 data:
   envoy.yaml: |
-    admin:
-      access_log_path: /tmp/admin_access.log
-      address:
-        socket_address: { address: 127.0.0.1, port_value: 9901 }
-
     static_resources:
       listeners:
       - name: listener_0
         address:
-          socket_address: { address: 0.0.0.0, port_value: {{ .Values.envoy.service.port }} }
+          socket_address: { address: 0.0.0.0, port_value: 8080 }
         filter_chains:
         - filters:
           - name: envoy.filters.network.http_connection_manager
@@ -28,8 +22,8 @@ data:
               route_config:
                 name: routes
                 virtual_hosts:
-                - name: scoretrak_service
-                  domains: ["{{ .Values.scoretrak.FQDN }}"]
+                - name: scoretrak
+                  domains: ["*"]
                   routes:
                   - match:
                       prefix: "/"
@@ -52,27 +46,6 @@ data:
                     allow_headers: keep-alive,user-agent,cache-control,content-type,content-transfer-encoding,custom-header-1,x-accept-content-transfer-encoding,x-accept-response-streaming,x-user-agent,x-grpc-web,grpc-timeout,authorization
                     max_age: "1728000"
                     expose_headers: custom-header-1,grpc-status,grpc-message
-{{ if .Values.bank.enabled }}
-                - name: bank_service
-                  domains: ["{{ .Values.bank.FQDN }}"]
-                  routes:
-                  - match:
-                      prefix: "/admin"
-                    route:
-                      cluster: commercebackend
-                  - match:
-                      prefix: "/api"
-                    route:
-                      cluster: commercebackend
-                  - match:
-                      prefix: "/static"
-                    route:
-                      cluster: commercebackend
-                  - match:
-                      prefix: "/"
-                    route:
-                      cluster: commerceui
-{{ end }}
               http_filters:
                 - name: envoy.filters.http.grpc_web
                 - name: envoy.filters.http.cors
@@ -90,7 +63,7 @@ data:
                   - endpoint:
                       address:
                         socket_address:
-                          address: {{ include "call-nested" ( list . "server" "server.fullname" ) }}
+                          address: {{ include "scoretrak.server.fullname" . }}
                           port_value: {{ .Values.server.service.port }}
 
         - name: scoretrak-client
@@ -104,34 +77,5 @@ data:
                   - endpoint:
                       address:
                         socket_address:
-                          address: {{ include "call-nested" ( list . "client" "client.fullname" ) }}
+                          address: {{ include "scoretrak.client.fullname" . }}
                           port_value: {{ .Values.client.service.port }}
-{{ if .Values.bank.enabled }}
-        - name: commerceui
-          connect_timeout: 0.25s
-          type: logical_dns
-          lb_policy: round_robin
-          load_assignment:
-            cluster_name: commerceui
-            endpoints:
-              - lb_endpoints:
-                  - endpoint:
-                      address:
-                        socket_address:
-                          address: {{ include "call-nested" ( list . "commerceui" "commerceui.fullname" ) }}
-                          port_value: {{ .Values.commerceui.service.port }}
-        - name: commercebackend
-          connect_timeout: 0.25s
-          type: logical_dns
-          lb_policy: round_robin
-          load_assignment:
-            cluster_name: commercebackend
-            endpoints:
-              - lb_endpoints:
-                  - endpoint:
-                      address:
-                        socket_address:
-                          address: {{ include "call-nested" ( list . "commercebackend" "commercebackend.fullname" ) }}
-                          port_value: {{ .Values.commercebackend.service.port }}
-{{ end }}
-{{ end }}

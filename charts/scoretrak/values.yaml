@@ -2,71 +2,160 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+nameOverride: ""
+fullnameOverride: ""
 
 scoretrak:
   FQDN: "scoretrak.example.com"
 
 
-config:
-  db_names:
-    - scoretrak
-
-# ENVOY SUB HELM CHART VALUES
-
-envoy:
-  config:
-    create: false
-
-# CLIENT SUB HELM CHART VALUES
-
-# client:
-
-# SERVER SUB HELM CHART VALUES
+# SERVER VALUES
 
 server:
+  replicaCount: 1
+  
   image:
-    tag: "v0.3.2-alpha6"
+    repository: ghcr.io/scoretrak/scoretrak/scoretrak-server
+    pullPolicy: IfNotPresent
+    tag: "v0.3.4"
+  
+  imagePullSecrets: [ ]
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    create: true
+    annotations: { }
+    name: ""
+
+  podAnnotations: { }
+  podSecurityContext: { }
+  securityContext: { }
+
+  service:
+    type: ClusterIP
+    port: 9090
+
+  resources: { }
+  nodeSelector: { }
+  tolerations: [ ]
+  affinity: { }
+  
   config:
-    create: false
+    production: false
+    create: true
     nsq:
-      use: true
+      use: false
+      producernsqd: ""
+      nsqlookupd:
+        nodes:
+          - ""
+    admin:
+      username: "admin"
+      password: "changeme"
     db:
       cockroachdb:
+        host: ""
         database: scoretrak
         password: ""
         tls:
           enabled: true
 
-# BANK SUB HELM CHART VALUES
 
-bank:
-  enabled: false
-  FQDN: "bank.example.com"
-    
-# COMMERCE BACKEND SUB SUB HELM CHART VALUES
-commercebackend:
-  config:
-    create: false
+# ENVOY VALUES
 
-# COMMERCE UI SUB SUB HELM CHART VALUES
-commerceui:
-  config:
-    create: false
-    
-payments:
-  config:
-    create: false
+envoy:
+  replicaCount: 1
 
-    
+  image:
+    repository: envoyproxy/envoy
+    pullPolicy: IfNotPresent
+    tag: "v1.19.1"
+
+  imagePullSecrets: [ ]
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    create: false
+    annotations: { }
+    name: ""
+
+  podAnnotations: { }
+  podSecurityContext: { }
+  securityContext: { }
+
+  service:
+    type: ClusterIP
+    port: 8080
+#    nodePort: 30080
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations:
+      kubernetes.io/ingress.class: nginx
+#      kubernetes.io/tls-acme: "true"
+    hosts:
+      - host: scoretrak.example.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: [ ]
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+  resources: { }
+  nodeSelector: { }
+  tolerations: [ ]
+  affinity: { }
+
+
+# CLIENT VALUES
+
+client:
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/scoretrak/client/scoretrak-client
+    pullPolicy: IfNotPresent
+    tag: "v0.2.5"
+
+  imagePullSecrets: [ ]
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    create: true
+    annotations: { }
+    name: ""
+
+  extraEnvs:
+    REACT_APP_COMPETITION_NAME: "Olympics"
+
+  podAnnotations: { }
+  podSecurityContext: { }
+  securityContext: { }
+
+  service:
+    type: ClusterIP
+    port: 8080
+
+  resources: { }
+  nodeSelector: { }
+  tolerations: [ ]
+  affinity: { }
+
+
 # COCKROACHDB SUB HELM CHART VALUES
 
 cockroachdb:
   storage:
     persistentVolume:
-      size: "10Gi"
+      enabled: false
   tls:
     enabled: true
-    
   init:
     provisioning:
       enabled: true
@@ -75,7 +164,9 @@ cockroachdb:
         - name: bank
         - name: payments
 
+
 # NSQ SUB HELM CHART VALUES
+
 nsq:
   use: true
   nsqd:

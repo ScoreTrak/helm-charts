@@ -1,27 +1,9 @@
 dependencies:
-- name: envoy
-  repository: file://../envoy
-  version: 0.2.18
-- name: server
-  repository: file://../server
-  version: 0.3.7
-- name: client
-  repository: file://../client
-  version: 0.2.14
-- name: payments
-  repository: file://../payments
-  version: 0.1.10
-- name: commercebackend
-  repository: file://../commercebackend
-  version: 0.1.10
-- name: commerceui
-  repository: file://../commerceui
-  version: 0.1.3
 - name: cockroachdb
   repository: https://charts.cockroachdb.com/
-  version: 6.2.4
+  version: 8.1.4
 - name: nsq
-  repository: https://beeinventor.github.io/charts
-  version: 1.2.0
-digest: sha256:783262381e5a13e602906eba83a42db2e99f9c17c5904a8f0f4d398625b14dd7
-generated: "2022-05-11T22:44:05.90504-04:00"
+  repository: https://nsqio.github.io/helm-chart
+  version: 0.0.5
+digest: sha256:88781f4544551778efaf2ee6d85a98fee8f7118980788ef52b673ae0a5cb7bdc
+generated: "2022-08-12T00:02:02.163164-04:00"
