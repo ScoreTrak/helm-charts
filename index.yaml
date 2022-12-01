@@ -994,6 +994,44 @@ entries:
     version: 0.1.2
   scoretrak:
   - apiVersion: v2
+    created: "2022-12-01T05:55:23.362378614Z"
+    dependencies:
+    - name: envoy
+      repository: file://../envoy
+      version: 0.2.18
+    - name: server
+      repository: file://../server
+      version: 0.3.8
+    - name: client
+      repository: file://../client
+      version: 0.2.14
+    - condition: bank.enabled
+      name: payments
+      repository: file://../payments
+      version: 0.1.10
+    - condition: bank.enabled
+      name: commercebackend
+      repository: file://../commercebackend
+      version: 0.1.14
+    - condition: bank.enabled
+      name: commerceui
+      repository: file://../commerceui
+      version: 0.1.3
+    - name: cockroachdb
+      repository: https://charts.cockroachdb.com/
+      version: 6.2.4
+    - condition: nsq.use
+      name: nsq
+      repository: https://nsqio.github.io/helm-chart
+      version: 0.0.6
+    description: A Helm chart for Scoretrak
+    digest: a42faacb5319c7d9c2b3920bb46281ac3c36a241b51e95f9b1041e59a5823bcf
+    name: scoretrak
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/scoretrak-0.2.11/scoretrak-0.2.11.tgz
+    version: 0.2.11
+  - apiVersion: v2
     created: "2022-12-01T05:22:03.764571437Z"
     dependencies:
     - name: envoy
@@ -2513,4 +2551,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2022-12-01T05:53:49.554258113Z"
+generated: "2022-12-01T05:55:23.363028422Z"
