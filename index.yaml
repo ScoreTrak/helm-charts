@@ -903,6 +903,16 @@ entries:
     version: 0.1.0
   payments:
   - apiVersion: v2
+    appVersion: v0.2.6
+    created: "2022-12-01T18:31:52.219287817Z"
+    description: A Helm chart for Kubernetes
+    digest: 921767a31485c4098fd531e86b343b3d8f2dc8a8415c81df85166fabf4e1800f
+    name: payments
+    type: application
+    urls:
+    - https://github.com/ScoreTrak/helm-charts/releases/download/payments-0.1.11/payments-0.1.11.tgz
+    version: 0.1.11
+  - apiVersion: v2
     appVersion: v0.2.5
     created: "2022-04-15T20:31:36.292624745Z"
     description: A Helm chart for Kubernetes
@@ -2551,4 +2561,4 @@ entries:
     urls:
     - https://github.com/ScoreTrak/helm-charts/releases/download/server-0.1.0/server-0.1.0.tgz
     version: 0.1.0
-generated: "2022-12-01T05:55:23.363028422Z"
+generated: "2022-12-01T18:31:52.220786139Z"
