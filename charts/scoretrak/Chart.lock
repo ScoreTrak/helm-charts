@@ -13,15 +13,15 @@ dependencies:
   version: 0.1.10
 - name: commercebackend
   repository: file://../commercebackend
-  version: 0.1.11
+  version: 0.1.12
 - name: commerceui
   repository: file://../commerceui
   version: 0.1.3
 - name: cockroachdb
   repository: https://charts.cockroachdb.com/
-  version: 6.2.4
+  version: 9.1.1
 - name: nsq
   repository: https://nsqio.github.io/helm-chart
   version: 0.0.6
-digest: sha256:c9a59236faa8059aaac97c8b9a95ac4682eeebf79c0fa91b5136bf97efc3d4a6
-generated: "2022-08-23T19:07:51.242853-04:00"
+digest: sha256:1e67dd4176bf8288be0010cbfb50ac3bc6bfb176da458cfde1bb9b2b93da750f
+generated: "2022-11-30T19:33:44.0268-05:00"
