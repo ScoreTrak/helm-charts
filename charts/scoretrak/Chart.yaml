@@ -28,7 +28,7 @@ dependencies:
     version: "0.2.14"
     repository: "file://../client"
   - name: payments
-    version: "0.1.10"
+    version: "0.1.11"
     repository: "file://../payments"
     condition: bank.enabled
   - name: commercebackend
