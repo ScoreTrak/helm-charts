@@ -15,24 +15,24 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.2.10
+version: 0.2.14
 
 dependencies:
   - name: envoy
     version: "0.2.18"
     repository: "file://../envoy"
   - name: server
-    version: "0.3.8"
+    version: "0.3.9"
     repository: "file://../server"
   - name: client
     version: "0.2.14"
     repository: "file://../client"
   - name: payments
-    version: "0.1.10"
+    version: "0.1.13"
     repository: "file://../payments"
     condition: bank.enabled
   - name: commercebackend
-    version: "0.1.12"
+    version: "0.1.14"
     repository: "file://../commercebackend"
     condition: bank.enabled
   - name: commerceui

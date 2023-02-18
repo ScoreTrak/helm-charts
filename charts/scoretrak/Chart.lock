@@ -4,16 +4,16 @@ dependencies:
   version: 0.2.18
 - name: server
   repository: file://../server
-  version: 0.3.8
+  version: 0.3.9
 - name: client
   repository: file://../client
   version: 0.2.14
 - name: payments
   repository: file://../payments
-  version: 0.1.10
+  version: 0.1.13
 - name: commercebackend
   repository: file://../commercebackend
-  version: 0.1.12
+  version: 0.1.14
 - name: commerceui
   repository: file://../commerceui
   version: 0.1.3
@@ -23,5 +23,5 @@ dependencies:
 - name: nsq
   repository: https://nsqio.github.io/helm-chart
   version: 0.0.6
-digest: sha256:1e67dd4176bf8288be0010cbfb50ac3bc6bfb176da458cfde1bb9b2b93da750f
-generated: "2022-11-30T19:33:44.0268-05:00"
+digest: sha256:24b9e3148170d3ff43bc2268a25cad2b847e8235b672e858e6816b7698841788
+generated: "2022-12-03T00:28:09.573513-05:00"
